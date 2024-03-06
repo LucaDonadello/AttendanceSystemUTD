@@ -1,0 +1,109 @@
+.ip-address {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.question-text {
+    font-weight: bold;
+    margin-bottom: 20px; /* Increased space below the question text */
+}
+
+.option {
+    display: block; /* Keeps each option on its own line */
+    margin-bottom: 15px; /* Increased space between options */
+    padding: 5px; /* Reduced padding for a more spaced-out look */
+    background-color: transparent; /* Removes background color */
+    border: none; /* Removes border */
+    cursor: default; /* Changes cursor back to default instead of pointer */
+}
+
+.option input[type="radio"] {
+    margin-right: 10px; /* Keeps space between the radio button and label */
+}
+
+.date-time {
+    position: fixed;
+    top: 10px;
+    left: 20px;
+    background-color: #f1f1f1;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.container {
+    text-align: center; /* Centers the text inside the container */
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+}
+
+.course-title {
+    color: #333;
+    margin-bottom: 0.5em;
+}
+
+.instructor {
+    color: #aaa; /* Light gray color */
+    font-size: 0.85em; /* Smaller font size */
+    margin-top: 0;
+    margin-bottom: 20px; /* Additional space before the form */
+}
+
+.form-group {
+    text-align: left; /* Aligns form elements to the left inside the centered container */
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-group input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-group input[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+
+
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="date-time" id="dateTime">Monday, January 1, 2024, 10:00 AM</div>
+    <div class="ip-address" id="ipAddress">IP: <span id="ipValue">192.168.1.1</span></div>
+    <div class="container">
+        <h1 class="course-title"> Attendance - CS 2340 Computer Architecture</h1>
+        <p class="instructor">Prof. John Cole</p>
+        <form id="attendanceForm">
+            <div class="form-group">
+                <label for="utdId">UTD ID:</label>
+                <input type="text" id="utdId" name="utdId" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Class Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <!-- Multiple Choice Question Example -->
+            <div class="form-group question">
+                <p class="question-text">Which of the following is a benefit of using pipelining in computer architecture?</p>
+                <label class="option"><input type="radio" name="question" value="A" required> Increases the CPU clock speed</label>
+                <label class="option"><input type="radio" name="question" value="B"> Reduces the overall execution time of an instruction</label>
+                <label class="option"><input type="radio" name="question" value="C"> Decreases the number of registers needed</label>
+                <label class="option"><input type="radio" name="question" value="D"> Simplifies the CPU architecture</label>
+            </div>
+
+            <div class="form-group" id="submitGroup">
+                <input type="submit" value="Submit" id="submitBtn">
+            </div>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
