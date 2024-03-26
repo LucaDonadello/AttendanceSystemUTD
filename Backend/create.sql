@@ -65,8 +65,6 @@ create table Quiz(
 
 create table Course(
     CourseID int primary key not null unique,
-    StartTime time not null,
-    EndTime time not null,
     ClassName varchar(255) not null,
     StudentUTDID int unique,
     ProfessorUTDID int unique,
@@ -81,6 +79,18 @@ create table Course(
     constraint QuizIDFK foreign key (QuizID) references Quiz(QuizID)
     on delete cascade on update cascade
 );
+
+create table CourseDateTime(
+    CourseDateTimeID int primary key unique,
+    CourseID int unique,
+    StartDate date not null,
+    EndDate date not null,
+    StartTime time not null,
+    EndTime time not null,
+    constraint CourseIDFKCDT foreign key (CourseID) references Course(CourseID)
+);
+
+
 
 create table Attendance(
     Attended boolean not null,
