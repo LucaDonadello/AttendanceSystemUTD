@@ -1,5 +1,6 @@
-create database project4485;
-use project4485;
+drop if exists AttendanceApp;
+create database AttendanceApp;
+use AttendanceApp;
 
 create table Student(
     FirstName varchar(255) not null,
