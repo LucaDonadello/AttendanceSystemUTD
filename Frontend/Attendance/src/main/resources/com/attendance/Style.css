@@ -1,0 +1,39 @@
+* {
+    -fx-border-width: 2;
+}
+
+#menuPane {
+    -fx-padding: 10;
+    -fx-border-color: red;
+}
+
+#dashboardPane {
+    -fx-border-color: green;
+}
+
+#startQuizButton {
+    -fx-min-width: 150;
+    -fx-min-height: 60;
+    -fx-font-size: 24;
+}
+
+#quizzesButton, #passwordsButton, #classesButton, #databaseInfoButton, #settingsButton {
+    -fx-min-width: 120;
+    -fx-min-height: 40;
+}
+
+#settingsPane {
+    -fx-min-height: 400;
+    -fx-insets: 10, 10, 10, 10;
+    -fx-padding: 10;
+}
+
+#titlePane {
+    -fx-border-color: blue;
+    -fx-min-height: 80;
+}
+
+#windowTitle {
+    -fx-font-size: 36;
+    -fx-font-weight: bold;
+}
