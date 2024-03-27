@@ -112,6 +112,32 @@ public class attendanceApplication extends Application {
         Label settingsPlaceholderContent = new Label("<Settings Content Placeholder>");
         settingsPane.getChildren().add(settingsPlaceholderContent);
 
+        /* table building code example?
+        GridPane studentsTable = new GridPane();
+        studentsTable.setPadding(new Insets(50, 50, 50,  50));
+        List<List<String>> studentRows = convertObjListToStrList(selectQuery(new ArrayList<>(Arrays.asList("*", "", "", "", "", ""))));
+        for (int i = 0; i < studentRows.size(); i++) {
+            int rowEnd = 0;
+            for (int j = 0; j < studentRows.get(i).size(); j++) {
+                StackPane cell = new StackPane();
+                cell.setStyle("-fx-border-color: black");
+                Label cellContents = new Label(studentRows.get(i).get(j));
+                cellContents.setPadding(new Insets(10, 10, 10, 10));
+                cell.getChildren().add(cellContents);
+                studentsTable.add(cell, j, i);
+                rowEnd = j;
+            }
+            StackPane cell = new StackPane();
+            cell.setStyle("-fx-border-color: black");
+            if (i > 0) {
+                Button btn = new Button("edit");
+                cell.getChildren().add(btn);
+            }
+            studentsTable.add(cell, rowEnd + 1, i);
+        }
+        quizzesPane.getChildren().add(studentsTable);
+        */
+
         // create menu buttons:
         Button startQuizButton = new Button("Start Quiz");
         startQuizButton.setId("startQuizButton");
