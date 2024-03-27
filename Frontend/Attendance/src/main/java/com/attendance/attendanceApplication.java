@@ -2,14 +2,20 @@ package com.attendance;
 
 import javafx.application.Application;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class attendanceApplication extends Application {
     @Override
@@ -165,6 +171,58 @@ public class attendanceApplication extends Application {
         dashboardPane.getChildren().clear();
         dashboardPane.getChildren().add(targetPane);
         ((Label)titlePane.getChildren().get(0)).setText(newTitle);
+    }
+
+    // helper method to query select statement on database as two-dimensional object arraylist
+    // -takes in a list of 6 Strings that may either be blank("") or have a specified conditional value:
+    // SELECT    String_1
+    // FROM      String_2
+    // WHERE     String_3
+    // GROUP BY  String_4
+    // HAVING    String_5
+    // ORDER BY  String_6
+    public List<List<Object>> selectQuery(List<String> selectConditions) throws SQLException {
+        Connection con = connectionDB.getDBConnection();
+        // build SQL query String based on given conditions
+        List<String> queryTemplate = new ArrayList<>(Arrays.asList("SELECT String ", "FROM String ", "WHERE String ", "GROUP BY String ", "HAVING String ", "ORDER BY String"));
+        // for each String in input list, substitute selectionCondition values into query String;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < selectConditions.size(); i++) {
+            String inputString = selectConditions.get(i);
+            if (!inputString.isEmpty())
+                stringBuilder.append(queryTemplate.get(i).replace("String", inputString));
+        }
+        String queryString = stringBuilder.toString();
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(queryString); // execute query on database
+        ResultSetMetaData rsmd = rs.getMetaData(); // retrieve metadata from result set
+        // retrieve the column headers of table from metadata
+        int columnCount = rsmd.getColumnCount();
+        List<List<Object>> tableList = new ArrayList<>();
+        List<Object> titleList = new ArrayList<>();
+        for (int i = 1; i < columnCount + 1; i++) // for each column in the table, retrieve header name
+            titleList.add(rsmd.getColumnName(i));
+        tableList.add(titleList);
+        // retrieve body of the table
+        while (rs.next()) { // while there are more rows in table
+            List<Object> rowList = new ArrayList<>();
+            for (int i = 1; i < columnCount + 1; i++) // for each column in the table, retrieve cell contents
+                rowList.add(rs.getObject(i));
+            tableList.add(rowList);
+        }
+        con.close(); // close database connection
+        return tableList;
+    }
+
+    // helper method to convert a two-dimensional arraylist of Objects to one containing Strings
+    public List<List<String>> convertObjListToStrList(List<List<Object>> inputList) {
+        List<List<String>> stringList = new ArrayList<List<String>>();
+        for (List<Object> objects : inputList) {
+            List<String> rowList = new ArrayList<>();
+            for (Object object : objects) rowList.add(object.toString());
+            stringList.add(rowList);
+        }
+        return stringList;
     }
 
     public static void main(String[] args) {
