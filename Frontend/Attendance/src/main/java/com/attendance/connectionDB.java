@@ -2,22 +2,11 @@ package com.attendance;
 import java.sql.*;
 
 public class connectionDB {
-    public static void main(String[] args) {
-        try {
-            String URL = "jdbc:mysql://roundhouse.proxy.rlwy.net:21552/AttendanceApp";
-            String USER = "root";
-            String PASSWORD = "vWoCqlMXjrXADJqmiWGXlrZNoNrwInxI";
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from Student");
-            while (rs.next()){
-                System.out.println(rs.getString(1));
-            }
-            con.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
+    static final String URL = "jdbc:mysql://roundhouse.proxy.rlwy.net:21552/AttendanceApp";
+    static final String USERNAME = "root";
+    static final String PASSWORD = "vWoCqlMXjrXADJqmiWGXlrZNoNrwInxI";
+    public static String getDBURL() { return URL; }
+    public static String getDBUsername() { return USERNAME; }
+    public static String getDBPassword() { return PASSWORD; }
+    public static Connection getDBConnection() throws SQLException { return DriverManager.getConnection(URL, USERNAME, PASSWORD); }
 }
