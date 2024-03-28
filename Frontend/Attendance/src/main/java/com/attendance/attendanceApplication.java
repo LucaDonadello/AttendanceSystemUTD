@@ -264,7 +264,7 @@ public class attendanceApplication extends Application {
     }
 
     // method implementing functionality to parse student file and insert new students into student table
-    private void classUploader() {
+    private void studentsUploader() {
 
     }
 
