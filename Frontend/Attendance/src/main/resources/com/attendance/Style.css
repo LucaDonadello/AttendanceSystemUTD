@@ -2,13 +2,25 @@
     -fx-border-width: 2;
 }
 
+#rootPane {
+    -fx-border-color: purple;
+}
+
 #menuPane {
+    -fx-min-width: 100;
+    -fx-min-height: 500;
+    -fx-vgap: 10;
     -fx-padding: 10;
     -fx-border-color: red;
 }
 
+#windowPane {
+    -fx-border-color: black;
+}
+
 #dashboardPane {
     -fx-border-color: green;
+    -fx-min-width: 1000;
 }
 
 #startQuizButton {
@@ -36,4 +48,16 @@
 #windowTitle {
     -fx-font-size: 36;
     -fx-font-weight: bold;
+}
+
+#databaseInfo {
+    -fx-font-size: 18;
+}
+
+#quizzesTable, #questionsTable, #passwordsTable, #classesTable {
+    -fx-padding: 50;
+}
+
+#cell {
+    -fx-padding: 5;
 }
