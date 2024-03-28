@@ -54,8 +54,16 @@
     -fx-font-size: 18;
 }
 
-#quizzesTable, #questionsTable, #passwordsTable, #classesTable {
+#quizzesTable, #questionsTable, #passwordsTable, #classesBox {
     -fx-padding: 50;
+}
+
+#classesBox {
+    -fx-spacing: 25;
+}
+
+#uploadClassButton {
+    -fx-padding: 10;
 }
 
 #cell {

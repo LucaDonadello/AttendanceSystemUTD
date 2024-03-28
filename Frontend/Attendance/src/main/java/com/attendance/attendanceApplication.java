@@ -7,15 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-package com.attendance;
-
-import javafx.application.Application;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -146,10 +137,14 @@ public class attendanceApplication extends Application {
         // classesPane:- Page containing a table of all classes and buttons to upload/create classes.
         Pane classesPane = new Pane();
         // *** BUILD CLASSES PANE HERE ***
-        Button uploadClass = new Button("Upload Class");
-        uploadClass.setOnAction(e -> classUploader());
+        Button uploadClassButton = new Button("Upload Class");
+        uploadClassButton.setId("uploadClassButton");
+        uploadClassButton.setOnAction(e -> studentsUploader());
+        VBox classesBox = new VBox();
+        classesBox.setId("classesBox");
+        classesBox.getChildren().add(uploadClassButton);
         GridPane classesTable = new GridPane();
-        classesTable.setId("passwordsTable");
+        classesTable.setId("classesTable");
         classesTable.setGridLinesVisible(true);
         List<List<String>> classesRows = convertObjListToStrList(selectQuery(new ArrayList<>(Arrays.asList("CourseID, ClassName, StartTime, EndTime", "Course", "", "", "", ""))));
         List<String> classesColumnNames = new ArrayList<>(Arrays.asList("Section", "Course", "Start Time", "End Time", "Days","Start Date", "End Date"));
@@ -186,7 +181,8 @@ public class attendanceApplication extends Application {
             classesTable.add(deleteButton, classesColumnCount + 2, i + 1);
             classesTable.add(downloadButton, classesColumnCount + 3, i + 1);
         }
-        classesPane.getChildren().add(classesTable);
+        classesBox.getChildren().add(classesTable);
+        classesPane.getChildren().add(classesBox);
 
         // attendancePane:- Page containing all attendance information for a particular class and buttons to upload/create/download attendance.
         // -accessible from the classes page table
@@ -265,7 +261,7 @@ public class attendanceApplication extends Application {
 
     // method implementing functionality to parse student file and insert new students into student table
     private void studentsUploader() {
-
+        System.out.println("Upload Class Button Pressed");
     }
 
     // method used to switch dashboard pane and title pane based on what menu button is pressed
