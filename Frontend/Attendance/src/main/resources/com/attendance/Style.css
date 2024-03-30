@@ -23,10 +23,11 @@
     -fx-min-width: 1000;
 }
 
-#startQuizButton {
+#scheduleQuizButton {
     -fx-min-width: 150;
     -fx-min-height: 60;
-    -fx-font-size: 24;
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
 }
 
 #quizzesButton, #passwordsButton, #classesButton, #databaseInfoButton, #settingsButton {

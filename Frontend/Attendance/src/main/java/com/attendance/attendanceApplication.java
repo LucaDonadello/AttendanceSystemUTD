@@ -208,8 +208,8 @@ public class attendanceApplication extends Application {
         settingsPane.getChildren().add(settingsPlaceholderContent);
 
         // create menu buttons:
-        Button startQuizButton = new Button("Start Quiz");
-        startQuizButton.setId("startQuizButton");
+        Button scheduleQuizButton = new Button("Schedule Quiz");
+        scheduleQuizButton.setId("scheduleQuizButton");
         Button quizzesButton = new Button("Quizzes");
         quizzesButton.setId("quizzesButton");
         quizzesButton.setOnAction(e -> switchDashboard(dashboardPane, quizzesPane, titlePane, "Quizzes"));
@@ -230,7 +230,7 @@ public class attendanceApplication extends Application {
         settingsButton.setOnAction(e -> switchDashboard(dashboardPane, settingsPane, titlePane, "Settings"));
         settingsSpacingPane.getChildren().add(settingsButton);
         // set alignment of menu buttons:
-        GridPane.setHalignment(startQuizButton, HPos.CENTER);
+        GridPane.setHalignment(scheduleQuizButton, HPos.CENTER);
         GridPane.setHalignment(quizzesButton, HPos.CENTER);
         GridPane.setHalignment(passwordsButton, HPos.CENTER);
         GridPane.setHalignment(classesButton, HPos.CENTER);
@@ -238,7 +238,7 @@ public class attendanceApplication extends Application {
         GridPane.setHalignment(settingsButton, HPos.CENTER);
         settingsSpacingPane.setAlignment(Pos.BOTTOM_CENTER);
         // add menu buttons to menuPane:
-        menuPane.add(startQuizButton, 0, 0);
+        menuPane.add(scheduleQuizButton, 0, 0);
         menuPane.add(quizzesButton, 0, 1);
         menuPane.add(passwordsButton, 0, 2);
         menuPane.add(classesButton, 0, 3);
