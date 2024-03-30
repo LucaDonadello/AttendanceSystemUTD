@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,6 +24,11 @@ public class attendanceApplication extends Application {
         RowConstraints rootRowConstraint = new RowConstraints();
         rootRowConstraint.setVgrow(Priority.ALWAYS);
         rootPane.getRowConstraints().add(rootRowConstraint);
+        ColumnConstraints rootColumn1Constraint = new ColumnConstraints();
+        rootColumn1Constraint.setHgrow(Priority.NEVER);
+        ColumnConstraints rootColumn2Constraint = new ColumnConstraints();
+        rootColumn2Constraint.setHgrow(Priority.ALWAYS);
+        rootPane.getColumnConstraints().addAll(rootColumn1Constraint, rootColumn2Constraint);
 
         // menuPane:- Left partition of the application window.
         GridPane menuPane = new GridPane();
@@ -70,7 +74,7 @@ public class attendanceApplication extends Application {
         for (int i = 0; i < quizzesColumnCount; i++) {
             cellContents = new Label(quizColumnNames.get(i));
             cell = new StackPane();
-            cell.setPadding(new Insets(5, 5, 5, 5));
+            cell.setPadding(new Insets(5));
             cell.getChildren().add(cellContents);
             quizzesTable.add(cell, i, 0);
         }
@@ -78,7 +82,7 @@ public class attendanceApplication extends Application {
             for (int j = 0; j < quizRows.get(i).size(); j++) {
                 cellContents = new Label(quizRows.get(i).get(j));
                 cell = new StackPane();
-                cell.setPadding(new Insets(5, 5, 5, 5));
+                cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
                 quizzesTable.add(cell, j, i + 1);
             }
@@ -113,7 +117,7 @@ public class attendanceApplication extends Application {
         for (int i = 0; i < passwordsColumnCount; i++) {
             cellContents = new Label(passwordsColumnNames.get(i));
             cell = new StackPane();
-            cell.setPadding(new Insets(5, 5, 5, 5));
+            cell.setPadding(new Insets(5));
             cell.getChildren().add(cellContents);
             passwordsTable.add(cell, i, 0);
         }
@@ -121,7 +125,7 @@ public class attendanceApplication extends Application {
             for (int j = 0; j < passwordsRows.get(i).size(); j++) {
                 cellContents = new Label(passwordsRows.get(i).get(j));
                 cell = new StackPane();
-                cell.setPadding(new Insets(5, 5, 5, 5));
+                cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
                 passwordsTable.add(cell, j, i + 1);
             }
@@ -137,12 +141,6 @@ public class attendanceApplication extends Application {
         // classesPane:- Page containing a table of all classes and buttons to upload/create classes.
         Pane classesPane = new Pane();
         // *** BUILD CLASSES PANE HERE ***
-        Button uploadClassButton = new Button("Upload Class");
-        uploadClassButton.setId("uploadClassButton");
-        uploadClassButton.setOnAction(e -> studentsUploader());
-        VBox classesBox = new VBox();
-        classesBox.setId("classesBox");
-        classesBox.getChildren().add(uploadClassButton);
         GridPane classesTable = new GridPane();
         classesTable.setId("classesTable");
         classesTable.setGridLinesVisible(true);
@@ -152,7 +150,7 @@ public class attendanceApplication extends Application {
         for (int i = 0; i < classesColumnCount; i++) {
             cellContents = new Label(classesColumnNames.get(i));
             cell = new StackPane();
-            cell.setPadding(new Insets(5, 5, 5, 5));
+            cell.setPadding(new Insets(5));
             cell.getChildren().add(cellContents);
             classesTable.add(cell, i, 0);
         }
@@ -160,7 +158,7 @@ public class attendanceApplication extends Application {
             for (int j = 0; j < classesRows.get(i).size(); j++) {
                 cellContents = new Label(classesRows.get(i).get(j));
                 cell = new StackPane();
-                cell.setPadding(new Insets(5, 5, 5, 5));
+                cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
                 classesTable.add(cell, j, i + 1);
             }
@@ -181,8 +179,7 @@ public class attendanceApplication extends Application {
             classesTable.add(deleteButton, classesColumnCount + 2, i + 1);
             classesTable.add(downloadButton, classesColumnCount + 3, i + 1);
         }
-        classesBox.getChildren().add(classesTable);
-        classesPane.getChildren().add(classesBox);
+        classesPane.getChildren().add(classesTable);
 
         // attendancePane:- Page containing all attendance information for a particular class and buttons to upload/create/download attendance.
         // -accessible from the classes page table
@@ -200,13 +197,14 @@ public class attendanceApplication extends Application {
                         "\nUsername:        " + connectionDB.getDBUsername() +
                         "\nPassword:         " + connectionDB.getDBPassword());
         databaseInfo.setId("databaseInfo");
-        databaseInfo.setPadding(new Insets(20,20,20,20));
+        databaseInfo.setPadding(new Insets(25));
         databaseInfoPane.getChildren().add(databaseInfo);
 
         // settingsPane:- Page containing settings of the attendance application.
         Pane settingsPane = new Pane();
         // *** BUILD SETTINGS PANE HERE ***
         Label settingsPlaceholderContent = new Label("<Settings Content Placeholder>");
+        settingsPlaceholderContent.setPadding(new Insets(50));
         settingsPane.getChildren().add(settingsPlaceholderContent);
 
         // create menu buttons:
@@ -226,7 +224,7 @@ public class attendanceApplication extends Application {
         databaseInfoButton.setOnAction(e -> switchDashboard(dashboardPane, databaseInfoPane, titlePane, "Database Info"));
         // settingsSpacingPane:- Pane used to space settings button on bottom of menuPane.
         StackPane settingsSpacingPane = new StackPane();
-        settingsSpacingPane.setId("settingsPane");
+        settingsSpacingPane.setId("settingsSpacingPane");
         Button settingsButton = new Button("Settings");
         settingsButton.setId("settingsButton");
         settingsButton.setOnAction(e -> switchDashboard(dashboardPane, settingsPane, titlePane, "Settings"));
@@ -246,6 +244,10 @@ public class attendanceApplication extends Application {
         menuPane.add(classesButton, 0, 3);
         menuPane.add(databaseInfoButton, 0, 4);
         menuPane.add(settingsSpacingPane, 0, 5);
+        RowConstraints settingsSpacingConstraint = new RowConstraints();
+        RowConstraints nullConstraint = new RowConstraints();
+        settingsSpacingConstraint.setVgrow(Priority.ALWAYS);
+        menuPane.getRowConstraints().addAll(nullConstraint, nullConstraint, nullConstraint, nullConstraint, nullConstraint, settingsSpacingConstraint);
 
         // set default dashboard to quizzes page
         switchDashboard(dashboardPane, quizzesPane, titlePane, "Quizzes");
@@ -288,7 +290,7 @@ public class attendanceApplication extends Application {
         for (int i = 0; i < questionsColumnCount; i++) {
             cellContents = new Label(questionsColumnNames.get(i));
             cell = new StackPane();
-            cell.setPadding(new Insets(5, 5, 5, 5));
+            cell.setPadding(new Insets(5));
             cell.getChildren().add(cellContents);
             questionsTable.add(cell, i, 0);
         }
@@ -296,7 +298,7 @@ public class attendanceApplication extends Application {
             for (int j = 0; j < questionsRows.get(i).size(); j++) {
                 cellContents = new Label(questionsRows.get(i).get(j));
                 cell = new StackPane();
-                cell.setPadding(new Insets(5, 5, 5, 5));
+                cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
                 questionsTable.add(cell, j, i + 1);
             }
@@ -317,8 +319,14 @@ public class attendanceApplication extends Application {
         // -accessible from the quizzes page table
         Pane studentsPane = new Pane();
         // *** BUILD QUESTIONS PANE HERE ***
+        Button uploadStudentsButton = new Button("Upload Students");
+        uploadStudentsButton.setId("uploadStudentsButton");
+        uploadStudentsButton.setOnAction(e -> studentsUploader());
+        VBox studentsBox = new VBox();
+        studentsBox.setId("studentsBox");
+        studentsBox.getChildren().add(uploadStudentsButton);
         GridPane studentsTable = new GridPane();
-        studentsTable.setId("quizzesTable");
+        studentsTable.setId("studentsTable");
         studentsTable.setGridLinesVisible(true);
         List<List<String>> studentsRows = convertObjListToStrList(selectQuery(new ArrayList<>(Arrays.asList("FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID", "Student JOIN Course ON Student.StudentUTDID=Course.StudentUTDID", "CourseID=".concat(courseID), "", "", ""))));
         List<String> studentsColumnNames = new ArrayList<>(Arrays.asList("First Name", "Middle Name", "Last Name", "NET-ID","UTD-ID", "<Attendance Columns Placeholder>"));
@@ -328,7 +336,7 @@ public class attendanceApplication extends Application {
         for (int i = 0; i < questionsColumnCount; i++) {
             cellContents = new Label(studentsColumnNames.get(i));
             cell = new StackPane();
-            cell.setPadding(new Insets(5, 5, 5, 5));
+            cell.setPadding(new Insets(5));
             cell.getChildren().add(cellContents);
             studentsTable.add(cell, i, 0);
         }
@@ -336,7 +344,7 @@ public class attendanceApplication extends Application {
             for (int j = 0; j < studentsRows.get(i).size(); j++) {
                 cellContents = new Label(studentsRows.get(i).get(j));
                 cell = new StackPane();
-                cell.setPadding(new Insets(5, 5, 5, 5));
+                cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
                 studentsTable.add(cell, j, i + 1);
             }
@@ -349,7 +357,8 @@ public class attendanceApplication extends Application {
             studentsTable.add(deleteButton, questionsColumnCount + 2, i + 1);
             studentsTable.add(downloadButton, questionsColumnCount + 3, i + 1);
         }
-        studentsPane.getChildren().add(studentsTable);
+        studentsBox.getChildren().add(studentsTable);
+        studentsPane.getChildren().add(studentsBox);
         return studentsPane;
     }
 

@@ -34,7 +34,8 @@
     -fx-min-height: 40;
 }
 
-#settingsPane {
+#settingsSpacingPane {
+    -fx-border-color: orange;
     -fx-min-height: 400;
     -fx-insets: 10, 10, 10, 10;
     -fx-padding: 10;
@@ -54,15 +55,15 @@
     -fx-font-size: 18;
 }
 
-#quizzesTable, #questionsTable, #passwordsTable, #classesBox {
+#quizzesTable, #questionsTable, #classesTable, #passwordsTable, #studentsBox {
     -fx-padding: 50;
 }
 
-#classesBox {
+#studentsBox {
     -fx-spacing: 25;
 }
 
-#uploadClassButton {
+#uploadStudentsButton {
     -fx-padding: 10;
 }
 
