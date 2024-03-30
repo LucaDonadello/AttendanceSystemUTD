@@ -10,7 +10,7 @@ const pool = mysql.createPool({
     database: process.env.DB
 }).promise()
 
-//example add more functions
+//example add more functions -- consider to create a separate file for the queries
 export async function getStudents() {
     const [result] = await pool.query('SELECT * FROM Student')
     return result
