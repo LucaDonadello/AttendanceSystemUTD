@@ -15,6 +15,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import java.io.File;
+import javafx.stage.FileChooser;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+
+
 public class attendanceApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, SQLException {
@@ -262,9 +271,60 @@ public class attendanceApplication extends Application {
     }
 
     // method implementing functionality to parse student file and insert new students into student table
-    private void studentsUploader() {
-        System.out.println("Upload Class Button Pressed");
+// method implementing functionality to parse student file and insert new students into student table
+// Inside your studentsUploader() method
+    private void studentsUploader(List<String> classesColumnNames) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select CSV File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+        );
+
+        // Show open file dialog (working with MacOS needs Windows testing)
+        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        if (selectedFile != null) {
+            // Parse the CSV file and populate the table
+            parseCSV(selectedFile, classesColumnNames);
+        }
     }
+
+
+    private void parseCSV(File file, List<String> columnNames) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            boolean firstLine = true; // To skip the header line
+            while ((line = br.readLine()) != null) {
+                if (firstLine) {
+                    firstLine = false;
+                    continue; // Skip the header line
+                }
+                // Split the line by comma
+                String[] data = line.split(",");
+
+                // Assuming columnNames contains headers and data length matches the column count
+                if (data.length == columnNames.size()) {
+                    // Process the data
+                    for (int i = 0; i < data.length; i++) {
+                        String value = data[i].trim();
+                        // Check if the value starts and ends with double quotes
+                        if (value.startsWith("\"") && value.endsWith("\"")) {
+                            // Trying to remove unessary quotes but not working
+                            value = value.substring(1, value.length() - 1);
+                        }
+                        System.out.println(columnNames.get(i) + ": " + value);
+                    }
+                } else {
+                    System.err.println("Error: Data length doesn't match the column count");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
     // method used to switch dashboard pane and title pane based on what menu button is pressed
     public void switchDashboard(Pane dashboardPane, Pane targetPane, Pane titlePane, String newTitle) {
@@ -319,9 +379,14 @@ public class attendanceApplication extends Application {
         // -accessible from the quizzes page table
         Pane studentsPane = new Pane();
         // *** BUILD QUESTIONS PANE HERE ***
+        List<String> classesColumnNames = Arrays.asList("FirstName", "MiddleName", "LastName", "StudentUTDID");
+
         Button uploadStudentsButton = new Button("Upload Students");
         uploadStudentsButton.setId("uploadStudentsButton");
-        uploadStudentsButton.setOnAction(e -> studentsUploader());
+        uploadStudentsButton.setOnAction(e -> {
+            studentsUploader(classesColumnNames);
+        });
+
         VBox studentsBox = new VBox();
         studentsBox.setId("studentsBox");
         studentsBox.getChildren().add(uploadStudentsButton);
