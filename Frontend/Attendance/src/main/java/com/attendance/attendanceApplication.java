@@ -271,8 +271,8 @@ public class attendanceApplication extends Application {
     }
 
     // method implementing functionality to parse student file and insert new students into student table
-// method implementing functionality to parse student file and insert new students into student table
-// Inside your studentsUploader() method
+    // method implementing functionality to parse student file and insert new students into student table
+    // Inside your studentsUploader() method
     private void studentsUploader(List<String> classesColumnNames) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select CSV File");
@@ -280,7 +280,7 @@ public class attendanceApplication extends Application {
                 new FileChooser.ExtensionFilter("CSV Files", "*.csv")
         );
 
-        // Show open file dialog (working with MacOS needs Windows testing)
+        // Show open file dialog (working with MacOS needs Windows testing) --> windows tested fine
         File selectedFile = fileChooser.showOpenDialog(new Stage());
         if (selectedFile != null) {
             // Parse the CSV file and populate the table
@@ -291,31 +291,50 @@ public class attendanceApplication extends Application {
 
     private void parseCSV(File file, List<String> columnNames) {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
+            List<String[]> data = new ArrayList<>();
+            String line = "";
             boolean firstLine = true; // To skip the header line
+            boolean secondLine = true; // Skip second line
             while ((line = br.readLine()) != null) {
                 if (firstLine) {
                     firstLine = false;
                     continue; // Skip the header line
                 }
-                // Split the line by comma
-                String[] data = line.split(",");
-
-                // Assuming columnNames contains headers and data length matches the column count
-                if (data.length == columnNames.size()) {
-                    // Process the data
-                    for (int i = 0; i < data.length; i++) {
-                        String value = data[i].trim();
-                        // Check if the value starts and ends with double quotes
-                        if (value.startsWith("\"") && value.endsWith("\"")) {
-                            // Trying to remove unessary quotes but not working
-                            value = value.substring(1, value.length() - 1);
-                        }
-                        System.out.println(columnNames.get(i) + ": " + value);
-                    }
-                } else {
-                    System.err.println("Error: Data length doesn't match the column count");
+                if (secondLine) {
+                    secondLine = false;
+                    continue; // Skip the header line
                 }
+                // Split the line by tab
+                data.add(line.split("\t",0));
+            }
+            String[] test = data.get(0);
+            //get the index of each info to display
+            int firstNamePos = 0;
+            int middleNamePos = 0;
+            int lastNamePos = 0;
+            int studentIdPos = 0;
+
+            for (int i = 0 ; i < test.length; i++){
+                if (test[i].equals("EMPLID"))
+                    studentIdPos = i;
+                if (test[i].equals("First Name"))
+                    firstNamePos = i;
+                if (test[i].equals("Middle Name"))
+                    middleNamePos = i;
+                if (test[i].equals("Last Name"))
+                    lastNamePos = i;
+            }
+            //check get correct data insert in database we can return the pos and array
+            for (String[] datum : data) {
+                //print first name
+                System.out.print(datum[firstNamePos] + " ");
+                //print middle name
+                System.out.print(datum[middleNamePos] + " ");
+                //print last name
+                System.out.print(datum[lastNamePos] + " ");
+                //print studentID name
+                System.out.print(datum[studentIdPos] + " \n");
+
             }
         } catch (IOException e) {
             e.printStackTrace();
