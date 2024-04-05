@@ -1,6 +1,7 @@
 package com.attendance;
 
 import javafx.application.Application;
+import javafx.stage.FileChooser;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,14 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import java.io.File;
-import javafx.stage.FileChooser;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-
-
+import java.io.*;
 
 public class attendanceApplication extends Application {
     @Override
@@ -75,7 +69,7 @@ public class attendanceApplication extends Application {
         GridPane quizzesTable = new GridPane();
         quizzesTable.setId("quizzesTable");
         quizzesTable.setGridLinesVisible(true);
-        List<List<String>> quizRows = convertObjListToStrList(selectQuery(new ArrayList<>(Arrays.asList("QuizID", "Quiz", "", "", "", ""))));
+        List<List<String>> quizRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("QuizID", "Quiz", "", "", "", ""))));
         List<String> quizColumnNames = new ArrayList<>(Arrays.asList("QuizID", "Password", "Start Time", "End Time"));
         StackPane cell;
         Label cellContents;
@@ -120,7 +114,7 @@ public class attendanceApplication extends Application {
         GridPane passwordsTable = new GridPane();
         passwordsTable.setId("passwordsTable");
         passwordsTable.setGridLinesVisible(true);
-        List<List<String>> passwordsRows = convertObjListToStrList(selectQuery(new ArrayList<>(Arrays.asList("Password_", "Password", "", "", "", ""))));
+        List<List<String>> passwordsRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("Password_", "Password", "", "", "", ""))));
         List<String> passwordsColumnNames = new ArrayList<>(List.of("Password"));
         int passwordsColumnCount = passwordsColumnNames.size();
         for (int i = 0; i < passwordsColumnCount; i++) {
@@ -153,7 +147,7 @@ public class attendanceApplication extends Application {
         GridPane classesTable = new GridPane();
         classesTable.setId("classesTable");
         classesTable.setGridLinesVisible(true);
-        List<List<String>> classesRows = convertObjListToStrList(selectQuery(new ArrayList<>(Arrays.asList("CourseID, ClassName, StartTime, EndTime", "Course", "", "", "", ""))));
+        List<List<String>> classesRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("CourseID, ClassName, StartTime, EndTime", "Course", "", "", "", ""))));
         List<String> classesColumnNames = new ArrayList<>(Arrays.asList("Section", "Course", "Start Time", "End Time", "Days","Start Date", "End Date"));
         int classesColumnCount = classesColumnNames.size();
         for (int i = 0; i < classesColumnCount; i++) {
@@ -280,15 +274,13 @@ public class attendanceApplication extends Application {
                 new FileChooser.ExtensionFilter("CSV Files", "*.csv")
         );
 
-        // Show open file dialog (working with MacOS needs Windows testing) --> windows tested fine
+        // Show open file dialog
         File selectedFile = fileChooser.showOpenDialog(new Stage());
         if (selectedFile != null) {
             // Parse the CSV file and populate the table
             parseCSV(selectedFile, classesColumnNames);
         }
     }
-
-
     private void parseCSV(File file, List<String> columnNames) {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             List<String[]> data = new ArrayList<>();
@@ -307,21 +299,21 @@ public class attendanceApplication extends Application {
                 // Split the line by tab
                 data.add(line.split("\t",0));
             }
-            String[] test = data.get(0);
+            String[] entry = data.get(0);
             //get the index of each info to display
             int firstNamePos = 0;
             int middleNamePos = 0;
             int lastNamePos = 0;
             int studentIdPos = 0;
 
-            for (int i = 0 ; i < test.length; i++){
-                if (test[i].equals("EMPLID"))
+            for (int i = 0 ; i < entry.length; i++) {
+                if (entry[i].equals("EMPLID"))
                     studentIdPos = i;
-                if (test[i].equals("First Name"))
+                if (entry[i].equals("First Name"))
                     firstNamePos = i;
-                if (test[i].equals("Middle Name"))
+                if (entry[i].equals("Middle Name"))
                     middleNamePos = i;
-                if (test[i].equals("Last Name"))
+                if (entry[i].equals("Last Name"))
                     lastNamePos = i;
             }
             //check get correct data insert in database we can return the pos and array
@@ -334,16 +326,11 @@ public class attendanceApplication extends Application {
                 System.out.print(datum[lastNamePos] + " ");
                 //print studentID name
                 System.out.print(datum[studentIdPos] + " \n");
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
-
 
     // method used to switch dashboard pane and title pane based on what menu button is pressed
     public void switchDashboard(Pane dashboardPane, Pane targetPane, Pane titlePane, String newTitle) {
@@ -361,7 +348,7 @@ public class attendanceApplication extends Application {
         GridPane questionsTable = new GridPane();
         questionsTable.setId("quizzesTable");
         questionsTable.setGridLinesVisible(true);
-        List<List<String>> questionsRows = convertObjListToStrList(selectQuery(new ArrayList<>(Arrays.asList("QuestionID, Question, AnswerSet, CorrectAnswer", "QuizQuestion", "QuestionID=".concat(quizID), "", "", ""))));
+        List<List<String>> questionsRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("QuestionID, Question, AnswerSet, CorrectAnswer", "QuizQuestion", "QuestionID=".concat(quizID), "", "", ""))));
         List<String> questionsColumnNames = new ArrayList<>(Arrays.asList("Question Number", "Question", "Answer Choices", "Correct Answer"));
         StackPane cell;
         Label cellContents;
@@ -412,7 +399,7 @@ public class attendanceApplication extends Application {
         GridPane studentsTable = new GridPane();
         studentsTable.setId("studentsTable");
         studentsTable.setGridLinesVisible(true);
-        List<List<String>> studentsRows = convertObjListToStrList(selectQuery(new ArrayList<>(Arrays.asList("FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID", "Student JOIN Course ON Student.StudentUTDID=Course.StudentUTDID", "CourseID=".concat(courseID), "", "", ""))));
+        List<List<String>> studentsRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID", "Student JOIN Course ON Student.StudentUTDID=Course.StudentUTDID", "CourseID=".concat(courseID), "", "", ""))));
         List<String> studentsColumnNames = new ArrayList<>(Arrays.asList("First Name", "Middle Name", "Last Name", "NET-ID","UTD-ID", "<Attendance Columns Placeholder>"));
         StackPane cell;
         Label cellContents;
@@ -444,41 +431,6 @@ public class attendanceApplication extends Application {
         studentsBox.getChildren().add(studentsTable);
         studentsPane.getChildren().add(studentsBox);
         return studentsPane;
-    }
-
-    // helper method to query select statement on database as two-dimensional object arraylist
-    // -takes in a list of 6 Strings that may either be blank("") or have a specified conditional value:
-    // SELECT    String_1
-    // FROM      String_2
-    // WHERE     String_3
-    // GROUP BY  String_4
-    // HAVING    String_5
-    // ORDER BY  String_6
-    public List<List<Object>> selectQuery(List<String> selectConditions) throws SQLException {
-        Connection con = connectionDB.getDBConnection();
-        // build SQL query String based on given conditions
-        List<String> queryTemplate = new ArrayList<>(Arrays.asList("SELECT String ", "FROM String ", "WHERE String ", "GROUP BY String ", "HAVING String ", "ORDER BY String"));
-        // for each String in input list, substitute selectionCondition values into query String;
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < selectConditions.size(); i++) {
-            String inputString = selectConditions.get(i);
-            if (!inputString.isEmpty())
-                stringBuilder.append(queryTemplate.get(i).replace("String", inputString));
-        }
-        String queryString = stringBuilder.toString();
-        Statement stmt = con.createStatement();
-        // execute query on database
-        ResultSet rs = stmt.executeQuery(queryString);
-        List<List<Object>> tableList = new ArrayList<>();
-        // retrieve body of the table
-        while (rs.next()) { // while there are more rows in table
-            List<Object> rowList = new ArrayList<>();
-            for (int i = 1; i < rs.getMetaData().getColumnCount() + 1; i++) // for each column in the table, retrieve cell contents
-                rowList.add(rs.getObject(i));
-            tableList.add(rowList);
-        }
-        con.close(); // close database connection
-        return tableList;
     }
 
     // helper method to convert a two-dimensional arraylist of Objects to one containing Strings
