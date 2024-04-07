@@ -15,7 +15,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import java.io.*;
 
 public class attendanceApplication extends Application {
@@ -265,7 +264,6 @@ public class attendanceApplication extends Application {
     }
 
     // method implementing functionality to parse student file and insert new students into student table
-    // method implementing functionality to parse student file and insert new students into student table
     // Inside your studentsUploader() method
     private void studentsUploader(List<String> classesColumnNames) {
         FileChooser fileChooser = new FileChooser();
@@ -288,6 +286,11 @@ public class attendanceApplication extends Application {
             boolean firstLine = true; // To skip the header line
             boolean secondLine = true; // Skip second line
             while ((line = br.readLine()) != null) {
+                //no need to check file is e-learning only need to skip 1st line
+                if(line.contains("\"")) {
+                    firstLine = false;
+                    secondLine = false;
+                }
                 if (firstLine) {
                     firstLine = false;
                     continue; // Skip the header line
@@ -297,8 +300,15 @@ public class attendanceApplication extends Application {
                     continue; // Skip the header line
                 }
                 // Split the line by tab
+                //replace " with null char
+                line = line.replace("\"", "");
+                //replace the hex 0 with the null char
+                line = line.replace("\0", "");
+                //replace conversion char with null char -- check if needed or get rid of
+                line = line.replaceAll("\ufffd", "");
                 data.add(line.split("\t",0));
             }
+
             String[] entry = data.get(0);
             //get the index of each info to display
             int firstNamePos = 0;
@@ -307,7 +317,7 @@ public class attendanceApplication extends Application {
             int studentIdPos = 0;
 
             for (int i = 0 ; i < entry.length; i++) {
-                if (entry[i].equals("EMPLID"))
+                if (entry[i].equals("EMPLID") || entry[i].equals("Student ID"))
                     studentIdPos = i;
                 if (entry[i].equals("First Name"))
                     firstNamePos = i;
@@ -316,12 +326,14 @@ public class attendanceApplication extends Application {
                 if (entry[i].equals("Last Name"))
                     lastNamePos = i;
             }
+            System.out.println(studentIdPos);
             //check get correct data insert in database we can return the pos and array
             for (String[] datum : data) {
                 //print first name
                 System.out.print(datum[firstNamePos] + " ");
                 //print middle name
-                System.out.print(datum[middleNamePos] + " ");
+                if(middleNamePos != 0)
+                    System.out.print(datum[middleNamePos] + " ");
                 //print last name
                 System.out.print(datum[lastNamePos] + " ");
                 //print studentID name
