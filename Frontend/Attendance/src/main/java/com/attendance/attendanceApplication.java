@@ -135,6 +135,15 @@ public class attendanceApplication extends Application {
             }
             Button editButton = new Button("edit");
             Button deleteButton = new Button("delete");
+            int finalI = i;
+            //need to refresh page
+            deleteButton.setOnAction(e -> {
+                try {
+                    querySystem.deleteData("Quiz", "QuizID=".concat(passwordsRows.get(finalI).get(1)));
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
             Button copyButton = new Button("copy");
             passwordsTable.add(editButton, passwordsColumnCount, i + 1);
             passwordsTable.add(deleteButton, passwordsColumnCount + 1, i + 1);
