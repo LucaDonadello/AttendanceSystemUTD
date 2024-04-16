@@ -64,12 +64,13 @@ public class attendanceApplication extends Application {
 
         // quizzesPane:- Page containing a table of all quizzes and buttons to upload/create quizzes.
         Pane quizzesPane = new Pane();
+
         // *** BUILD QUIZZES PANE HERE ***
         GridPane quizzesTable = new GridPane();
         quizzesTable.setId("quizzesTable");
         quizzesTable.setGridLinesVisible(true);
-        List<List<String>> quizRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("QuizID", "Quiz", "", "", "", ""))));
-        List<String> quizColumnNames = new ArrayList<>(Arrays.asList("QuizID", "Password", "Start Time", "End Time"));
+        List<List<String>> quizRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("QuizID, Password_, StartTime, Duration", "Quiz", "", "", "", ""))));
+        List<String> quizColumnNames = new ArrayList<>(Arrays.asList("QuizID", "Password", "Start Time", "Duration"));
         StackPane cell;
         Label cellContents;
         int quizzesColumnCount = quizColumnNames.size();
@@ -99,11 +100,12 @@ public class attendanceApplication extends Application {
             });
             Button editButton = new Button("edit");
             Button deleteButton = new Button("delete");
-            Button downloadButton = new Button("download");
+            //Button downloadButton = new Button("download"); we may not need this
             quizzesTable.add(viewButton, quizzesColumnCount, i + 1);
             quizzesTable.add(editButton, quizzesColumnCount + 1, i + 1);
-            quizzesTable.add(deleteButton, quizzesColumnCount + 2, i + 1);
-            quizzesTable.add(downloadButton, quizzesColumnCount + 3, i + 1);
+            //no need this buttons
+            //quizzesTable.add(deleteButton, quizzesColumnCount + 2, i + 1);
+            //quizzesTable.add(downloadButton, quizzesColumnCount + 3, i + 1);
         }
         quizzesPane.getChildren().add(quizzesTable);
 
@@ -113,8 +115,8 @@ public class attendanceApplication extends Application {
         GridPane passwordsTable = new GridPane();
         passwordsTable.setId("passwordsTable");
         passwordsTable.setGridLinesVisible(true);
-        List<List<String>> passwordsRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("Password_", "Password", "", "", "", ""))));
-        List<String> passwordsColumnNames = new ArrayList<>(List.of("Password"));
+        List<List<String>> passwordsRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("Password_, QuizID", "Quiz", "", "", "", ""))));
+        List<String> passwordsColumnNames = new ArrayList<>(Arrays.asList("Password","QuizID"));
         int passwordsColumnCount = passwordsColumnNames.size();
         for (int i = 0; i < passwordsColumnCount; i++) {
             cellContents = new Label(passwordsColumnNames.get(i));
@@ -146,8 +148,8 @@ public class attendanceApplication extends Application {
         GridPane classesTable = new GridPane();
         classesTable.setId("classesTable");
         classesTable.setGridLinesVisible(true);
-        List<List<String>> classesRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("CourseID, ClassName, StartTime, EndTime", "Course", "", "", "", ""))));
-        List<String> classesColumnNames = new ArrayList<>(Arrays.asList("Section", "Course", "Start Time", "End Time", "Days","Start Date", "End Date"));
+        List<List<String>> classesRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("CourseID, ClassName, StartTime, EndTime, StartDate, EndDate", "Course", "", "", "", ""))));
+        List<String> classesColumnNames = new ArrayList<>(Arrays.asList("Section", "Course", "Start Time", "End Time","Start Date", "End Date")); //removed days
         int classesColumnCount = classesColumnNames.size();
         for (int i = 0; i < classesColumnCount; i++) {
             cellContents = new Label(classesColumnNames.get(i));
@@ -279,6 +281,7 @@ public class attendanceApplication extends Application {
             parseCSV(selectedFile, classesColumnNames);
         }
     }
+    
     private void parseCSV(File file, List<String> columnNames) {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             List<String[]> data = new ArrayList<>();
@@ -315,6 +318,7 @@ public class attendanceApplication extends Application {
             int middleNamePos = 0;
             int lastNamePos = 0;
             int studentIdPos = 0;
+            int netIDPos = 0;
 
             for (int i = 0 ; i < entry.length; i++) {
                 if (entry[i].equals("EMPLID") || entry[i].equals("Student ID"))
@@ -325,21 +329,22 @@ public class attendanceApplication extends Application {
                     middleNamePos = i;
                 if (entry[i].equals("Last Name"))
                     lastNamePos = i;
+                if (entry[i].equals("NetId"))
+                    netIDPos = i;
             }
-            System.out.println(studentIdPos);
+            boolean columnName = true;
             //check get correct data insert in database we can return the pos and array
             for (String[] datum : data) {
-                //print first name
-                System.out.print(datum[firstNamePos] + " ");
-                //print middle name
-                if(middleNamePos != 0)
-                    System.out.print(datum[middleNamePos] + " ");
-                //print last name
-                System.out.print(datum[lastNamePos] + " ");
-                //print studentID name
-                System.out.print(datum[studentIdPos] + " \n");
+                if(columnName) {
+                    columnName = false;
+                }
+                else{
+                    //send the data to the database -- check correctness
+                    querySystem.insertData("Student", columnNames, Arrays.asList(datum[firstNamePos], datum[middleNamePos], datum[lastNamePos], datum[studentIdPos], datum[netIDPos]));
+                }
             }
-        } catch (IOException e) {
+            //Insert data in the database
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -397,7 +402,7 @@ public class attendanceApplication extends Application {
         // -accessible from the quizzes page table
         Pane studentsPane = new Pane();
         // *** BUILD QUESTIONS PANE HERE ***
-        List<String> classesColumnNames = Arrays.asList("FirstName", "MiddleName", "LastName", "StudentUTDID");
+        List<String> classesColumnNames = Arrays.asList("FirstName", "MiddleName", "LastName", "StudentUTDID", "StudentNetID");
 
         Button uploadStudentsButton = new Button("Upload Students");
         uploadStudentsButton.setId("uploadStudentsButton");

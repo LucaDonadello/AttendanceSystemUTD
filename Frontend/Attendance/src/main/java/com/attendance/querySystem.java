@@ -1,3 +1,5 @@
+//Luca Donadello
+
 package com.attendance;
 
 import java.sql.Connection;
@@ -71,6 +73,7 @@ public class querySystem {
         Statement stmt = con.createStatement();
         stmt.executeUpdate(query);
         con.close();
+        System.out.println(query);
     }
 
     // helper method to delete data from the database

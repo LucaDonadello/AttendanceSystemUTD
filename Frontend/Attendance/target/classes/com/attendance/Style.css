@@ -1,73 +1,50 @@
 * {
     -fx-border-width: 2;
+    -fx-font-family: Gotu;
+}
+.root {
+    -fx-background-color: linear-gradient(to bottom right,rgba(253,222,190), rgba(255,245,140));
 }
 
-#rootPane {
-    -fx-border-color: purple;
-}
 
 #menuPane {
-    -fx-min-width: 100;
-    -fx-min-height: 500;
-    -fx-vgap: 10;
-    -fx-padding: 10;
-    -fx-border-color: red;
-}
-
-#windowPane {
+    -fx-padding: 3;
     -fx-border-color: black;
+    -fx-border-width: thin;
 }
 
 #dashboardPane {
-    -fx-border-color: green;
-    -fx-min-width: 1000;
+    -fx-border-color: black;
+    -fx-border-width: thin;
 }
 
-#scheduleQuizButton {
+#startQuizButton {
+    -fx-background-color: #90EE90;
     -fx-min-width: 150;
     -fx-min-height: 60;
-    -fx-font-size: 18;
-    -fx-font-weight: bold;
+    -fx-font-size: 24;
 }
 
-#quizzesButton, #passwordsButton, #classesButton, #databaseInfoButton, #settingsButton {
+#quizzesButton, #passwordsButton, #classesButton, #databaseInfoButton {
+    -fx-background-color: #ADD8E6;
     -fx-min-width: 120;
     -fx-min-height: 40;
 }
 
-#settingsSpacingPane {
-    -fx-border-color: orange;
+#settingsPane {
     -fx-min-height: 400;
     -fx-insets: 10, 10, 10, 10;
-    -fx-padding: 10;
+    -fx-padding: 2;
+    -fx-border-width: thin;
 }
 
 #titlePane {
-    -fx-border-color: blue;
+    -fx-border-color: black;
+    -fx-border-width: thin;
     -fx-min-height: 80;
 }
 
 #windowTitle {
     -fx-font-size: 36;
     -fx-font-weight: bold;
-}
-
-#databaseInfo {
-    -fx-font-size: 18;
-}
-
-#quizzesTable, #questionsTable, #classesTable, #passwordsTable, #studentsBox {
-    -fx-padding: 50;
-}
-
-#studentsBox {
-    -fx-spacing: 25;
-}
-
-#uploadStudentsButton {
-    -fx-padding: 10;
-}
-
-#cell {
-    -fx-padding: 5;
 }
