@@ -19,7 +19,7 @@
 }
 
 #startQuizButton {
-    -fx-background-color: #90EE90;
+    -fx-background-color: #DAF7A6;
     -fx-pref-width: 250px; /* Preferred width */
     -fx-pref-height: 50px; /* Preferred height */
     -fx-border-width: thin ; /* Border width */
