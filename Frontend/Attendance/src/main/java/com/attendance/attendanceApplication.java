@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.io.*;
+import javafx.scene.input.KeyCombination;
+
 
 public class attendanceApplication extends Application {
     @Override
@@ -23,6 +25,10 @@ public class attendanceApplication extends Application {
         // rootPane:- Root pane of the application window.
         GridPane rootPane = new GridPane();
         rootPane.setId("rootPane");
+        rootPane.setMinWidth(500);
+        rootPane.setMinHeight(500);
+
+
         RowConstraints rootRowConstraint = new RowConstraints();
         rootRowConstraint.setVgrow(Priority.ALWAYS);
         rootPane.getRowConstraints().add(rootRowConstraint);
@@ -222,7 +228,7 @@ public class attendanceApplication extends Application {
 
         // create menu buttons:
         Button scheduleQuizButton = new Button("Schedule Quiz");
-        scheduleQuizButton.setId("scheduleQuizButton");
+        scheduleQuizButton.setId("startQuizButton");
         Button quizzesButton = new Button("Quizzes");
         quizzesButton.setId("quizzesButton");
         quizzesButton.setOnAction(e -> switchDashboard(dashboardPane, quizzesPane, titlePane, "Quizzes"));
@@ -239,7 +245,7 @@ public class attendanceApplication extends Application {
         StackPane settingsSpacingPane = new StackPane();
         settingsSpacingPane.setId("settingsSpacingPane");
         Button settingsButton = new Button("Settings");
-        settingsButton.setId("settingsButton");
+        settingsButton.setId("settingsPane");
         settingsButton.setOnAction(e -> switchDashboard(dashboardPane, settingsPane, titlePane, "Settings"));
         settingsSpacingPane.getChildren().add(settingsButton);
         // set alignment of menu buttons:
@@ -252,6 +258,7 @@ public class attendanceApplication extends Application {
         settingsSpacingPane.setAlignment(Pos.BOTTOM_CENTER);
         // add menu buttons to menuPane:
         menuPane.add(scheduleQuizButton, 0, 0);
+        menuPane.setVgap(10);
         menuPane.add(quizzesButton, 0, 1);
         menuPane.add(passwordsButton, 0, 2);
         menuPane.add(classesButton, 0, 3);
@@ -271,6 +278,8 @@ public class attendanceApplication extends Application {
         applicationScene.getStylesheets().add(getClass().getResource("Style.css").toExternalForm()); // retrieve application stylesheet
         stage.setTitle("Attendance App");
         stage.setScene(applicationScene);
+        stage.setWidth(800);
+        stage.setHeight(600);
         stage.show();
     }
 
@@ -477,4 +486,6 @@ public class attendanceApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+
 }
