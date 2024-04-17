@@ -19,23 +19,32 @@
 }
 
 #startQuizButton {
-    -fx-background-color: #90EE90;
-    -fx-min-width: 150;
-    -fx-min-height: 60;
+    -fx-background-color: #DAF7A6;
+    -fx-pref-width: 250px; /* Preferred width */
+    -fx-pref-height: 50px; /* Preferred height /
+    -fx-border-width: thin ; /* Border width */
+    -fx-border-color: black;
     -fx-font-size: 24;
+    -fx-margin: 500px;
 }
 
 #quizzesButton, #passwordsButton, #classesButton, #databaseInfoButton {
-    -fx-background-color: #ADD8E6;
-    -fx-min-width: 120;
-    -fx-min-height: 40;
+    -fx-background-color: #ADD8E6; /* Light blue background */
+    -fx-pref-width: 150px; /* Preferred width */
+    -fx-pref-height: 50px; /* Preferred height */
+    -fx-border-width: thin; /* Border width */
+    -fx-border-color: black; /* Border color */
+    -fx-padding: 10px 20px; /* Padding inside the button */
+    -fx-margin: 10px;
 }
 
+
 #settingsPane {
-    -fx-min-height: 400;
-    -fx-insets: 10, 10, 10, 10;
-    -fx-padding: 2;
-    -fx-border-width: thin;
+    -fx-pref-width: 150px; /* Preferred width */
+    -fx-pref-height: 50px; /* Preferred height */
+
+    -fx-padding: 10px 20px; /* Padding inside the button */
+    -fx-margin: 10px;
 }
 
 #titlePane {
@@ -48,3 +57,4 @@
     -fx-font-size: 36;
     -fx-font-weight: bold;
 }
+

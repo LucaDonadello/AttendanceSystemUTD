@@ -91,6 +91,7 @@ public class querySystem {
         Statement stmt = con.createStatement();
         stmt.executeUpdate(query);
         con.close();
+        System.out.println(query);
     }
 
     // helper method to update data in the database

@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.io.*;
+import java.util.Objects;
+
 import javafx.scene.input.KeyCombination;
 
 
@@ -105,7 +107,7 @@ public class attendanceApplication extends Application {
                 }
             });
             Button editButton = new Button("edit");
-            Button deleteButton = new Button("delete");
+            //Button deleteButton = new Button("delete");
             //Button downloadButton = new Button("download"); we may not need this
             quizzesTable.add(viewButton, quizzesColumnCount, i + 1);
             quizzesTable.add(editButton, quizzesColumnCount + 1, i + 1);
@@ -145,7 +147,8 @@ public class attendanceApplication extends Application {
             //need to refresh page
             deleteButton.setOnAction(e -> {
                 try {
-                    querySystem.deleteData("Quiz", "QuizID=".concat(passwordsRows.get(finalI).get(1)));
+                    //not actually delete the password but set it to null so there is no psw for that quizID
+                    querySystem.updateData("Quiz", List.of("Password_"), List.of("") ,"QuizID=".concat(passwordsRows.get(finalI).get(1)));
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -275,7 +278,7 @@ public class attendanceApplication extends Application {
         // create the application scene and set the scene/stage:
         // applicationScene:- Scene containing all main functionality of attendance application.
         Scene applicationScene = new Scene(rootPane);
-        applicationScene.getStylesheets().add(getClass().getResource("Style.css").toExternalForm()); // retrieve application stylesheet
+        applicationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm()); // retrieve application stylesheet
         stage.setTitle("Attendance App");
         stage.setScene(applicationScene);
         stage.setWidth(800);
@@ -301,6 +304,7 @@ public class attendanceApplication extends Application {
     }
     
     private void parseCSV(File file, List<String> columnNames) {
+        List<String> AttendanceColumnNames = new ArrayList<>(Arrays.asList("Attended", "MACID", "IPAddress", "StudentUTDID","CourseID", "DateAndTime")); //most of the attributes at this time are placeholder they are going to dynamically change after client call
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             List<String[]> data = new ArrayList<>();
             String line = "";
@@ -331,12 +335,13 @@ public class attendanceApplication extends Application {
             }
 
             String[] entry = data.get(0);
-            //get the index of each info to display
+            //get the index of each info to display -- consider change to array
             int firstNamePos = 0;
             int middleNamePos = 0;
             int lastNamePos = 0;
             int studentIdPos = 0;
             int netIDPos = 0;
+            int classIDPos = 0;
 
             for (int i = 0 ; i < entry.length; i++) {
                 if (entry[i].equals("EMPLID") || entry[i].equals("Student ID"))
@@ -349,6 +354,8 @@ public class attendanceApplication extends Application {
                     lastNamePos = i;
                 if (entry[i].equals("NetId"))
                     netIDPos = i;
+                if (entry[i].equals("Class"))
+                    classIDPos = i;
             }
             boolean columnName = true;
             //check get correct data insert in database we can return the pos and array
@@ -358,7 +365,10 @@ public class attendanceApplication extends Application {
                 }
                 else{
                     //send the data to the database -- check correctness
+                    //First insert data of student in Student Table
                     querySystem.insertData("Student", columnNames, Arrays.asList(datum[firstNamePos], datum[middleNamePos], datum[lastNamePos], datum[studentIdPos], datum[netIDPos]));
+                    //Second insert data inside attendance
+                    querySystem.insertData("Attendance", AttendanceColumnNames, Arrays.asList("0","","",datum[studentIdPos],datum[classIDPos],"2024-01-01 09:30:00")); //placeholders
                 }
             }
             //Insert data in the database
@@ -404,7 +414,16 @@ public class attendanceApplication extends Application {
                 questionsTable.add(cell, j, i + 1);
             }
             Button editButton = new Button("edit");
+            int finalI = i;
             Button deleteButton = new Button("delete");
+            deleteButton.setOnAction(e -> {
+                try {
+                    //actual delete the quiz
+                    querySystem.deleteData("Quiz", "QuizID=".concat(questionsRows.get(finalI).get(0)));
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
             Button downloadButton = new Button("download");
             questionsTable.add(editButton, questionsColumnCount, i + 1);
             questionsTable.add(deleteButton, questionsColumnCount + 1, i + 1);
@@ -434,7 +453,7 @@ public class attendanceApplication extends Application {
         GridPane studentsTable = new GridPane();
         studentsTable.setId("studentsTable");
         studentsTable.setGridLinesVisible(true);
-        List<List<String>> studentsRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID", "Student JOIN Course ON Student.StudentUTDID=Course.StudentUTDID", "CourseID=".concat(courseID), "", "", ""))));
+        List<List<String>> studentsRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID", "Attendance JOIN Student ON Student.StudentUTDID=Attendance.StudentUTDID", "CourseID=".concat(courseID), "", "", ""))));
         List<String> studentsColumnNames = new ArrayList<>(Arrays.asList("First Name", "Middle Name", "Last Name", "NET-ID","UTD-ID", "<Attendance Columns Placeholder>"));
         StackPane cell;
         Label cellContents;
@@ -486,6 +505,4 @@ public class attendanceApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
-
-
 }

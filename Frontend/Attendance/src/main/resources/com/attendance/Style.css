@@ -21,7 +21,7 @@
 #startQuizButton {
     -fx-background-color: #DAF7A6;
     -fx-pref-width: 250px; /* Preferred width */
-    -fx-pref-height: 50px; /* Preferred height */
+    -fx-pref-height: 50px; /* Preferred height /
     -fx-border-width: thin ; /* Border width */
     -fx-border-color: black;
     -fx-font-size: 24;
@@ -40,7 +40,6 @@
 
 
 #settingsPane {
-
     -fx-pref-width: 150px; /* Preferred width */
     -fx-pref-height: 50px; /* Preferred height */
 
