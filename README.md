@@ -24,5 +24,5 @@ To access the student interface:
 ## Requirements
 - Java Development Kit (JDK) (19.0.1 is working for us )installed on your system.
 - Java IDE IntelliJ has been used for running the JavaFX application.
-- Web browser (e.g., Google Chrome, Mozilla Firefox) to access the student interface.
+- Web browser (e.g., Google Chrome, Mozilla Firefox) to access the student interfaces.
 
