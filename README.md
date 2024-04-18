@@ -21,10 +21,11 @@ To access the student interface:
 
 To access the updated student interface implemented with Ajax (Note that this will be changed once deployed):
 1. Note that this will require running a server from your computer due to the Ajax that is implemented.
-2. Once the server is ran using the files located in the StudentWebApp_Ajax folder, you can navigate to the page `http://localhost/project4485/login.html`.
-3. The default current login is:
-   UTD ID: `admin`
-   Class Password: `admin`
+2. Run the server for the folder `StudentWebApp_Ajax`.
+3. Once the server is ran using the files located in the StudentWebApp_Ajax folder, you can navigate to the page `http://localhost/StudentWebApp_Ajax/login.html`.
+4. The default current login is:
+- UTD ID: `admin`
+- Class Password: `admin`
 
 ## Requirements
 - Java Development Kit (JDK) (19.0.1 is working for us) installed on your system.
