@@ -1,7 +1,7 @@
 package com.attendance;
 
 import javafx.application.Application;
-import javafx.stage.FileChooser;
+//import javafx.stage.FileChooser;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,20 +10,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import java.io.IOException;
+//import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.io.*;
+//import java.io.*;
 import java.util.Objects;
-
-import javafx.scene.input.KeyCombination;
+//import javafx.scene.input.KeyCombination;
 
 
 public class attendanceApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException, SQLException {
+    public void start(Stage stage) throws /*IOException,*/ SQLException {
         // rootPane:- Root pane of the application window.
         GridPane rootPane = new GridPane();
         rootPane.setId("rootPane");
@@ -77,7 +76,7 @@ public class attendanceApplication extends Application {
         GridPane quizzesTable = new GridPane();
         quizzesTable.setId("quizzesTable");
         quizzesTable.setGridLinesVisible(true);
-        List<List<String>> quizRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("QuizID, Password_, StartTime, Duration", "Quiz", "", "", "", ""))));
+        List<List<String>> quizRows = converterObjToStr.convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("QuizID, Password_, StartTime, Duration", "Quiz", "", "", "", ""))));
         List<String> quizColumnNames = new ArrayList<>(Arrays.asList("QuizID", "Password", "Start Time", "Duration"));
         StackPane cell;
         Label cellContents;
@@ -107,13 +106,13 @@ public class attendanceApplication extends Application {
                 }
             });
             Button editButton = new Button("edit");
-            //Button deleteButton = new Button("delete");
-            //Button downloadButton = new Button("download"); we may not need this
+            Button deleteButton = new Button("delete"); //maybe not need
+            Button downloadButton = new Button("download"); //maybe not need
             quizzesTable.add(viewButton, quizzesColumnCount, i + 1);
             quizzesTable.add(editButton, quizzesColumnCount + 1, i + 1);
-            //no need this buttons
-            //quizzesTable.add(deleteButton, quizzesColumnCount + 2, i + 1);
-            //quizzesTable.add(downloadButton, quizzesColumnCount + 3, i + 1);
+            quizzesTable.add(deleteButton, quizzesColumnCount + 2, i + 1); //maybe not need
+            quizzesTable.add(downloadButton, quizzesColumnCount + 3, i + 1); //maybe not need
+
         }
         quizzesPane.getChildren().add(quizzesTable);
 
@@ -123,7 +122,7 @@ public class attendanceApplication extends Application {
         GridPane passwordsTable = new GridPane();
         passwordsTable.setId("passwordsTable");
         passwordsTable.setGridLinesVisible(true);
-        List<List<String>> passwordsRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("Password_, QuizID", "Quiz", "", "", "", ""))));
+        List<List<String>> passwordsRows = converterObjToStr.convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("Password_, QuizID", "Quiz", "", "", "", ""))));
         List<String> passwordsColumnNames = new ArrayList<>(Arrays.asList("Password","QuizID"));
         int passwordsColumnCount = passwordsColumnNames.size();
         for (int i = 0; i < passwordsColumnCount; i++) {
@@ -166,7 +165,7 @@ public class attendanceApplication extends Application {
         GridPane classesTable = new GridPane();
         classesTable.setId("classesTable");
         classesTable.setGridLinesVisible(true);
-        List<List<String>> classesRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("CourseID, ClassName, StartTime, EndTime, StartDate, EndDate", "Course", "", "", "", ""))));
+        List<List<String>> classesRows = converterObjToStr.convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("CourseID, ClassName, StartTime, EndTime, StartDate, EndDate", "Course", "", "", "", ""))));
         List<String> classesColumnNames = new ArrayList<>(Arrays.asList("Section", "Course", "Start Time", "End Time","Start Date", "End Date")); //removed days
         int classesColumnCount = classesColumnNames.size();
         for (int i = 0; i < classesColumnCount; i++) {
@@ -281,100 +280,9 @@ public class attendanceApplication extends Application {
         applicationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm()); // retrieve application stylesheet
         stage.setTitle("Attendance App");
         stage.setScene(applicationScene);
-        stage.setWidth(800);
-        stage.setHeight(600);
+        stage.setWidth(1200);
+        stage.setHeight(1000);
         stage.show();
-    }
-
-    // method implementing functionality to parse student file and insert new students into student table
-    // Inside your studentsUploader() method
-    private void studentsUploader(List<String> classesColumnNames) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select CSV File");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
-        );
-
-        // Show open file dialog
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
-        if (selectedFile != null) {
-            // Parse the CSV file and populate the table
-            parseCSV(selectedFile, classesColumnNames);
-        }
-    }
-    
-    private void parseCSV(File file, List<String> columnNames) {
-        List<String> AttendanceColumnNames = new ArrayList<>(Arrays.asList("Attended", "MACID", "IPAddress", "StudentUTDID","CourseID", "DateAndTime")); //most of the attributes at this time are placeholder they are going to dynamically change after client call
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            List<String[]> data = new ArrayList<>();
-            String line = "";
-            boolean firstLine = true; // To skip the header line
-            boolean secondLine = true; // Skip second line
-            while ((line = br.readLine()) != null) {
-                //no need to check file is e-learning only need to skip 1st line
-                if(line.contains("\"")) {
-                    firstLine = false;
-                    secondLine = false;
-                }
-                if (firstLine) {
-                    firstLine = false;
-                    continue; // Skip the header line
-                }
-                if (secondLine) {
-                    secondLine = false;
-                    continue; // Skip the header line
-                }
-                // Split the line by tab
-                //replace " with null char
-                line = line.replace("\"", "");
-                //replace the hex 0 with the null char
-                line = line.replace("\0", "");
-                //replace conversion char with null char -- check if needed or get rid of
-                line = line.replaceAll("\ufffd", "");
-                data.add(line.split("\t",0));
-            }
-
-            String[] entry = data.get(0);
-            //get the index of each info to display -- consider change to array
-            int firstNamePos = 0;
-            int middleNamePos = 0;
-            int lastNamePos = 0;
-            int studentIdPos = 0;
-            int netIDPos = 0;
-            int classIDPos = 0;
-
-            for (int i = 0 ; i < entry.length; i++) {
-                if (entry[i].equals("EMPLID") || entry[i].equals("Student ID"))
-                    studentIdPos = i;
-                if (entry[i].equals("First Name"))
-                    firstNamePos = i;
-                if (entry[i].equals("Middle Name"))
-                    middleNamePos = i;
-                if (entry[i].equals("Last Name"))
-                    lastNamePos = i;
-                if (entry[i].equals("NetId"))
-                    netIDPos = i;
-                if (entry[i].equals("Class"))
-                    classIDPos = i;
-            }
-            boolean columnName = true;
-            //check get correct data insert in database we can return the pos and array
-            for (String[] datum : data) {
-                if(columnName) {
-                    columnName = false;
-                }
-                else{
-                    //send the data to the database -- check correctness
-                    //First insert data of student in Student Table
-                    querySystem.insertData("Student", columnNames, Arrays.asList(datum[firstNamePos], datum[middleNamePos], datum[lastNamePos], datum[studentIdPos], datum[netIDPos]));
-                    //Second insert data inside attendance
-                    querySystem.insertData("Attendance", AttendanceColumnNames, Arrays.asList("0","","",datum[studentIdPos],datum[classIDPos],"2024-01-01 09:30:00")); //placeholders
-                }
-            }
-            //Insert data in the database
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     // method used to switch dashboard pane and title pane based on what menu button is pressed
@@ -393,7 +301,7 @@ public class attendanceApplication extends Application {
         GridPane questionsTable = new GridPane();
         questionsTable.setId("quizzesTable");
         questionsTable.setGridLinesVisible(true);
-        List<List<String>> questionsRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("QuestionID, Question, AnswerSet, CorrectAnswer", "QuizQuestion", "QuestionID=".concat(quizID), "", "", ""))));
+        List<List<String>> questionsRows = converterObjToStr.convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("QuestionID, Question, AnswerSet, CorrectAnswer", "QuizQuestion", "QuestionID=".concat(quizID), "", "", ""))));
         List<String> questionsColumnNames = new ArrayList<>(Arrays.asList("Question Number", "Question", "Answer Choices", "Correct Answer"));
         StackPane cell;
         Label cellContents;
@@ -443,9 +351,7 @@ public class attendanceApplication extends Application {
 
         Button uploadStudentsButton = new Button("Upload Students");
         uploadStudentsButton.setId("uploadStudentsButton");
-        uploadStudentsButton.setOnAction(e -> {
-            studentsUploader(classesColumnNames);
-        });
+        uploadStudentsButton.setOnAction(e -> parser.studentsUploader(classesColumnNames));
 
         VBox studentsBox = new VBox();
         studentsBox.setId("studentsBox");
@@ -453,7 +359,7 @@ public class attendanceApplication extends Application {
         GridPane studentsTable = new GridPane();
         studentsTable.setId("studentsTable");
         studentsTable.setGridLinesVisible(true);
-        List<List<String>> studentsRows = convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID", "Attendance JOIN Student ON Student.StudentUTDID=Attendance.StudentUTDID", "CourseID=".concat(courseID), "", "", ""))));
+        List<List<String>> studentsRows = converterObjToStr.convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID", "Attendance JOIN Student ON Student.StudentUTDID=Attendance.StudentUTDID", "CourseID=".concat(courseID), "", "", ""))));
         List<String> studentsColumnNames = new ArrayList<>(Arrays.asList("First Name", "Middle Name", "Last Name", "NET-ID","UTD-ID", "<Attendance Columns Placeholder>"));
         StackPane cell;
         Label cellContents;
@@ -486,22 +392,6 @@ public class attendanceApplication extends Application {
         studentsPane.getChildren().add(studentsBox);
         return studentsPane;
     }
-
-    // helper method to convert a two-dimensional arraylist of Objects to one containing Strings
-    public List<List<String>> convertObjListToStrList(List<List<Object>> inputList) {
-        List<List<String>> stringList = new ArrayList<List<String>>();
-        for (List<Object> objects : inputList) {
-            List<String> rowList = new ArrayList<>();
-            for (Object object : objects)
-                if (object != null)
-                    rowList.add(object.toString());
-                else
-                    rowList.add("NULL"); // convert null objects to be displayed as "NULL"
-            stringList.add(rowList);
-        }
-        return stringList;
-    }
-
     public static void main(String[] args) {
         launch();
     }

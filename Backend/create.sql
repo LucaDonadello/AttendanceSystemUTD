@@ -88,13 +88,21 @@ create table Course(
 );
 
 create table Attendance(
-    Attended boolean not null,
-    MACID varchar(255) not null,
-    IPAddress varchar(255) not null,
     StudentUTDID int,
     CourseID int,
-    DateAndTime datetime,
-    constraint AttendacePK primary key (StudentUTDID, CourseID),
+    constraint AttendancePK primary key (StudentUTDID, CourseID),
     constraint StudentIDFK foreign key (StudentUTDID) references Student(StudentUTDID) on delete cascade on update cascade,
     constraint CourseIDFK foreign key (CourseID) references Course(CourseID) on delete cascade on update cascade
+);
+
+create table AttendanceInfo(
+    Attended boolean not null,
+    DateAndTime datetime,
+    IPAddress varchar(255),
+    MACID varchar(255),
+    StudentUTDID int,
+    CourseID int,
+    constraint AttendanceInfoPK primary key (StudentUTDID, CourseID),
+    constraint StudentIDFKAttendanceInfo foreign key (StudentUTDID) references Student(StudentUTDID) on delete cascade on update cascade,
+    constraint CourseIDFKAttendanceInfo foreign key (CourseID) references Course(CourseID) on delete cascade on update cascade
 );

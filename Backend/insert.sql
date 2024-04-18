@@ -43,7 +43,13 @@ VALUES (101, '08:00:00', '09:50:00', '2024-01-01', '2024-05-10', 'Introduction t
     (103, '12:00:00', '13:50:00', '2024-01-01', '2024-05-10', 'Data Structures', 111111111, 1003, 3, 3);
 
 -- Inserting entries into the Attendance table
-INSERT INTO Attendance (Attended, MACID, IPAddress, StudentUTDID, CourseID, DateAndTime)
-VALUES (1, '00:11:22:33:44:55', '192.168.0.1', 123456789, 101, '2024-01-01 09:30:00'),
-    (0, 'AA:BB:CC:DD:EE:FF', '192.168.0.2', 987654321, 102, '2024-01-02 10:15:00'),
-    (1, '11:22:33:44:55:66', '192.168.0.3', 111111111, 103, '2024-01-03 12:30:00');
+INSERT INTO Attendance (StudentUTDID, CourseID)
+VALUES (123456789, 101),
+    (987654321, 102),
+    (111111111, 103);
+
+-- insert attendance info 
+insert into AttendanceInfo (Attended, DateAndTime, IPAddress, MACID, StudentUTDID, CourseID) 
+values (1, '2024-01-01 09:30:00', '', '', 123456789, 101),
+    (0, '2024-01-01 09:30:00', '', '', 987654321, 101),
+    (1, '2024-01-01 09:30:00', '', '', 111111111, 101);

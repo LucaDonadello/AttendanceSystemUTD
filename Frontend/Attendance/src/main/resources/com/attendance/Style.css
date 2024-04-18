@@ -1,5 +1,4 @@
 * {
-    -fx-border-width: 2;
     -fx-font-family: Gotu;
 }
 .root {
@@ -10,19 +9,16 @@
 #menuPane {
     -fx-padding: 3;
     -fx-border-color: black;
-    -fx-border-width: thin;
 }
 
 #dashboardPane {
     -fx-border-color: black;
-    -fx-border-width: thin;
 }
 
 #startQuizButton {
     -fx-background-color: #DAF7A6;
     -fx-pref-width: 250px; /* Preferred width */
-    -fx-pref-height: 50px; /* Preferred height /
-    -fx-border-width: thin ; /* Border width */
+    -fx-pref-height: 50px; /* Preferred height */
     -fx-border-color: black;
     -fx-font-size: 24;
     -fx-margin: 500px;
@@ -32,7 +28,6 @@
     -fx-background-color: #ADD8E6; /* Light blue background */
     -fx-pref-width: 150px; /* Preferred width */
     -fx-pref-height: 50px; /* Preferred height */
-    -fx-border-width: thin; /* Border width */
     -fx-border-color: black; /* Border color */
     -fx-padding: 10px 20px; /* Padding inside the button */
     -fx-margin: 10px;
@@ -49,7 +44,6 @@
 
 #titlePane {
     -fx-border-color: black;
-    -fx-border-width: thin;
     -fx-min-height: 80;
 }
 
