@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 //import java.io.IOException;
@@ -28,8 +29,6 @@ public class attendanceApplication extends Application {
         rootPane.setId("rootPane");
         rootPane.setMinWidth(500);
         rootPane.setMinHeight(500);
-
-
         RowConstraints rootRowConstraint = new RowConstraints();
         rootRowConstraint.setVgrow(Priority.ALWAYS);
         rootPane.getRowConstraints().add(rootRowConstraint);
@@ -105,8 +104,59 @@ public class attendanceApplication extends Application {
                     throw new RuntimeException(ex);
                 }
             });
+            
             Button editButton = new Button("edit");
-            Button deleteButton = new Button("delete"); //maybe not need
+            // open a new window to insert values
+            editButton.setOnAction(e -> {
+                Stage editStage = new Stage();
+                GridPane editPane = new GridPane();
+                editPane.setId("editPane");
+                editPane.setPadding(new Insets(10));
+                editPane.setHgap(10);
+                editPane.setVgap(10);
+                Label quizIDLabel = new Label("QuizID:");
+                TextField quizIDField = new TextField();
+                quizIDField.setText(quizRows.get(finalI).get(0));
+                Label passwordLabel = new Label("Password:");
+                TextField passwordField = new TextField();
+                passwordField.setText(quizRows.get(finalI).get(1));
+                Label startTimeLabel = new Label("StartTime:");
+                TextField startTimeField = new TextField();
+                startTimeField.setText(quizRows.get(finalI).get(2));
+                Label durationLabel = new Label("Duration:");
+                TextField durationField = new TextField();
+                durationField.setText(quizRows.get(finalI).get(3));
+                Button saveButton = new Button("Save");
+                saveButton.setOnAction(event -> {
+                    try {
+                        querySystem.updateData("Quiz", List.of("Password_", "StartTime", "Duration"), List.of(passwordField.getText(), startTimeField.getText(), durationField.getText()), "QuizID=".concat(quizIDField.getText()));
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    editStage.close();
+                });
+                editPane.add(quizIDLabel, 0, 0);
+                editPane.add(quizIDField, 1, 0);
+                editPane.add(passwordLabel, 0, 1);
+                editPane.add(passwordField, 1, 1);
+                editPane.add(startTimeLabel, 0, 2);
+                editPane.add(startTimeField, 1, 2);
+                editPane.add(durationLabel, 0, 3);
+                editPane.add(durationField, 1, 3);
+                editPane.add(saveButton, 1, 4);
+                Scene editScene = new Scene(editPane);
+                editScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm());
+                editStage.setScene(editScene);
+                editStage.show();
+            });
+            Button deleteButton = new Button("delete");
+            deleteButton.setOnAction(e -> {
+                try {
+                    querySystem.deleteData("Quiz", "QuizID=".concat(quizRows.get(finalI).get(0)));
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
             Button downloadButton = new Button("download"); //maybe not need
             quizzesTable.add(viewButton, quizzesColumnCount, i + 1);
             quizzesTable.add(editButton, quizzesColumnCount + 1, i + 1);
@@ -125,6 +175,7 @@ public class attendanceApplication extends Application {
         List<List<String>> passwordsRows = converterObjToStr.convertObjListToStrList(querySystem.selectQuery(new ArrayList<>(Arrays.asList("Password_, QuizID", "Quiz", "", "", "", ""))));
         List<String> passwordsColumnNames = new ArrayList<>(Arrays.asList("Password","QuizID"));
         int passwordsColumnCount = passwordsColumnNames.size();
+        //create the grid for password
         for (int i = 0; i < passwordsColumnCount; i++) {
             cellContents = new Label(passwordsColumnNames.get(i));
             cell = new StackPane();
@@ -140,14 +191,50 @@ public class attendanceApplication extends Application {
                 cell.getChildren().add(cellContents);
                 passwordsTable.add(cell, j, i + 1);
             }
+
             Button editButton = new Button("edit");
-            Button deleteButton = new Button("delete");
             int finalI = i;
+            editButton.setOnAction(e -> {
+                // create a new window to insert values
+                Stage editStage = new Stage();
+                GridPane editPane = new GridPane();
+                editPane.setId("editPane");
+                editPane.setPadding(new Insets(10));
+                editPane.setHgap(10);
+                editPane.setVgap(10);
+                Label passwordLabel = new Label("Password:");
+                TextField passwordField = new TextField();
+                passwordField.setText(passwordsRows.get(finalI).get(0));
+                Label quizIDLabel = new Label("QuizID:");
+                TextField quizIDField = new TextField();
+                quizIDField.setText(passwordsRows.get(finalI).get(1));
+                Button saveButton = new Button("Save");
+                saveButton.setOnAction(event -> {
+                    try {
+                        querySystem.updateData("Quiz", List.of("Password_"), List.of(passwordField.getText()), "QuizID=".concat(quizIDField.getText()));
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    editStage.close();
+                });
+                editPane.add(passwordLabel, 0, 0);
+                editPane.add(passwordField, 1, 0);
+                editPane.add(quizIDLabel, 0, 1);
+                editPane.add(quizIDField, 1, 1);
+                editPane.add(saveButton, 1, 2);
+                Scene editScene = new Scene(editPane);
+                editScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm());
+                editStage.setScene(editScene);
+                editStage.show();
+            });
+
+            Button deleteButton = new Button("delete");
+
             //need to refresh page
             deleteButton.setOnAction(e -> {
                 try {
                     //not actually delete the password but set it to null so there is no psw for that quizID
-                    querySystem.updateData("Quiz", List.of("Password_"), List.of("") ,"QuizID=".concat(passwordsRows.get(finalI).get(1)));
+                    querySystem.updateData("Quiz", List.of("Password_"), List.of("") ,"QuizID=".concat(passwordsRows.get(finalI).get(0)));
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -192,8 +279,71 @@ public class attendanceApplication extends Application {
                     throw new RuntimeException(ex);
                 }
             });
+
             Button editButton = new Button("edit");
+            editButton.setOnAction(e -> {
+                // create a new window to insert values
+                Stage editStage = new Stage();
+                GridPane editPane = new GridPane();
+                editPane.setId("editPane");
+                editPane.setPadding(new Insets(10));
+                editPane.setHgap(10);
+                editPane.setVgap(10);
+                Label courseIDLabel = new Label("CourseID:");
+                TextField courseIDField = new TextField();
+                courseIDField.setText(classesRows.get(finalI).get(0));
+                Label classNameLabel = new Label("ClassName:");
+                TextField classNameField = new TextField();
+                classNameField.setText(classesRows.get(finalI).get(1));
+                Label startTimeLabel = new Label("StartTime:");
+                TextField startTimeField = new TextField();
+                startTimeField.setText(classesRows.get(finalI).get(2));
+                Label endTimeLabel = new Label("EndTime:");
+                TextField endTimeField = new TextField();
+                endTimeField.setText(classesRows.get(finalI).get(3));
+                Label startDateLabel = new Label("StartDate:");
+                TextField startDateField = new TextField();
+                startDateField.setText(classesRows.get(finalI).get(4));
+                Label endDateLabel = new Label("EndDate:");
+                TextField endDateField = new TextField();
+                endDateField.setText(classesRows.get(finalI).get(5));
+                Button saveButton = new Button("Save");
+                saveButton.setOnAction(event -> {
+                    try {
+                        querySystem.updateData("Course", List.of("ClassName", "StartTime", "EndTime", "StartDate", "EndDate"), List.of(classNameField.getText(), startTimeField.getText(), endTimeField.getText(), startDateField.getText(), endDateField.getText()), "CourseID=".concat(courseIDField.getText()));
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    editStage.close();
+                });
+                editPane.add(courseIDLabel, 0, 0);
+                editPane.add(courseIDField, 1, 0);
+                editPane.add(classNameLabel, 0, 1);
+                editPane.add(classNameField, 1, 1);
+                editPane.add(startTimeLabel, 0, 2);
+                editPane.add(startTimeField, 1, 2);
+                editPane.add(endTimeLabel, 0, 3);
+                editPane.add(endTimeField, 1, 3);
+                editPane.add(startDateLabel, 0, 4);
+                editPane.add(startDateField, 1, 4);
+                editPane.add(endDateLabel, 0, 5);
+                editPane.add(endDateField, 1, 5);
+                editPane.add(saveButton, 1, 6);
+
+                Scene editScene = new Scene(editPane);
+                editScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm());
+                editStage.setScene(editScene);
+                editStage.show();
+
+            });
             Button deleteButton = new Button("delete");
+            deleteButton.setOnAction(e -> {
+                try {
+                    querySystem.deleteData("Course", "CourseID=".concat(classesRows.get(finalI).get(0)));
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
             Button downloadButton = new Button("download");
             classesTable.add(viewButton, classesColumnCount, i + 1);
             classesTable.add(editButton, classesColumnCount + 1, i + 1);
@@ -321,13 +471,58 @@ public class attendanceApplication extends Application {
                 cell.getChildren().add(cellContents);
                 questionsTable.add(cell, j, i + 1);
             }
-            Button editButton = new Button("edit");
             int finalI = i;
+            Button editButton = new Button("edit");
+
+            // open a new window to insert values
+            editButton.setOnAction(e -> {
+                Stage editStage = new Stage();
+                GridPane editPane = new GridPane();
+                editPane.setId("editPane");
+                editPane.setPadding(new Insets(10));
+                editPane.setHgap(10);
+                editPane.setVgap(10);
+                Label questionIDLabel = new Label("QuestionID:");
+                TextField questionIDField = new TextField();
+                questionIDField.setText(questionsRows.get(finalI).get(0));
+                Label questionLabel = new Label("Question:");
+                TextField questionField = new TextField();
+                questionField.setText(questionsRows.get(finalI).get(1));
+                Label answerSetLabel = new Label("AnswerSet:");
+                TextField answerSetField = new TextField();
+                answerSetField.setText(questionsRows.get(finalI).get(2));
+                Label correctAnswerLabel = new Label("CorrectAnswer:");
+                TextField correctAnswerField = new TextField();
+                correctAnswerField.setText(questionsRows.get(finalI).get(3));
+                Button saveButton = new Button("Save");
+                saveButton.setOnAction(event -> {
+                    try {
+                        querySystem.updateData("QuizQuestion", List.of("Question", "AnswerSet", "CorrectAnswer"), List.of(questionField.getText(), answerSetField.getText(), correctAnswerField.getText()), "QuestionID=".concat(questionIDField.getText()));
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    editStage.close();
+                });
+                editPane.add(questionIDLabel, 0, 0);
+                editPane.add(questionIDField, 1, 0);
+                editPane.add(questionLabel, 0, 1);
+                editPane.add(questionField, 1, 1);
+                editPane.add(answerSetLabel, 0, 2);
+                editPane.add(answerSetField, 1, 2);
+                editPane.add(correctAnswerLabel, 0, 3);
+                editPane.add(correctAnswerField, 1, 3);
+                editPane.add(saveButton, 1, 4);
+                Scene editScene = new Scene(editPane);
+                editScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm());
+                editStage.setScene(editScene);
+                editStage.show();
+            });
+
             Button deleteButton = new Button("delete");
             deleteButton.setOnAction(e -> {
                 try {
                     //actual delete the quiz
-                    querySystem.deleteData("Quiz", "QuizID=".concat(questionsRows.get(finalI).get(0)));
+                    querySystem.deleteData("QuizQuestion", "QuestionID=".concat(questionsRows.get(finalI).get(0)));
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -379,8 +574,43 @@ public class attendanceApplication extends Application {
                 cell.getChildren().add(cellContents);
                 studentsTable.add(cell, j, i + 1);
             }
+            int finalI = i;
             Button viewButton = new Button("view");
             Button editButton = new Button("edit");
+
+            // open a new window to insert values
+            editButton.setOnAction(e -> {
+                Stage editStage = new Stage();
+                GridPane editPane = new GridPane();
+                editPane.setId("editPane");
+                editPane.setPadding(new Insets(10));
+                editPane.setHgap(10);
+                editPane.setVgap(10);
+                Label studentUTDIDLabel = new Label("StudentUTDID:");
+                TextField studentUTDIDField = new TextField();
+                studentUTDIDField.setText(studentsRows.get(finalI).get(4));
+                Label studentNetIDLabel = new Label("StudentNetID:");
+                TextField studentNetIDField = new TextField();
+                studentNetIDField.setText(studentsRows.get(finalI).get(3));
+                Button saveButton = new Button("Save");
+                saveButton.setOnAction(event -> {
+                    try {
+                        querySystem.updateData("Student", List.of("StudentNetID"), List.of(studentNetIDField.getText()), "StudentUTDID=".concat(studentUTDIDField.getText()));
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    editStage.close();
+                });
+                editPane.add(studentUTDIDLabel, 0, 0);
+                editPane.add(studentUTDIDField, 1, 0);
+                editPane.add(studentNetIDLabel, 0, 1);
+                editPane.add(studentNetIDField, 1, 1);
+                editPane.add(saveButton, 1, 2);
+                Scene editScene = new Scene(editPane);
+                editScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm());
+                editStage.setScene(editScene);
+                editStage.show();
+            });
             Button deleteButton = new Button("delete");
             Button downloadButton = new Button("download");
             studentsTable.add(viewButton, questionsColumnCount, i + 1);
