@@ -104,7 +104,7 @@ public class attendanceApplication extends Application {
                     throw new RuntimeException(ex);
                 }
             });
-            
+
             Button editButton = new Button("edit");
             // open a new window to insert values
             editButton.setOnAction(e -> {
@@ -586,26 +586,41 @@ public class attendanceApplication extends Application {
                 editPane.setPadding(new Insets(10));
                 editPane.setHgap(10);
                 editPane.setVgap(10);
-                Label studentUTDIDLabel = new Label("StudentUTDID:");
-                TextField studentUTDIDField = new TextField();
-                studentUTDIDField.setText(studentsRows.get(finalI).get(4));
+                Label firstNameLabel = new Label("First Name:");
+                TextField firstNameField = new TextField();
+                firstNameField.setText(studentsRows.get(finalI).get(0));
+                Label middleNameLabel = new Label("middle Name:");
+                TextField middleNameField = new TextField();
+                middleNameField.setText(studentsRows.get(finalI).get(1));
+                Label lastNameLabel = new Label("Last Name:");
+                TextField lastNameField = new TextField();
+                lastNameField.setText(studentsRows.get(finalI).get(2));
                 Label studentNetIDLabel = new Label("StudentNetID:");
                 TextField studentNetIDField = new TextField();
                 studentNetIDField.setText(studentsRows.get(finalI).get(3));
+                Label studentUTDIDLabel = new Label("StudentUTDID:");
+                TextField studentUTDIDField = new TextField();
+                studentUTDIDField.setText(studentsRows.get(finalI).get(4));
                 Button saveButton = new Button("Save");
                 saveButton.setOnAction(event -> {
                     try {
-                        querySystem.updateData("Student", List.of("StudentNetID"), List.of(studentNetIDField.getText()), "StudentUTDID=".concat(studentUTDIDField.getText()));
+                        querySystem.updateData("Student", List.of("FirstName", "MiddleName", "LastName", "StudentNetID", "StudentUTDID"), List.of(firstNameField.getText(), middleNameField.getText(), lastNameField.getText(), studentNetIDField.getText(), studentUTDIDField.getText()), "StudentUTDID=".concat(studentUTDIDField.getText()));
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
                     editStage.close();
                 });
-                editPane.add(studentUTDIDLabel, 0, 0);
-                editPane.add(studentUTDIDField, 1, 0);
-                editPane.add(studentNetIDLabel, 0, 1);
-                editPane.add(studentNetIDField, 1, 1);
-                editPane.add(saveButton, 1, 2);
+                editPane.add(firstNameLabel, 0, 0);
+                editPane.add(firstNameField, 1, 0);
+                editPane.add(middleNameLabel, 0, 1);
+                editPane.add(middleNameField, 1, 1);
+                editPane.add(lastNameLabel, 0, 2);
+                editPane.add(lastNameField, 1, 2);
+                editPane.add(studentNetIDLabel, 0, 3);
+                editPane.add(studentNetIDField, 1, 3);
+                editPane.add(studentUTDIDLabel, 0, 4);
+                editPane.add(studentUTDIDField, 1, 4);
+                editPane.add(saveButton, 1, 5);
                 Scene editScene = new Scene(editPane);
                 editScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm());
                 editStage.setScene(editScene);
