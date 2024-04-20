@@ -3,7 +3,7 @@ package com.attendance;
 import java.util.ArrayList;
 import java.util.List;
 
-public class converterObjToStr {
+public class ConverterObjToStr {
     // helper method to convert a two-dimensional arraylist of Objects to one containing Strings
     public static List<List<String>> convertObjListToStrList(List<List<Object>> inputList) {
         List<List<String>> stringList = new ArrayList<>();

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-public class editButtons {
+public class EditButtons {
     // edit for quizzes
     public static void editQuiz(List<List<String>> quizRows, int finalI) {
         Stage editStage = new Stage();
@@ -36,7 +36,7 @@ public class editButtons {
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                querySystem.updateData("Quiz", List.of("Password_", "StartTime", "Duration"), List.of(passwordField.getText(), startTimeField.getText(), durationField.getText()), "QuizID=".concat(quizIDField.getText()));
+                QuerySystem.updateData("Quiz", List.of("Password_", "StartTime", "Duration"), List.of(passwordField.getText(), startTimeField.getText(), durationField.getText()), "QuizID=".concat(quizIDField.getText()));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -52,7 +52,7 @@ public class editButtons {
         editPane.add(durationField, 1, 3);
         editPane.add(saveButton, 1, 4);
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(editButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }
@@ -75,7 +75,7 @@ public class editButtons {
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                querySystem.updateData("Quiz", List.of("Password_"), List.of(passwordField.getText()), "QuizID=".concat(quizIDField.getText()));
+                QuerySystem.updateData("Quiz", List.of("Password_"), List.of(passwordField.getText()), "QuizID=".concat(quizIDField.getText()));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -87,7 +87,7 @@ public class editButtons {
         editPane.add(quizIDField, 1, 1);
         editPane.add(saveButton, 1, 2);
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(editButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }
@@ -120,7 +120,7 @@ public class editButtons {
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                querySystem.updateData("Course", List.of("ClassName", "StartTime", "EndTime", "StartDate", "EndDate"), List.of(classNameField.getText(), startTimeField.getText(), endTimeField.getText(), startDateField.getText(), endDateField.getText()), "CourseID=".concat(courseIDField.getText()));
+                QuerySystem.updateData("Course", List.of("ClassName", "StartTime", "EndTime", "StartDate", "EndDate"), List.of(classNameField.getText(), startTimeField.getText(), endTimeField.getText(), startDateField.getText(), endDateField.getText()), "CourseID=".concat(courseIDField.getText()));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -141,7 +141,7 @@ public class editButtons {
         editPane.add(saveButton, 1, 6);
 
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(editButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }
@@ -169,7 +169,7 @@ public class editButtons {
             Button saveButton = new Button("Save");
             saveButton.setOnAction(event -> {
                 try {
-                    querySystem.updateData("QuizQuestion", List.of("Question", "AnswerSet", "CorrectAnswer"), List.of(questionField.getText(), answerSetField.getText(), correctAnswerField.getText()), "QuestionID=".concat(questionIDField.getText()));
+                    QuerySystem.updateData("QuizQuestion", List.of("Question", "AnswerSet", "CorrectAnswer"), List.of(questionField.getText(), answerSetField.getText(), correctAnswerField.getText()), "QuestionID=".concat(questionIDField.getText()));
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -185,7 +185,7 @@ public class editButtons {
             editPane.add(correctAnswerField, 1, 3);
             editPane.add(saveButton, 1, 4);
             Scene editScene = new Scene(editPane);
-            editScene.getStylesheets().add(Objects.requireNonNull(editButtons.class.getResource("Style.css")).toExternalForm());
+            editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
             editStage.setScene(editScene);
             editStage.show();
     }
@@ -215,7 +215,7 @@ public class editButtons {
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                querySystem.updateData("Student", List.of("FirstName", "MiddleName", "LastName", "StudentNetID", "StudentUTDID"), List.of(firstNameField.getText(), middleNameField.getText(), lastNameField.getText(), studentNetIDField.getText(), studentUTDIDField.getText()), "StudentUTDID=".concat(studentUTDIDField.getText()));
+                QuerySystem.updateData("Student", List.of("FirstName", "MiddleName", "LastName", "StudentNetID", "StudentUTDID"), List.of(firstNameField.getText(), middleNameField.getText(), lastNameField.getText(), studentNetIDField.getText(), studentUTDIDField.getText()), "StudentUTDID=".concat(studentUTDIDField.getText()));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -233,7 +233,7 @@ public class editButtons {
         editPane.add(studentUTDIDField, 1, 4);
         editPane.add(saveButton, 1, 5);
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(editButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }

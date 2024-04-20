@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class parser {
-    private static final Logger logger = Logger.getLogger(parser.class.getName());
+public class Parser {
+    private static final Logger logger = Logger.getLogger(Parser.class.getName());
 
     // method implementing functionality to parse student file and insert new students into student table
     // Inside your studentsUploader() method
@@ -96,9 +96,9 @@ public class parser {
                 else{
                     //send the data to the database -- check correctness
                     //First insert data of student in Student Table
-                    querySystem.insertData("Student", columnNames, Arrays.asList(datum[firstNamePos], datum[middleNamePos], datum[lastNamePos], datum[studentIdPos], datum[netIDPos]));
+                    QuerySystem.insertData("Student", columnNames, Arrays.asList(datum[firstNamePos], datum[middleNamePos], datum[lastNamePos], datum[studentIdPos], datum[netIDPos]));
                     //Second insert data inside attendance
-                    querySystem.insertData("Attendance", AttendanceColumnNames, Arrays.asList(datum[studentIdPos],datum[classIDPos])); //placeholders
+                    QuerySystem.insertData("Attendance", AttendanceColumnNames, Arrays.asList(datum[studentIdPos],datum[classIDPos])); //placeholders
                 }
             }
             //Insert data in the database

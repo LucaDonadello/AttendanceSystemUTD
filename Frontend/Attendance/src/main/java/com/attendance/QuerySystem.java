@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class querySystem {
+public class QuerySystem {
     // helper method to query select statement on database as two-dimensional object arraylist
     // -takes in a list of 6 Strings that may either be blank("") or have a specified conditional value:
     // SELECT    String_1
@@ -20,7 +20,7 @@ public class querySystem {
     // HAVING    String_5
     // ORDER BY  String_6
     public static List<List<Object>> selectQuery(List<String> selectConditions) throws SQLException {
-        Connection con = connectionDB.getDBConnection();
+        Connection con = ConnectionDB.getDBConnection();
         // build SQL query String based on given conditions
         List<String> queryTemplate = new ArrayList<>(Arrays.asList("SELECT String ", "FROM String ", "WHERE String ", "GROUP BY String ", "HAVING String ", "ORDER BY String"));
         // for each String in input list, substitute selectionCondition values into query String;
@@ -48,7 +48,7 @@ public class querySystem {
 
     // helper method to insert data into the database
     public static void insertData(String tableName, List<String> columnNames, List<String> values) throws SQLException {
-        Connection con = connectionDB.getDBConnection();
+        Connection con = ConnectionDB.getDBConnection();
         StringBuilder queryBuilder = new StringBuilder();
         //create the base of the query
         queryBuilder.append("INSERT INTO ").append(tableName).append(" (");
@@ -78,7 +78,7 @@ public class querySystem {
 
     // helper method to delete data from the database
     public static void deleteData(String tableName, String condition) throws SQLException {
-        Connection con = connectionDB.getDBConnection();
+        Connection con = ConnectionDB.getDBConnection();
         StringBuilder queryBuilder = new StringBuilder();
         //create the base of the query
         queryBuilder.append("DELETE FROM ").append(tableName);
@@ -96,7 +96,7 @@ public class querySystem {
 
     // helper method to update data in the database
     public static void updateData(String tableName, List<String> columnNames, List<String> values, String condition) throws SQLException {
-        Connection con = connectionDB.getDBConnection();
+        Connection con = ConnectionDB.getDBConnection();
         StringBuilder queryBuilder = new StringBuilder();
         //create the base od the query
         queryBuilder.append("UPDATE ").append(tableName).append(" SET ");

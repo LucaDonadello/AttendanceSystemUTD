@@ -1,7 +1,7 @@
 package com.attendance;
 import java.sql.*;
 
-public class connectionDB {
+public class ConnectionDB {
     static final String URL = "jdbc:mysql://roundhouse.proxy.rlwy.net:21552/AttendanceApp";
     static final String USERNAME = "root";
     static final String PASSWORD = "vWoCqlMXjrXADJqmiWGXlrZNoNrwInxI";
