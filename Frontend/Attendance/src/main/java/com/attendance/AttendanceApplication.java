@@ -8,10 +8,9 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.sql.*;
 import java.util.Objects;
-
 public class AttendanceApplication extends Application {
     @Override
-    public void start(Stage stage) throws /*IOException,*/ SQLException {
+    public void start(Stage stage) throws SQLException {
         // rootPane:- Root pane of the application window.
         GridPane rootPane = new GridPane();
         rootPane.setId("rootPane");
@@ -60,7 +59,6 @@ public class AttendanceApplication extends Application {
         Pane quizzesPane = QuizPane.buildQuizPane(dashboardPane, titlePane);
         Pane passwordsPane = PasswordPane.buildPasswordPane(dashboardPane, titlePane);
         Pane classesPane = ClassPane.buildClassesPane(dashboardPane, titlePane);
-        Pane attendancePane = AttendancePane.buildAttendancePane(dashboardPane, titlePane); //Used Later
         Pane databaseInfoPane = DatabaseInfoPane.buildDatabaseInfoPane(dashboardPane, titlePane);
         Pane settingsPane = SettingsPane.buildSettingsPane(databaseInfoPane, titlePane);
         MenuPane.buildMenu(dashboardPane, quizzesPane, titlePane, menuPane, passwordsPane, classesPane, databaseInfoPane, settingsPane);

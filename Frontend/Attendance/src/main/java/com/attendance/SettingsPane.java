@@ -3,9 +3,7 @@ package com.attendance;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-
 import java.sql.SQLException;
-
 public class SettingsPane {
     public static Pane buildSettingsPane(Pane dashboardPane, Pane titlePane) throws SQLException {
         // settingsPane:- Page containing settings of the attendance application.

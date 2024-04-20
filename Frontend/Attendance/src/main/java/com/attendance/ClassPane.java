@@ -7,7 +7,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +46,7 @@ public class ClassPane {
             int finalI = i;
             viewButton.setOnAction(e -> {
                 try {
-                    switchDashboard(dashboardPane, buildStudentsPane(classesRows.get(finalI).get(0)), titlePane, "Attendance");
+                    switchDashboard(dashboardPane, buildStudentsPane(dashboardPane, titlePane,classesRows.get(finalI).get(0)), titlePane, "Attendance");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -73,7 +72,7 @@ public class ClassPane {
         return classesPane;
     }
 
-    public static Pane buildStudentsPane(String courseID) throws SQLException {
+    public static Pane buildStudentsPane(Pane dashboardPane, Pane titlePane, String courseID) throws SQLException {
         // questionsPane:- Page containing a table of all questions for a particular quiz and buttons to upload/create questions.
         // -accessible from the quizzes page table
         Pane studentsPane = new Pane();
@@ -112,6 +111,13 @@ public class ClassPane {
             }
             int finalI = i;
             Button viewButton = new Button("view");
+            viewButton.setOnAction(e -> {
+                try {
+                    switchDashboard(dashboardPane, buildAttendancePane(studentsRows.get(finalI).get(4)), titlePane, "Attendance");
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
             Button editButton = new Button("edit");
 
             // open a new window to insert values
@@ -135,5 +141,42 @@ public class ClassPane {
         studentsBox.getChildren().add(studentsTable);
         studentsPane.getChildren().add(studentsBox);
         return studentsPane;
+    }
+
+    // attendance pane shows the attendance for each student
+    public static Pane buildAttendancePane(String studentID) throws SQLException {
+        Pane attendPane = new Pane();
+        VBox attendBox = new VBox();
+        attendBox.setId("attendBox");
+        GridPane attendTable = new GridPane();
+        attendTable.setId("attendTable");
+        attendTable.setGridLinesVisible(true);
+        List<List<String>> attendRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("Attended, DateAndTime, IPAddress, MACID,  StudentUTDID, CourseID", "AttendanceInfo", "StudentUTDID=".concat(studentID), "", "", ""))));
+        List<String> attendColumnNames = new ArrayList<>(Arrays.asList("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"));
+        int questionsColumnCount = attendColumnNames.size();
+        StackPane cell;
+        Label cellContents;
+        int i;
+        for(i = 0; i < questionsColumnCount; ++i) {
+            cellContents = new Label(attendColumnNames.get(i));
+            cell = new StackPane();
+            cell.setPadding(new Insets(5.0));
+            cell.getChildren().add(cellContents);
+            attendTable.add(cell, i, 0);
+        }
+
+        for(i = 0; i < attendRows.size(); ++i) {
+            for(int j = 0; j < (attendRows.get(i)).size(); ++j) {
+                cellContents = new Label(attendRows.get(i).get(j));
+                cell = new StackPane();
+                cell.setPadding(new Insets(5.0));
+                cell.getChildren().add(cellContents);
+                attendTable.add(cell, j, i + 1);
+            }
+        }
+
+        attendBox.getChildren().add(attendTable);
+        attendPane.getChildren().add(attendBox);
+        return attendPane;
     }
 }

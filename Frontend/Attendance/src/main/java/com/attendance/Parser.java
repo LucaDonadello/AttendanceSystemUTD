@@ -3,7 +3,6 @@ package com.attendance;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.util.logging.Logger;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
