@@ -24,19 +24,15 @@ public class editButtons {
         Label quizIDLabel = new Label("QuizID:");
         TextField quizIDField = new TextField();
         quizIDField.setText(quizRows.get(finalI).get(0));
-        GridPane.setMargin(quizIDField, new Insets(100)); 
         Label passwordLabel = new Label("Password:");
         TextField passwordField = new TextField();
         passwordField.setText(quizRows.get(finalI).get(1));
-        GridPane.setMargin(passwordField, new Insets(100));
         Label startTimeLabel = new Label("StartTime:");
         TextField startTimeField = new TextField();
         startTimeField.setText(quizRows.get(finalI).get(2));
-        GridPane.setMargin(startTimeField, new Insets(100));
         Label durationLabel = new Label("Duration:");
         TextField durationField = new TextField();
         durationField.setText(quizRows.get(finalI).get(3));
-        GridPane.setMargin(durationField, new Insets(100));
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
@@ -241,5 +237,4 @@ public class editButtons {
         editStage.setScene(editScene);
         editStage.show();
     }
-
 }

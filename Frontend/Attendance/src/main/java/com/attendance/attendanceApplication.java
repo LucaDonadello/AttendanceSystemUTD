@@ -107,7 +107,9 @@ public class attendanceApplication extends Application {
 
             Button editButton = new Button("edit");
             // open a new window to edit quiz
-            editButton.setOnAction(e -> editButtons.editQuiz(quizRows,finalI));
+            editButton.setOnAction(e ->
+                    editButtons.editQuiz(quizRows,finalI)
+            );
             Button deleteButton = new Button("delete");
             deleteButton.setOnAction(e -> {
                 try {
@@ -119,7 +121,7 @@ public class attendanceApplication extends Application {
             Button downloadButton = new Button("download"); //maybe not need
             quizzesTable.add(viewButton, quizzesColumnCount, i + 1);
             quizzesTable.add(editButton, quizzesColumnCount + 1, i + 1);
-            quizzesTable.add(deleteButton, quizzesColumnCount + 2, i + 1); //maybe not need
+            quizzesTable.add(deleteButton, quizzesColumnCount + 2, i + 1);
             quizzesTable.add(downloadButton, quizzesColumnCount + 3, i + 1); //maybe not need
 
         }
@@ -301,8 +303,8 @@ public class attendanceApplication extends Application {
         applicationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm()); // retrieve application stylesheet
         stage.setTitle("Attendance App");
         stage.setScene(applicationScene);
-        stage.setWidth(1200);
-        stage.setHeight(1000);
+        stage.setWidth(1000);
+        stage.setHeight(800);
         stage.show();
     }
 
