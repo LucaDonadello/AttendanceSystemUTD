@@ -166,15 +166,19 @@ public class ClassPane {
         }
 
         for(i = 0; i < attendRows.size(); ++i) {
-            for(int j = 0; j < (attendRows.get(i)).size(); ++j) {
+            for (int j = 0; j < (attendRows.get(i)).size(); ++j) {
                 cellContents = new Label(attendRows.get(i).get(j));
                 cell = new StackPane();
                 cell.setPadding(new Insets(5.0));
                 cell.getChildren().add(cellContents);
                 attendTable.add(cell, j, i + 1);
             }
-        }
 
+            int finalI = i;
+            Button editButton = new Button("edit");
+            editButton.setOnAction(e -> EditButtons.editAttendance(attendRows, finalI));
+            attendTable.add(editButton, questionsColumnCount, i+1);
+        }
         attendBox.getChildren().add(attendTable);
         attendPane.getChildren().add(attendBox);
         return attendPane;

@@ -236,4 +236,45 @@ public class EditButtons {
         editStage.setScene(editScene);
         editStage.show();
     }
+
+    public static void editAttendance(List<List<String>> attendanceRows, int finalI){
+        Stage editStage = new Stage();
+        GridPane editPane = new GridPane();
+        editPane.setId("editPane");
+        editPane.setPadding(new Insets(10));
+        editPane.setHgap(10);
+        editPane.setVgap(10);
+        Label studentUTDIDLabel = new Label("StudentUTDID:");
+        TextField studentUTDIDField = new TextField();
+        studentUTDIDField.setText(attendanceRows.get(finalI).get(0));
+        Label courseIDLabel = new Label("CourseID:");
+        TextField courseIDField = new TextField();
+        courseIDField.setText(attendanceRows.get(finalI).get(1));
+        Label dateLabel = new Label("Date:");
+        TextField dateField = new TextField();
+        dateField.setText(attendanceRows.get(finalI).get(2));
+        Label statusLabel = new Label("Status:");
+        TextField statusField = new TextField();
+        statusField.setText(attendanceRows.get(finalI).get(3));
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(event -> {
+            try {
+                QuerySystem.updateData("Attendance", List.of("CourseID", "Date", "Status"), List.of(courseIDField.getText(), dateField.getText(), statusField.getText()), "StudentUTDID=".concat(studentUTDIDField.getText()));
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            editStage.close();
+        });
+        editPane.add(studentUTDIDLabel, 0, 0);
+        editPane.add(studentUTDIDField, 1, 0);
+        editPane.add(courseIDLabel, 0, 1);
+        editPane.add(courseIDField, 1, 1);
+        editPane.add(dateLabel, 0, 2);
+        editPane.add(dateField, 1, 2);
+        editPane.add(statusLabel, 0, 3);
+        editPane.add(statusField, 1, 3);
+        editPane.add(saveButton, 1, 4);
+        Scene editScene = new Scene(editPane);
+        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+    }
 }
