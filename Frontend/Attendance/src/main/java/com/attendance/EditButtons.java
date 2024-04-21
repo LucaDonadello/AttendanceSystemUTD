@@ -244,37 +244,61 @@ public class EditButtons {
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
-        Label studentUTDIDLabel = new Label("StudentUTDID:");
-        TextField studentUTDIDField = new TextField();
-        studentUTDIDField.setText(attendanceRows.get(finalI).get(0));
-        Label courseIDLabel = new Label("CourseID:");
-        TextField courseIDField = new TextField();
-        courseIDField.setText(attendanceRows.get(finalI).get(1));
-        Label dateLabel = new Label("Date:");
-        TextField dateField = new TextField();
-        dateField.setText(attendanceRows.get(finalI).get(2));
-        Label statusLabel = new Label("Status:");
-        TextField statusField = new TextField();
-        statusField.setText(attendanceRows.get(finalI).get(3));
+        Label attendedLabel = new Label("Attended:");
+        TextField attendedField = new TextField();
+        attendedField.setText(attendanceRows.get(finalI).get(0));
+
+        Label dateAndTimeLabel = new Label("DateAndTime:");
+        TextField dateAndTimeField = new TextField();
+        dateAndTimeField.setText(attendanceRows.get(finalI).get(1));
+
+        Label ipLabel = new Label("IPAddress:");
+        TextField ipField = new TextField();
+        ipField.setText(attendanceRows.get(finalI).get(2));
+
+        Label macLabel = new Label("MACID:");
+        TextField macField = new TextField();
+        macField.setText(attendanceRows.get(finalI).get(3));
+
+        Label StudentIDLabel = new Label("StudentUTDID:");
+        TextField StudentIDField = new TextField();
+        StudentIDField.setText(attendanceRows.get(finalI).get(4));
+
+        Label CourseIDLabel = new Label("CourseID:");
+        TextField CourseIDField = new TextField();
+        CourseIDField.setText(attendanceRows.get(finalI).get(5));
+        
         Button saveButton = new Button("Save");
+        //find better
+        String attendedTrue = "1";
+        String attendedFalse = "0";
         saveButton.setOnAction(event -> {
             try {
-                QuerySystem.updateData("Attendance", List.of("CourseID", "Date", "Status"), List.of(courseIDField.getText(), dateField.getText(), statusField.getText()), "StudentUTDID=".concat(studentUTDIDField.getText()));
+                if(attendedField.getText().equals("True"))
+                    QuerySystem.updateData("AttendanceInfo", List.of("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"), List.of(attendedTrue , dateAndTimeField.getText(), ipField.getText(), macField.getText(), StudentIDField.getText(), CourseIDField.getText()), "StudentUTDID=".concat(StudentIDField.getText()));
+                else
+                    QuerySystem.updateData("AttendanceInfo", List.of("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"), List.of(attendedFalse , dateAndTimeField.getText(), ipField.getText(), macField.getText(), StudentIDField.getText(), CourseIDField.getText()), "StudentUTDID=".concat(StudentIDField.getText()));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
             editStage.close();
         });
-        editPane.add(studentUTDIDLabel, 0, 0);
-        editPane.add(studentUTDIDField, 1, 0);
-        editPane.add(courseIDLabel, 0, 1);
-        editPane.add(courseIDField, 1, 1);
-        editPane.add(dateLabel, 0, 2);
-        editPane.add(dateField, 1, 2);
-        editPane.add(statusLabel, 0, 3);
-        editPane.add(statusField, 1, 3);
-        editPane.add(saveButton, 1, 4);
+        editPane.add(attendedLabel, 0, 0);
+        editPane.add(attendedField, 1, 0);
+        editPane.add(dateAndTimeLabel, 0, 1);
+        editPane.add(dateAndTimeField, 1, 1);
+        editPane.add(ipLabel, 0, 2);
+        editPane.add(ipField, 1, 2);
+        editPane.add(macLabel, 0, 3);
+        editPane.add(macField, 1, 3);
+        editPane.add(StudentIDLabel, 0, 4);
+        editPane.add(StudentIDField, 1, 4);
+        editPane.add(CourseIDLabel, 0, 5);
+        editPane.add(CourseIDField, 1, 5);
+        editPane.add(saveButton, 1, 6);
         Scene editScene = new Scene(editPane);
         editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editStage.setScene(editScene);
+        editStage.show();
     }
 }

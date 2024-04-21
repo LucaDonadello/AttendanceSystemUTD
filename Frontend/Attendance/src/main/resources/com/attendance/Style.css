@@ -16,7 +16,8 @@
 }
 
 #startQuizButton {
-    -fx-background-color: #DAF7A6;
+    -fx-background-color: #DAF7A6; /* Green */
+    -fx-padding: 8 15 15 15;
     -fx-pref-width: 250px; /* Preferred width */
     -fx-pref-height: 50px; /* Preferred height */
     -fx-border-color: black;
@@ -24,20 +25,28 @@
     -fx-margin: 500px;
 }
 
+#startQuizButton:pressed{
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+
 #quizzesButton, #passwordsButton, #classesButton, #databaseInfoButton {
     -fx-background-color: #ADD8E6; /* Light blue background */
     -fx-pref-width: 150px; /* Preferred width */
     -fx-pref-height: 50px; /* Preferred height */
     -fx-border-color: black; /* Border color */
-    -fx-padding: 10px 20px; /* Padding inside the button */
+    -fx-padding: 8 15 15 15;
     -fx-margin: 10px;
 }
 
+#quizzesButton:pressed, #passwordsButton:pressed, #classesButton:pressed, #databaseInfoButton:pressed{
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
 
 #settingsPane {
     -fx-pref-width: 150px; /* Preferred width */
     -fx-pref-height: 50px; /* Preferred height */
-
     -fx-padding: 10px 20px; /* Padding inside the button */
     -fx-margin: 10px;
 }

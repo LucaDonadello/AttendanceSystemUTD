@@ -153,11 +153,11 @@ public class ClassPane {
         attendTable.setGridLinesVisible(true);
         List<List<String>> attendRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("Attended, DateAndTime, IPAddress, MACID,  StudentUTDID, CourseID", "AttendanceInfo", "StudentUTDID=".concat(studentID), "", "", ""))));
         List<String> attendColumnNames = new ArrayList<>(Arrays.asList("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"));
-        int questionsColumnCount = attendColumnNames.size();
+        int attendedColumnCount = attendColumnNames.size();
         StackPane cell;
         Label cellContents;
         int i;
-        for(i = 0; i < questionsColumnCount; ++i) {
+        for(i = 0; i < attendedColumnCount; ++i) {
             cellContents = new Label(attendColumnNames.get(i));
             cell = new StackPane();
             cell.setPadding(new Insets(5.0));
@@ -177,7 +177,7 @@ public class ClassPane {
             int finalI = i;
             Button editButton = new Button("edit");
             editButton.setOnAction(e -> EditButtons.editAttendance(attendRows, finalI));
-            attendTable.add(editButton, questionsColumnCount, i+1);
+            attendTable.add(editButton, attendedColumnCount, i+1);
         }
         attendBox.getChildren().add(attendTable);
         attendPane.getChildren().add(attendBox);

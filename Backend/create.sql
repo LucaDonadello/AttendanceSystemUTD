@@ -22,16 +22,26 @@ create table Professor(
 
 create table QuizQuestion(
     Question varchar(1024) not null,
-    AnswerSet varchar(255) not null,
+    --AnswerSet varchar(255) not null,
     QuestionID int unique,
     CorrectAnswer int not null,
     NumberOfOptions int not null,
     constraint QuizQuestionPK primary key (QuestionID)
 );
 
+--answer set class answers for a specific question
+create table AnswerSet(
+    AnswerSetID int unique,
+    Answer varchar(255) not null,
+    QuestionID int unique,
+    constraint AnswerSetPK primary key (AnswerSetID),
+    constraint QuestionIDFK foreign key (QuestionID) references QuizQuestion(QuestionID)
+    on delete cascade on update cascade
+);
+
 create table StudentAnswer(
     StudentAnswerID int unique,
-    StudentAnswer varchar(255) not null,
+    CorrectTotal int, --total number of correct answers instead of a varchar
     QuestionID int unique,
     constraint StudentAnswerPK primary key (StudentAnswerID),
     constraint QuestionIDFK foreign key (QuestionID) references QuizQuestion(QuestionID)
@@ -52,7 +62,7 @@ create table Quiz(
     QuizID int unique,
     QuizBankID int unique,
     StudentUTDID int unique,
-    NumberOfQuestions int not null,
+    NumberOfQuestions int,
     Duration time,
     StartTime time,
     StudentAnswers int,
@@ -84,7 +94,7 @@ create table Course(
     constraint QuestionBankIDFK foreign key (QuestionBankID) references QuizBank(QuestionBankID)
     on delete cascade on update cascade,
     constraint QuizIDFK foreign key (QuizID) references Quiz(QuizID)
-    on delete cascade on update cascade
+    on delete set null on update cascade
 );
 
 create table Attendance(
@@ -96,13 +106,16 @@ create table Attendance(
 );
 
 create table AttendanceInfo(
+    AttendanceInfoID int auto_increment,
     Attended boolean not null,
     DateAndTime datetime,
     IPAddress varchar(255),
     MACID varchar(255),
     StudentUTDID int,
     CourseID int,
-    constraint AttendanceInfoPK primary key (StudentUTDID, CourseID),
+    constraint AttendanceInfoPK unique (AttendanceInfoID),
     constraint StudentIDFKAttendanceInfo foreign key (StudentUTDID) references Student(StudentUTDID) on delete cascade on update cascade,
     constraint CourseIDFKAttendanceInfo foreign key (CourseID) references Course(CourseID) on delete cascade on update cascade
 );
+
+
