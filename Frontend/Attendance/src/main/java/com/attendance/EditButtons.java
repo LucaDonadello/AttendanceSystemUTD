@@ -274,7 +274,7 @@ public class EditButtons {
         String attendedFalse = "0";
         saveButton.setOnAction(event -> {
             try {
-                if(attendedField.getText().equals("True"))
+                if(attendedField.getText().equals("True") || attendedField.getText().equals("true") || attendedField.getText().equals("1"))
                     QuerySystem.updateData("AttendanceInfo", List.of("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"), List.of(attendedTrue , dateAndTimeField.getText(), ipField.getText(), macField.getText(), StudentIDField.getText(), CourseIDField.getText()), "StudentUTDID=".concat(StudentIDField.getText()));
                 else
                     QuerySystem.updateData("AttendanceInfo", List.of("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"), List.of(attendedFalse , dateAndTimeField.getText(), ipField.getText(), macField.getText(), StudentIDField.getText(), CourseIDField.getText()), "StudentUTDID=".concat(StudentIDField.getText()));

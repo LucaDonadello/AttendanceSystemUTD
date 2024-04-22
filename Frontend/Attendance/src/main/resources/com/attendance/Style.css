@@ -25,6 +25,14 @@
     -fx-margin: 500px;
 }
 
+#startQuizButton:hover{
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #b9d18e 0%, #92db0f 100%),
+            #92db0f,
+            #b9d18e,
+            radial-gradient(center 50% 50%, radius 100%, #b9d18e, #92db0f);
+}
+
 #startQuizButton:pressed{
     -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
@@ -37,6 +45,14 @@
     -fx-border-color: black; /* Border color */
     -fx-padding: 8 15 15 15;
     -fx-margin: 10px;
+}
+
+#quizzesButton:hover, #passwordsButton:hover, #classesButton:hover , #databaseInfoButton:hover{
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #ADD8E6 0%, #52c5eb 100%),
+            #52c5eb,
+            #ADD8E6,
+            radial-gradient(center 50% 50%, radius 100%, #ADD8E6, #52c5eb);
 }
 
 #quizzesButton:pressed, #passwordsButton:pressed, #classesButton:pressed, #databaseInfoButton:pressed{

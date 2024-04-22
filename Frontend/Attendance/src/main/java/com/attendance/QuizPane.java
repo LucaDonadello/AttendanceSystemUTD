@@ -81,8 +81,8 @@ public class QuizPane {
         GridPane questionsTable = new GridPane();
         questionsTable.setId("quizzesTable");
         questionsTable.setGridLinesVisible(true);
-        List<List<String>> questionsRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("QuestionID, Question, AnswerSet, CorrectAnswer", "QuizQuestion", "QuestionID=".concat(quizID), "", "", ""))));
-        List<String> questionsColumnNames = new ArrayList<>(Arrays.asList("Question Number", "Question", "Answer Choices", "Correct Answer"));
+        List<List<String>> questionsRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("QuizQuestion.QuestionID, Question, CorrectAnswer, NumberOfOptions", "QuizQuestion JOIN QuizBank ON QuizQuestion.QuestionID = QuizBank.QuizQuestionID", "", "", "", ""))));
+        List<String> questionsColumnNames = new ArrayList<>(Arrays.asList("Question Number", "Question", "Correct Answer", "Number of Options"));
         StackPane cell;
         Label cellContents;
         int questionsColumnCount = questionsColumnNames.size();
