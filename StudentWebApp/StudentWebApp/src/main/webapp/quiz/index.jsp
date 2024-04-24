@@ -1,3 +1,5 @@
+<!-- Samuel Benicewicz // HTML quiz page to work with Ajax and connect to the backend -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,9 +22,6 @@
     <span class="name" id="student-name">Name: </span>
     <span class="date" id="current-date">Date: </span>
 </div>
-
-
-<!-- Samuel Benicewicz // Modified the HTML for the quiz to make it compatible with Ajax -->
 
 <!-- <div class="box" id="quiz-container"> -->
 <!-- Quiz will be generated here -->

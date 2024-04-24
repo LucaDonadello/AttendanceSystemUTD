@@ -1,3 +1,6 @@
+// Samuel Benicewicz // Facilitates the deployment of the student web app to be available publicly online
+// Gathered from the Heroku documentation (https://devcenter.heroku.com/articles/create-a-java-web-application-using-embedded-tomcat)
+
 package launch;
 
 import java.io.File;

@@ -1,3 +1,5 @@
+<!-- Samuel Benicewicz // HTML login page to work with Ajax and connect to the backend -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,14 +14,13 @@
 <div class="info">
     <div class="university-name">University of Texas at Dallas</div>
     <div class="class-attendance">Class Attendance</div>
-    <div class="course" id="course-name">CS 4485 - Senior Project //Dynamic</div>
-    <div class="professor" id="professor-name"> Prof. John Cole //Dynamic</div>
+    <div class="course" id="course-name">Student Login</div>
+    <div class="professor" id="professor-name">Retrieve Password from Instructor</div>
 </div>
 
-
-<!-- Samuel Benicewicz // Modified the HTML for the login to make it compatible with Ajax -->
 <div class="login">
     <div id="response_message"></div>
+<%--    Upon form submission, it sends the user-entered information to the login servlet to check in the database for a valid login--%>
     <form id="login-handle" action="/login_submit" method="POST">
         <label for="utd-id">UTD ID:</label>
         <input type="text" maxlength="10" id="utd-id" name="utd-id"><br>

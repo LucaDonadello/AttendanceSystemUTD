@@ -1,3 +1,5 @@
+// Samuel Benicewicz // Servlet for facilitating the deployment of the web app
+
 package org.StudentWebApp;
 
 import javax.servlet.ServletOutputStream;

@@ -33,7 +33,6 @@ public class DBManager {
                 return conn;
             }
 
-
             // Connect to the database
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection( // Make the connection to the database
@@ -70,7 +69,6 @@ public class DBManager {
         }
         try {
             Statement stmnt = connect.createStatement(); // Create a statement
-            // TODO: Change query to pull StudentUTDID and Password from frontend and insert into query
             ResultSet rs = stmnt.executeQuery( // Execute the login query and verify the student's credentials
                     "SELECT FirstName, LastName, Quiz.QuizID FROM Student\n" +
                             "INNER JOIN Course on Student.StudentUTDID = Course.StudentUTDID\n" +
