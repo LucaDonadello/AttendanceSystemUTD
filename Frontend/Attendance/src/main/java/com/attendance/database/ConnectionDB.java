@@ -1,4 +1,4 @@
-package com.attendance;
+package com.attendance.database;
 import java.sql.*;
 
 public class ConnectionDB {

@@ -1,5 +1,6 @@
-package com.attendance;
+package com.attendance.utilities;
 
+import com.attendance.database.QuerySystem;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.util.logging.Logger;

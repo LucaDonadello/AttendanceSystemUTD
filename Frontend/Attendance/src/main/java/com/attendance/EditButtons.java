@@ -1,5 +1,6 @@
 package com.attendance;
 
+import com.attendance.database.QuerySystem;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

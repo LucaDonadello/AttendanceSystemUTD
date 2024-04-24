@@ -1,5 +1,9 @@
-package com.attendance;
+package com.attendance.panes;
 
+import com.attendance.utilities.ConverterObjToStr;
+import com.attendance.EditButtons;
+import com.attendance.database.QuerySystem;
+import com.attendance.utilities.SwitchDashboard;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -115,10 +119,8 @@ public class QuizPane {
                     throw new RuntimeException(ex);
                 }
             });
-            Button downloadButton = new Button("download");
             questionsTable.add(editButton, questionsColumnCount, i + 1);
             questionsTable.add(deleteButton, questionsColumnCount + 1, i + 1);
-            questionsTable.add(downloadButton, questionsColumnCount + 2, i + 1);
         }
         questionsPane.getChildren().add(questionsTable);
         return questionsPane;

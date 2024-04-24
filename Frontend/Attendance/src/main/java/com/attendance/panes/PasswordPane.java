@@ -1,5 +1,8 @@
-package com.attendance;
+package com.attendance.panes;
 
+import com.attendance.utilities.ConverterObjToStr;
+import com.attendance.EditButtons;
+import com.attendance.database.QuerySystem;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,7 +27,7 @@ public class PasswordPane {
         int passwordsColumnCount = passwordsColumnNames.size();
         StackPane cell;
         Label cellContents;
-        //create the grid for password
+        //create the grid for password and the titles
         for (int i = 0; i < passwordsColumnCount; i++) {
             cellContents = new Label(passwordsColumnNames.get(i));
             cell = new StackPane();
@@ -32,6 +35,7 @@ public class PasswordPane {
             cell.getChildren().add(cellContents);
             passwordsTable.add(cell, i, 0);
         }
+        //insert the values inside the grid
         for (int i = 0; i < passwordsRows.size(); i++) {
             for (int j = 0; j < passwordsRows.get(i).size(); j++) {
                 cellContents = new Label(passwordsRows.get(i).get(j));
@@ -41,23 +45,25 @@ public class PasswordPane {
                 passwordsTable.add(cell, j, i + 1);
             }
             int finalI = i;
-            // edit password section
+
+            //edit button
             Button editButton = new Button("edit");
-            editButton.setOnAction(e -> EditButtons.editPassword(passwordsRows,finalI));
+            editButton.setOnAction(e -> {
+                EditButtons.editPassword(passwordsRows, finalI);
+            });
+
+            //delete button
             Button deleteButton = new Button("delete");
-            //need to refresh page
             deleteButton.setOnAction(e -> {
                 try {
                     //not actually delete the password but set it to null so there is no psw for that quizID
-                    QuerySystem.updateData("Quiz", List.of("Password_"), List.of("") ,"QuizID=".concat(passwordsRows.get(finalI).get(0)));
+                    QuerySystem.updateData("Quiz", List.of("Password_"), List.of("") ,"QuizID=".concat(passwordsRows.get(finalI).get(1)));
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
             });
-            Button copyButton = new Button("copy");
             passwordsTable.add(editButton, passwordsColumnCount, i + 1);
             passwordsTable.add(deleteButton, passwordsColumnCount + 1, i + 1);
-            passwordsTable.add(copyButton, passwordsColumnCount + 2, i + 1);
         }
         passwordsPane.getChildren().add(passwordsTable);
         return passwordsPane;

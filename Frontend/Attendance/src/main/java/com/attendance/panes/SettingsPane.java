@@ -1,4 +1,4 @@
-package com.attendance;
+package com.attendance.panes;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;

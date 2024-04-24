@@ -1,4 +1,4 @@
-package com.attendance;
+package com.attendance.utilities;
 
 import java.util.ArrayList;
 import java.util.List;

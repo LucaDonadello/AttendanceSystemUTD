@@ -1,5 +1,7 @@
 package com.attendance;
 
+import com.attendance.panes.*;
+import com.attendance.utilities.SwitchDashboard;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;

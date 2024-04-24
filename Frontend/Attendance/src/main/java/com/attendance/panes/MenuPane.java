@@ -1,11 +1,11 @@
-package com.attendance;
+package com.attendance.panes;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 
-import static com.attendance.SwitchDashboard.switchDashboard;
+import static com.attendance.utilities.SwitchDashboard.switchDashboard;
 
 public class MenuPane {
     public static void buildMenu(Pane dashboardPane, Pane quizzesPane, Pane titlePane, GridPane menuPane, Pane passwordsPane, Pane classesPane, Pane databaseInfoPane, Pane settingsPane){

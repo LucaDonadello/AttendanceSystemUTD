@@ -1,4 +1,4 @@
-package com.attendance;
+package com.attendance.utilities;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;

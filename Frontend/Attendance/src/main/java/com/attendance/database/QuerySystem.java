@@ -1,6 +1,6 @@
 //Luca Donadello
 
-package com.attendance;
+package com.attendance.database;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

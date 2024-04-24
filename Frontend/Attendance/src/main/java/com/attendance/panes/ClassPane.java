@@ -1,5 +1,9 @@
-package com.attendance;
+package com.attendance.panes;
 
+import com.attendance.utilities.ConverterObjToStr;
+import com.attendance.EditButtons;
+import com.attendance.utilities.Parser;
+import com.attendance.database.QuerySystem;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.attendance.SwitchDashboard.switchDashboard;
+import static com.attendance.utilities.SwitchDashboard.switchDashboard;
 
 public class ClassPane {
     public static Pane buildClassesPane(Pane dashboardPane, Pane titlePane) throws SQLException {
@@ -62,11 +66,9 @@ public class ClassPane {
                     throw new RuntimeException(ex);
                 }
             });
-            Button downloadButton = new Button("download");
             classesTable.add(viewButton, classesColumnCount, i + 1);
             classesTable.add(editButton, classesColumnCount + 1, i + 1);
             classesTable.add(deleteButton, classesColumnCount + 2, i + 1);
-            classesTable.add(downloadButton, classesColumnCount + 3, i + 1);
         }
         classesPane.getChildren().add(classesTable);
         return classesPane;
@@ -132,11 +134,9 @@ public class ClassPane {
                     throw new RuntimeException(ex);
                 }
             });
-            Button downloadButton = new Button("download");
             studentsTable.add(viewButton, questionsColumnCount, i + 1);
             studentsTable.add(editButton, questionsColumnCount + 1, i + 1);
             studentsTable.add(deleteButton, questionsColumnCount + 2, i + 1);
-            studentsTable.add(downloadButton, questionsColumnCount + 3, i + 1);
         }
         studentsBox.getChildren().add(studentsTable);
         studentsPane.getChildren().add(studentsBox);
@@ -164,7 +164,6 @@ public class ClassPane {
             cell.getChildren().add(cellContents);
             attendTable.add(cell, i, 0);
         }
-
         for(i = 0; i < attendRows.size(); ++i) {
             for (int j = 0; j < (attendRows.get(i)).size(); ++j) {
                 cellContents = new Label(attendRows.get(i).get(j));
@@ -173,7 +172,6 @@ public class ClassPane {
                 cell.getChildren().add(cellContents);
                 attendTable.add(cell, j, i + 1);
             }
-
             int finalI = i;
             Button editButton = new Button("edit");
             editButton.setOnAction(e -> EditButtons.editAttendance(attendRows, finalI));

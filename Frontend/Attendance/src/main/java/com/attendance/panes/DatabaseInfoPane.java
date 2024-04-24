@@ -1,5 +1,6 @@
-package com.attendance;
+package com.attendance.panes;
 
+import com.attendance.database.ConnectionDB;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
