@@ -75,7 +75,7 @@ public class DBManager {
                     "SELECT FirstName, LastName, Quiz.QuizID FROM Student\n" +
                             "INNER JOIN Course on Student.StudentUTDID = Course.StudentUTDID\n" +
                             "INNER JOIN Quiz on Course.QuizID = Quiz.QuizID\n" +
-                            "WHERE Student.StudentUTDID = 123456789 AND Quiz.Password_ = 'quizpassword'");
+                            "WHERE Student.StudentUTDID = '"+ username +"' AND Quiz.Password_ = '"+ password +"'");
             if (rs.next()) { // Test if the login was successful and print message
                 System.out.println("Login successful");
                 return true;
@@ -91,7 +91,7 @@ public class DBManager {
 
     // Submits the quiz to the database, records the student's attendance, and
     // records which questions were wrong
-    public void takeAttendance(int attended, String macID, String ipAddress, int studentUTDID, int courseID) {
+    public void takeAttendance(int attended, String ipAddress, String macID, int studentUTDID, int courseID) {
         Connection connect = connect(); // Creates connection to hte database
         if (connect == null) { // If there is no connection, send a message and return false
             System.out.println("Failed to connect to the database");
@@ -101,9 +101,8 @@ public class DBManager {
             Statement stmnt = connect.createStatement();
             // TODO: Fix the query to work, given the new database changes
             stmnt.executeUpdate( // Execute the query to submit the attendance and quiz answers to the database
-                    "INSERT INTO Attendance (Attended, MacID, IPAddress, StudentUTDID, CourseID, DateAndTime) VALUES ("
-                            + attended + ", '" + macID + "', '" + ipAddress + "', " + studentUTDID + ", " + courseID
-                            + ", NOW()");
+                    "INSERT INTO AttendanceInfo (Attended, DateAndTime, IPAddress, MacID, StudentUTDID, CourseID) VALUES ("
+                            + attended + " +  NOW() +  '" + ipAddress + "', '" + macID + "', " + studentUTDID + ", " + courseID +"");
             System.out.println("Attendance submitted successfully");
         } catch (Exception e) { // Handle exception
             System.out.println("Exception: " + e);

@@ -10,11 +10,13 @@ import java.io.IOException;
 
 public class QuizServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String answer = request.getParameter("answer");
-        if (answer.equals("42")) {
-            response.getWriter().write("Correct");
-        } else {
-            response.getWriter().write("Incorrect");
-        }
+        // Attended, DateAndTime, IPAddress, MacID, StudentUTDID, CourseID
+        int attended = Integer.parseInt(request.getParameter("attended"));
+        String ipAddress = request.getParameter("ipaddress");
+        String macID = request.getParameter("macid");
+        int studentUTDID = Integer.parseInt(request.getParameter("studentutdid"));
+        int courseID = Integer.parseInt(request.getParameter("courseID"));
+
+        DBManager.getInstance().takeAttendance(attended, ipAddress, macID, studentUTDID, courseID);
     }
 }
