@@ -92,11 +92,11 @@ public class ClassPane {
         studentsTable.setId("studentsTable");
         studentsTable.setGridLinesVisible(true);
         List<List<String>> studentsRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID", "Attendance JOIN Student ON Student.StudentUTDID=Attendance.StudentUTDID", "CourseID=".concat(courseID), "", "", ""))));
-        List<String> studentsColumnNames = new ArrayList<>(Arrays.asList("First Name", "Middle Name", "Last Name", "NET-ID","UTD-ID", "View Attendance"));
+        List<String> studentsColumnNames = new ArrayList<>(Arrays.asList("First Name", "Middle Name", "Last Name", "NET-ID","UTD-ID", "Attendance"));
         StackPane cell;
         Label cellContents;
         int questionsColumnCount = studentsColumnNames.size();
-        int attendanceColumnIndex = studentsColumnNames.indexOf("View Attendance");
+        int attendanceColumnIndex = studentsColumnNames.indexOf("Attendance");
 
         for (int i = 0; i < questionsColumnCount; i++) {
             cellContents = new Label(studentsColumnNames.get(i));
