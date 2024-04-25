@@ -19,6 +19,7 @@ public class QuizPane {
     public static Pane buildQuizPane(Pane dashboardPane, Pane titlePane) throws SQLException {
         // quizzesPane:- Page containing a table of all quizzes and buttons to upload/create quizzes.
         Pane quizzesPane = new Pane();
+
         // *** BUILD QUIZZES PANE HERE ***
         GridPane quizzesTable = new GridPane();
         quizzesTable.setId("quizzesTable");
@@ -35,6 +36,7 @@ public class QuizPane {
             cell.getChildren().add(cellContents);
             quizzesTable.add(cell, i, 0);
         }
+
         for (int i = 0; i < quizRows.size(); i++) {
             for (int j = 0; j < quizRows.get(i).size(); j++) {
                 cellContents = new Label(quizRows.get(i).get(j));
@@ -43,11 +45,12 @@ public class QuizPane {
                 cell.getChildren().add(cellContents);
                 quizzesTable.add(cell, j, i + 1);
             }
+
             Button viewButton = new Button("view");
             int finalI = i;
             viewButton.setOnAction(e -> {
                 try {
-                    SwitchDashboard.switchDashboard(dashboardPane, buildQuestionsPane(quizRows.get(finalI).get(0)), titlePane, "Questions");
+                    SwitchDashboard.switchDashboard(dashboardPane, buildQuestionsPane(), titlePane, "Questions");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -55,9 +58,8 @@ public class QuizPane {
 
             Button editButton = new Button("edit");
             // open a new window to edit quiz
-            editButton.setOnAction(e -> {
-                EditButtons.editQuiz(quizRows, finalI);
-            });
+            editButton.setOnAction(e -> EditButtons.editQuiz(quizRows, finalI));
+
             Button deleteButton = new Button("delete");
             deleteButton.setOnAction(e -> {
                 try {
@@ -66,21 +68,20 @@ public class QuizPane {
                     throw new RuntimeException(ex);
                 }
             });
-            Button downloadButton = new Button("download"); //maybe not need
             quizzesTable.add(viewButton, quizzesColumnCount, i + 1);
             quizzesTable.add(editButton, quizzesColumnCount + 1, i + 1);
             quizzesTable.add(deleteButton, quizzesColumnCount + 2, i + 1);
-            quizzesTable.add(downloadButton, quizzesColumnCount + 3, i + 1); //maybe not need
 
         }
         quizzesPane.getChildren().add(quizzesTable);
         return quizzesPane;
     }
 
-    public static Pane buildQuestionsPane(String quizID) throws SQLException {
+    public static Pane buildQuestionsPane() throws SQLException {
         // questionsPane:- Page containing a table of all questions for a particular quiz and buttons to upload/create questions.
         // -accessible from the quizzes page table
         Pane questionsPane = new Pane();
+
         // *** BUILD QUESTIONS PANE HERE ***
         GridPane questionsTable = new GridPane();
         questionsTable.setId("quizzesTable");
@@ -97,6 +98,7 @@ public class QuizPane {
             cell.getChildren().add(cellContents);
             questionsTable.add(cell, i, 0);
         }
+
         for (int i = 0; i < questionsRows.size(); i++) {
             for (int j = 0; j < questionsRows.get(i).size(); j++) {
                 cellContents = new Label(questionsRows.get(i).get(j));
@@ -105,6 +107,7 @@ public class QuizPane {
                 cell.getChildren().add(cellContents);
                 questionsTable.add(cell, j, i + 1);
             }
+
             int finalI = i;
             Button editButton = new Button("edit");
             // open a new window to insert values
@@ -119,6 +122,7 @@ public class QuizPane {
                     throw new RuntimeException(ex);
                 }
             });
+
             questionsTable.add(editButton, questionsColumnCount, i + 1);
             questionsTable.add(deleteButton, questionsColumnCount + 1, i + 1);
         }

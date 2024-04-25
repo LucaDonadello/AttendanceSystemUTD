@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 import java.sql.SQLException;
 
 public class DatabaseInfoPane {
-    public static Pane buildDatabaseInfoPane(Pane dashboardPane, Pane titlePane) throws SQLException {
+    public static Pane buildDatabaseInfoPane() throws SQLException {
         // databaseInfoPane:- Page containing all database info: location, name, and login info.
         Pane databaseInfoPane = new Pane();
         // *** BUILD DATABASE INFO PANE HERE ***

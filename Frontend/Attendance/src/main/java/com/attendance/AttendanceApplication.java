@@ -2,6 +2,7 @@ package com.attendance;
 
 import com.attendance.panes.*;
 import com.attendance.utilities.SwitchDashboard;
+import com.attendance.panes.scheduleQuizPane;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
@@ -58,12 +59,12 @@ public class AttendanceApplication extends Application {
         windowPane.add(dashboardPane, 0, 1);
 
         //create the Panes for each section
+        Pane scheduleQuiz = scheduleQuizPane.buildScheduleQuiz();
         Pane quizzesPane = QuizPane.buildQuizPane(dashboardPane, titlePane);
-        Pane passwordsPane = PasswordPane.buildPasswordPane(dashboardPane, titlePane);
+        Pane passwordsPane = PasswordPane.buildPasswordPane();
         Pane classesPane = ClassPane.buildClassesPane(dashboardPane, titlePane);
-        Pane databaseInfoPane = DatabaseInfoPane.buildDatabaseInfoPane(dashboardPane, titlePane);
-        Pane settingsPane = SettingsPane.buildSettingsPane(databaseInfoPane, titlePane);
-        MenuPane.buildMenu(dashboardPane, quizzesPane, titlePane, menuPane, passwordsPane, classesPane, databaseInfoPane, settingsPane);
+        Pane databaseInfoPane = DatabaseInfoPane.buildDatabaseInfoPane();
+        MenuPane.buildMenu(dashboardPane, quizzesPane, titlePane, menuPane, passwordsPane, classesPane, databaseInfoPane, scheduleQuiz);
 
         // set default dashboard to quizzes page
         SwitchDashboard.switchDashboard(dashboardPane, quizzesPane, titlePane, "Quizzes");

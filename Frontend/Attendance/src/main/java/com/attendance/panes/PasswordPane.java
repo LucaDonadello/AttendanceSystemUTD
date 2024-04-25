@@ -15,9 +15,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PasswordPane {
-    public static Pane buildPasswordPane(Pane dashboardPane, Pane titlePane) throws SQLException {
+    public static Pane buildPasswordPane() throws SQLException {
         // passwordsPane:- Page containing a table of all password banks and buttons to upload/create password banks.
         Pane passwordsPane = new Pane();
+
         // *** BUILD PASSWORDS PANE HERE ***
         GridPane passwordsTable = new GridPane();
         passwordsTable.setId("passwordsTable");
@@ -35,6 +36,7 @@ public class PasswordPane {
             cell.getChildren().add(cellContents);
             passwordsTable.add(cell, i, 0);
         }
+
         //insert the values inside the grid
         for (int i = 0; i < passwordsRows.size(); i++) {
             for (int j = 0; j < passwordsRows.get(i).size(); j++) {
@@ -44,13 +46,12 @@ public class PasswordPane {
                 cell.getChildren().add(cellContents);
                 passwordsTable.add(cell, j, i + 1);
             }
+
             int finalI = i;
 
             //edit button
             Button editButton = new Button("edit");
-            editButton.setOnAction(e -> {
-                EditButtons.editPassword(passwordsRows, finalI);
-            });
+            editButton.setOnAction(e -> EditButtons.editPassword(passwordsRows, finalI));
 
             //delete button
             Button deleteButton = new Button("delete");
@@ -62,6 +63,7 @@ public class PasswordPane {
                     throw new RuntimeException(ex);
                 }
             });
+
             passwordsTable.add(editButton, passwordsColumnCount, i + 1);
             passwordsTable.add(deleteButton, passwordsColumnCount + 1, i + 1);
         }

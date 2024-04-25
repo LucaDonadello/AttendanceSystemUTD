@@ -1,7 +1,7 @@
 package com.attendance.panes;
 
-import com.attendance.utilities.ConverterObjToStr;
 import com.attendance.EditButtons;
+import com.attendance.utilities.ConverterObjToStr;
 import com.attendance.utilities.Parser;
 import com.attendance.database.QuerySystem;
 import javafx.geometry.Insets;
@@ -22,6 +22,7 @@ public class ClassPane {
     public static Pane buildClassesPane(Pane dashboardPane, Pane titlePane) throws SQLException {
         // classesPane:- Page containing a table of all classes and buttons to upload/create classes.
         Pane classesPane = new Pane();
+
         // *** BUILD CLASSES PANE HERE ***
         GridPane classesTable = new GridPane();
         classesTable.setId("classesTable");
@@ -31,6 +32,7 @@ public class ClassPane {
         int classesColumnCount = classesColumnNames.size();
         StackPane cell;
         Label cellContents;
+
         for (int i = 0; i < classesColumnCount; i++) {
             cellContents = new Label(classesColumnNames.get(i));
             cell = new StackPane();
@@ -38,6 +40,7 @@ public class ClassPane {
             cell.getChildren().add(cellContents);
             classesTable.add(cell, i, 0);
         }
+
         for (int i = 0; i < classesRows.size(); i++) {
             for (int j = 0; j < classesRows.get(i).size(); j++) {
                 cellContents = new Label(classesRows.get(i).get(j));
@@ -46,6 +49,7 @@ public class ClassPane {
                 cell.getChildren().add(cellContents);
                 classesTable.add(cell, j, i + 1);
             }
+
             Button viewButton = new Button("view");
             int finalI = i;
             viewButton.setOnAction(e -> {
@@ -55,6 +59,7 @@ public class ClassPane {
                     throw new RuntimeException(ex);
                 }
             });
+
             // edit classes section
             Button editButton = new Button("edit");
             editButton.setOnAction(e -> EditButtons.editClasses(classesRows,finalI));
@@ -66,10 +71,12 @@ public class ClassPane {
                     throw new RuntimeException(ex);
                 }
             });
+
             classesTable.add(viewButton, classesColumnCount, i + 1);
             classesTable.add(editButton, classesColumnCount + 1, i + 1);
             classesTable.add(deleteButton, classesColumnCount + 2, i + 1);
         }
+
         classesPane.getChildren().add(classesTable);
         return classesPane;
     }
@@ -78,6 +85,7 @@ public class ClassPane {
         // questionsPane:- Page containing a table of all questions for a particular quiz and buttons to upload/create questions.
         // -accessible from the quizzes page table
         Pane studentsPane = new Pane();
+
         // *** BUILD STUDENTS PANE HERE ***
         List<String> classesColumnNames = Arrays.asList("FirstName", "MiddleName", "LastName", "StudentUTDID", "StudentNetID");
 
@@ -162,6 +170,7 @@ public class ClassPane {
         StackPane cell;
         Label cellContents;
         int i;
+
         for(i = 0; i < attendedColumnCount; ++i) {
             cellContents = new Label(attendColumnNames.get(i));
             cell = new StackPane();
@@ -169,6 +178,7 @@ public class ClassPane {
             cell.getChildren().add(cellContents);
             attendTable.add(cell, i, 0);
         }
+
         for(i = 0; i < attendRows.size(); ++i) {
             for (int j = 0; j < (attendRows.get(i)).size(); ++j) {
                 cellContents = new Label(attendRows.get(i).get(j));
@@ -177,11 +187,13 @@ public class ClassPane {
                 cell.getChildren().add(cellContents);
                 attendTable.add(cell, j, i + 1);
             }
+
             int finalI = i;
             Button editButton = new Button("edit");
             editButton.setOnAction(e -> EditButtons.editAttendance(attendRows, finalI));
             attendTable.add(editButton, attendedColumnCount, i+1);
         }
+
         attendBox.getChildren().add(attendTable);
         attendPane.getChildren().add(attendBox);
         return attendPane;

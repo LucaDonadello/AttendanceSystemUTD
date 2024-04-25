@@ -1,5 +1,6 @@
 package com.attendance;
 
+import com.attendance.database.ConnectionDB;
 import com.attendance.database.QuerySystem;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -297,6 +298,51 @@ public class EditButtons {
         editPane.add(CourseIDLabel, 0, 5);
         editPane.add(CourseIDField, 1, 5);
         editPane.add(saveButton, 1, 6);
+        Scene editScene = new Scene(editPane);
+        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editStage.setScene(editScene);
+        editStage.show();
+    }
+    // edit database info
+    public static void editDatabaseInfo() {
+        Stage editStage = new Stage();
+        GridPane editPane = new GridPane();
+        editPane.setId("editPane");
+        editPane.setPadding(new Insets(10));
+        editPane.setHgap(10);
+        editPane.setVgap(10);
+        Label urlLabel = new Label("URL:");
+        TextField urlField = new TextField();
+        urlField.setText(ConnectionDB.getDBURL());
+        Label nameLabel = new Label("Name:");
+        TextField nameField = new TextField();
+        try {
+            nameField.setText(ConnectionDB.getDBConnection().getCatalog());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        Label usernameLabel = new Label("Username:");
+        TextField usernameField = new TextField();
+        usernameField.setText(ConnectionDB.getDBUsername());
+        Label passwordLabel = new Label("Password:");
+        TextField passwordField = new TextField();
+        passwordField.setText(ConnectionDB.getDBPassword());
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(event -> {
+            ConnectionDB.setDBURL(urlField.getText());
+            ConnectionDB.setDBUsername(usernameField.getText());
+            ConnectionDB.setDBPassword(passwordField.getText());
+            editStage.close();
+        });
+        editPane.add(urlLabel, 0, 0);
+        editPane.add(urlField, 1, 0);
+        editPane.add(nameLabel, 0, 1);
+        editPane.add(nameField, 1, 1);
+        editPane.add(usernameLabel, 0, 2);
+        editPane.add(usernameField, 1, 2);
+        editPane.add(passwordLabel, 0, 3);
+        editPane.add(passwordField, 1, 3);
+        editPane.add(saveButton, 1, 4);
         Scene editScene = new Scene(editPane);
         editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
