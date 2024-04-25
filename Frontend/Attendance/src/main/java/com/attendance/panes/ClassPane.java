@@ -92,10 +92,12 @@ public class ClassPane {
         studentsTable.setId("studentsTable");
         studentsTable.setGridLinesVisible(true);
         List<List<String>> studentsRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID", "Attendance JOIN Student ON Student.StudentUTDID=Attendance.StudentUTDID", "CourseID=".concat(courseID), "", "", ""))));
-        List<String> studentsColumnNames = new ArrayList<>(Arrays.asList("First Name", "Middle Name", "Last Name", "NET-ID","UTD-ID", "<Attendance Columns Placeholder>"));
+        List<String> studentsColumnNames = new ArrayList<>(Arrays.asList("First Name", "Middle Name", "Last Name", "NET-ID","UTD-ID", "View Attendance"));
         StackPane cell;
         Label cellContents;
         int questionsColumnCount = studentsColumnNames.size();
+        int attendanceColumnIndex = studentsColumnNames.indexOf("View Attendance");
+
         for (int i = 0; i < questionsColumnCount; i++) {
             cellContents = new Label(studentsColumnNames.get(i));
             cell = new StackPane();
@@ -112,7 +114,9 @@ public class ClassPane {
                 studentsTable.add(cell, j, i + 1);
             }
             int finalI = i;
-            Button viewButton = new Button("view");
+
+            Button viewButton = new Button("view Attendance");
+            studentsTable.add(viewButton, attendanceColumnIndex, i + 1);
             viewButton.setOnAction(e -> {
                 try {
                     switchDashboard(dashboardPane, buildAttendancePane(studentsRows.get(finalI).get(4)), titlePane, "Attendance");
@@ -134,10 +138,11 @@ public class ClassPane {
                     throw new RuntimeException(ex);
                 }
             });
-            studentsTable.add(viewButton, questionsColumnCount, i + 1);
+            //studentsTable.add(viewButton, questionsColumnCount, i + 1);
             studentsTable.add(editButton, questionsColumnCount + 1, i + 1);
             studentsTable.add(deleteButton, questionsColumnCount + 2, i + 1);
         }
+
         studentsBox.getChildren().add(studentsTable);
         studentsPane.getChildren().add(studentsBox);
         return studentsPane;

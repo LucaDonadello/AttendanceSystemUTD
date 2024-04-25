@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="55f1284a-f148-4754-9ca1-af9dc13bde5a" name="Changes" comment="Parser and Uploader Added" />
+    <list default="true" id="55f1284a-f148-4754-9ca1-af9dc13bde5a" name="Changes" comment="Parser and Uploader Added">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Attendance/src/main/java/com/attendance/panes/ClassPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Attendance/src/main/java/com/attendance/panes/ClassPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Attendance/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Attendance/target/classes/module-info.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,12 +49,14 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="2eIDS3QCJ1d6VNxHzIklWWEIUAM" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.AttendanceApplication.executor": "Run",
     "Application.attendanceApplication.executor": "Run",
     "Application.connectionDB.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -70,7 +76,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.attendanceApplication">
+  <component name="RunManager">
     <configuration name="attendanceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.attendance.attendanceApplication" />
       <module name="Attendance" />
