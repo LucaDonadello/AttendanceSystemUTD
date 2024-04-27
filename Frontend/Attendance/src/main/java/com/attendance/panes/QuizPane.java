@@ -26,8 +26,8 @@ public class QuizPane {
         quizzesTable.setGridLinesVisible(true);
         List<List<String>> quizRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("QuizID, Password_, StartTime, Duration", "Quiz", "", "", "", ""))));
         List<String> quizColumnNames = new ArrayList<>(Arrays.asList("QuizID", "Password", "Start Time", "Duration"));
-        StackPane cell;
-        Label cellContents;
+        StackPane cell = null;
+        Label cellContents = null;
         int quizzesColumnCount = quizColumnNames.size();
         for (int i = 0; i < quizzesColumnCount; i++) {
             cellContents = new Label(quizColumnNames.get(i));
@@ -61,9 +61,11 @@ public class QuizPane {
             editButton.setOnAction(e -> EditButtons.editQuiz(quizRows, finalI));
 
             Button deleteButton = new Button("delete");
+            //copy label
             deleteButton.setOnAction(e -> {
                 try {
                     QuerySystem.deleteData("Quiz", "QuizID=".concat(quizRows.get(finalI).get(0)));
+                    //clear the table
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -93,6 +95,8 @@ public class QuizPane {
         int questionsColumnCount = questionsColumnNames.size();
         for (int i = 0; i < questionsColumnCount; i++) {
             cellContents = new Label(questionsColumnNames.get(i));
+            cellContents.setMinWidth(50);
+            cellContents.setMinHeight(50);
             cell = new StackPane();
             cell.setPadding(new Insets(5));
             cell.getChildren().add(cellContents);

@@ -28,7 +28,7 @@ public class ClassPane {
         classesTable.setId("classesTable");
         classesTable.setGridLinesVisible(true);
         List<List<String>> classesRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("CourseID, ClassName, StartTime, EndTime, StartDate, EndDate", "Course", "", "", "", ""))));
-        List<String> classesColumnNames = new ArrayList<>(Arrays.asList("Section", "Course", "Start Time", "End Time","Start Date", "End Date")); //removed days
+        List<String> classesColumnNames = new ArrayList<>(Arrays.asList("Section", "Course", "Start Time", "End Time","Start Date", "End Date"));
         int classesColumnCount = classesColumnNames.size();
         StackPane cell;
         Label cellContents;

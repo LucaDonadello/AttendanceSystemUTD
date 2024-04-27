@@ -67,7 +67,7 @@ create table Quiz(
     StartTime time,
     StudentAnswers int,
     DisplayQuiz boolean not null,
-    Password_ varchar(255) not null,
+    Password_ varchar(255),
     constraint QuizPK primary key (QuizID),
     constraint QuizBankIDFK foreign key (QuizBankID) references QuizBank(QuestionBankID)
     on delete cascade on update cascade,

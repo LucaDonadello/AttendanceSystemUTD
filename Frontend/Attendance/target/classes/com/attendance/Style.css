@@ -5,7 +5,6 @@
     -fx-background-color: linear-gradient(to bottom right,rgba(253,222,190), rgba(255,245,140));
 }
 
-
 #menuPane {
     -fx-padding: 3;
     -fx-border-color: black;
@@ -16,10 +15,10 @@
 }
 
 #startQuizButton {
-    -fx-background-color: #DAF7A6; /* Green */
+    -fx-background-color: #DAF7A6;
     -fx-padding: 8 15 15 15;
-    -fx-pref-width: 250px; /* Preferred width */
-    -fx-pref-height: 50px; /* Preferred height */
+    -fx-pref-width: 250px;
+    -fx-pref-height: 50px;
     -fx-border-color: black;
     -fx-font-size: 24;
     -fx-margin: 500px;
@@ -61,9 +60,9 @@
 }
 
 #settingsPane {
-    -fx-pref-width: 150px; /* Preferred width */
-    -fx-pref-height: 50px; /* Preferred height */
-    -fx-padding: 10px 20px; /* Padding inside the button */
+    -fx-pref-width: 150px;
+    -fx-pref-height: 50px;
+    -fx-padding: 10px 20px;
     -fx-margin: 10px;
 }
 
