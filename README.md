@@ -16,16 +16,7 @@ To run the Attendance Application, follow these steps:
 3. Run the `attendanceApplication.java` file to start the application.
 
 To access the student interface:
-1. Navigate to the `frontend/html/filesLoginQuiz` directory.
-2. Open the HTML files to access the student interface and run the html.
-
-To access the updated student interface implemented with Ajax (Note that this will be changed once deployed):
-1. Note that this will require running a server from your computer due to the Ajax that is implemented.
-2. Run the server for the folder `StudentWebApp_Ajax`.
-3. Once the server is ran using the files located in the StudentWebApp_Ajax folder, you can navigate to the page `http://localhost/StudentWebApp_Ajax/login.html`.
-4. The default current login is:
-- UTD ID: `admin`
-- Class Password: `admin`
+1. Open the browser of your choice, on the device of your choice, and go to the following web address: `https://peaceful-woodland-99218-ede8e2020fdb.herokuapp.com/login/`.
 
 ## Requirements
 - Java Development Kit (JDK) (19.0.1 is working for us) installed on your system.
