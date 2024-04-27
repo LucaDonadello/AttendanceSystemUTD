@@ -71,8 +71,9 @@ public class DBManager {
             Statement stmnt = connect.createStatement(); // Create a statement
             ResultSet rs = stmnt.executeQuery( // Execute the login query and verify the student's credentials
                     "SELECT FirstName, LastName, Quiz.QuizID, Course.ClassName, Course.CourseID FROM Student\n" +
-                            "INNER JOIN Course on Student.StudentUTDID = Course.StudentUTDID\n" +
-                            "INNER JOIN Quiz on Course.QuizID = Quiz.QuizID\n" +
+                            "INNER JOIN Attendance ON Student.StudentUTDID = Attendance.StudentUTDID\n" +
+                            "INNER JOIN Course ON Attendance.CourseID = Course.CourseID\n" +
+                            "INNER JOIN Quiz ON Course.QuizID = Quiz.QuizID\n" +
                             "WHERE Student.StudentUTDID = '"+ username +"' AND Quiz.Password_ = '"+ password +"'");
             if (rs.next()) { // Test if the login was successful and print message
                 // Get the login information needed from the query
