@@ -1,4 +1,8 @@
 # Attendance Application
+- Luca Donadello
+- Samuel Benicewicz
+- Mohammed Basar
+- Khyati Desai
 
 ## Introduction
 The Attendance Application is a JavaFX-based desktop application designed to facilitate attendance management for educational institutions. It provides a user-friendly interface for both administrators and students to manage and track attendance records. So far we also have a student fronend webpage working
@@ -21,6 +25,6 @@ To access the student interface:
 ## Requirements
 - Java Development Kit (JDK) (19.0.1 is working for us) installed on your system.
 - Java IDE IntelliJ has been used for running the JavaFX application.
-- Web browser (e.g.: Safari, Google Chrome, Mozilla Firefox, etc.) to access the student interfaces.
+- Web browser (e.g.: Safari, Google Chrome, Mozilla Firefox, etc.) to access the student interface.
 - Apache Web Server on local machine for accessing and testing the student interface (if testing Ajax version of student interface).
 
