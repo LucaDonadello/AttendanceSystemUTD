@@ -16,7 +16,7 @@ To run the Attendance Application, follow these steps:
 3. Run the `attendanceApplication.java` file to start the application.
 
 To access the student interface:
-1. Open the browser of your choice, on the device of your choice, and go to the following web address: `https://peaceful-woodland-99218-ede8e2020fdb.herokuapp.com/login/`.
+1. Open the browser of your choice, on the device of your choice, and type in, or copy and paste: `https://peaceful-woodland-99218-ede8e2020fdb.herokuapp.com/login/`, or simply <a href='https://peaceful-woodland-99218-ede8e2020fdb.herokuapp.com/login/'>CLICK HERE</a>.
 
 ## Requirements
 - Java Development Kit (JDK) (19.0.1 is working for us) installed on your system.
