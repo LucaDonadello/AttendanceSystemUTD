@@ -100,10 +100,10 @@ public class DBManager {
             Statement stmnt = connect.createStatement(); // Create a statement
             ResultSet rs = stmnt.executeQuery( // Execute the login query and verify the student's credentials
                     "SELECT Question, Answer FROM Quiz\n" +
-                            "    JOIN QuizBank ON QuizBank.QuestionBankID = Quiz.QuizBankID\n" +
-                            "    JOIN QuizQuestion ON QuizQuestion.QuestionID = QuizBank.QuizQuestionID\n" +
-                            "    JOIN AnswerSet ON AnswerSet.QuestionID = QuizQuestion.QuestionID\n" +
-                            "    WHERE Quiz.QuizID = " + quizID);
+                            "JOIN QuizBank ON QuizBank.QuizBankID = Quiz.QuizBankID\n" +
+                            "JOIN QuizQuestion ON QuizQuestion.QuizBankID = QuizBank.QuizBankID\n" +
+                            "JOIN AnswerSet ON AnswerSet.QuestionID = QuizQuestion.QuestionID\n" +
+                            "WHERE Quiz.QuizID = " + quizID);
 
             Quiz quiz = new Quiz(); // Creating the quiz
             while (rs.next()) {
