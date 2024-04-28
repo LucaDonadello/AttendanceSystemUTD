@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -27,15 +28,30 @@ public class EditButtons {
         Label quizIDLabel = new Label("QuizID:");
         TextField quizIDField = new TextField();
         quizIDField.setText(quizRows.get(finalI).get(0));
+        quizIDField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9]")) {
+                event.consume();
+            }
+        });
         Label passwordLabel = new Label("Password:");
         TextField passwordField = new TextField();
         passwordField.setText(quizRows.get(finalI).get(1));
         Label startTimeLabel = new Label("StartTime:");
         TextField startTimeField = new TextField();
         startTimeField.setText(quizRows.get(finalI).get(2));
+        startTimeField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9:]")) {
+                event.consume();
+            }
+        });
         Label durationLabel = new Label("Duration:");
         TextField durationField = new TextField();
         durationField.setText(quizRows.get(finalI).get(3));
+        durationField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9:]")) {
+                event.consume();
+            }
+        });
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
@@ -75,6 +91,11 @@ public class EditButtons {
         Label quizIDLabel = new Label("QuizID:");
         TextField quizIDField = new TextField();
         quizIDField.setText(passwordsRows.get(finalI).get(1));
+        quizIDField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9]")) {
+                event.consume();
+            }
+        });
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
@@ -121,18 +142,42 @@ public class EditButtons {
         Label classNameLabel = new Label("ClassName:");
         TextField classNameField = new TextField();
         classNameField.setText(classesRows.get(finalI).get(1));
+
         Label startTimeLabel = new Label("StartTime:");
         TextField startTimeField = new TextField();
+        startTimeField.setText(classesRows.get(finalI).get(2));
+        startTimeField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9:]")) {
+                event.consume();
+            }
+        });
         startTimeField.setText(classesRows.get(finalI).get(2));
         Label endTimeLabel = new Label("EndTime:");
         TextField endTimeField = new TextField();
         endTimeField.setText(classesRows.get(finalI).get(3));
+        endTimeField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9:]")) {
+                event.consume();
+            }
+        });
+        endTimeField.setText(classesRows.get(finalI).get(3));
         Label startDateLabel = new Label("StartDate:");
         TextField startDateField = new TextField();
+        startDateField.setText(classesRows.get(finalI).get(4));
+        startDateField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9-]")) {
+                event.consume();
+            }
+        });
         startDateField.setText(classesRows.get(finalI).get(4));
         Label endDateLabel = new Label("EndDate:");
         TextField endDateField = new TextField();
         endDateField.setText(classesRows.get(finalI).get(5));
+        endDateField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9-]")) {
+                event.consume();
+            }
+        });
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
