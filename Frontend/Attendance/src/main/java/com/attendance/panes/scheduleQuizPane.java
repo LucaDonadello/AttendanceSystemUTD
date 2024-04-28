@@ -1,5 +1,6 @@
 package com.attendance.panes;
 
+import com.attendance.EditButtons;
 import com.attendance.database.QuerySystem;
 import com.attendance.utilities.ConverterObjToStr;
 import javafx.geometry.Insets;
@@ -24,7 +25,7 @@ public class scheduleQuizPane {
         GridPane scheduleTable = new GridPane();
         scheduleTable.setId("scheduleTable");
         scheduleTable.setGridLinesVisible(true);
-        List<List<String>> quizClassRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("QuizID, ClassName", "Course", "", "", "", ""))));
+        List<List<String>> quizClassRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("QuizID, ClassName, CourseID", "Course", "", "", "", ""))));
         List<String> quizColumnNames = new ArrayList<>(Arrays.asList("QuizID", "Class"));
         StackPane cell;
         Label cellContents;
@@ -52,7 +53,7 @@ public class scheduleQuizPane {
             uploadQuizButton.setOnAction(e -> {
                 try {
                     //update display quiz to true
-                    QuerySystem.updateData("Quiz", List.of("DisplayQuiz"), List.of("1"), "QuizID = " + quizClassRows.get(finalI).get(0));
+                    QuerySystem.updateData("Quiz", List.of("DisplayQuiz"), List.of("1"), "QuizID = ".concat(quizClassRows.get(finalI).get(0)));
                     // show pop-up message
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Quiz Scheduled");
@@ -63,8 +64,12 @@ public class scheduleQuizPane {
                     throw new RuntimeException(ex);
                 }
             });
-
+            Button editButton = new Button("Edit");
+            editButton.setId("editButton");
+            editButton.setOnAction(e -> EditButtons.editQuizSchedule(quizClassRows,finalI, quizClassRows.get(finalI).get(2)));
+            
             scheduleTable.add(uploadQuizButton, quizzesColumnCount, i + 1);
+            scheduleTable.add(editButton, quizzesColumnCount + 1, i + 1);
         }
         scheduleQuizPane.getChildren().add(scheduleTable);
         return scheduleQuizPane;

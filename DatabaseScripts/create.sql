@@ -20,12 +20,22 @@ create table Professor(
     constraint ProfessorPK primary key (ProfessorUTDID)
 );
 
+create table QuizBank(
+    QuizBankID int,
+    QuestionAnswerSet int not null,
+    CourseID int,
+    constraint QuizBankPK primary key (QuizBankID)
+);
+
 create table QuizQuestion(
     Question varchar(1024) not null,
     QuestionID int unique,
+    QuizBankID int,
     CorrectAnswer int not null,
     NumberOfOptions int not null,
-    constraint QuizQuestionPK primary key (QuestionID)
+    constraint QuizQuestionPK primary key (QuestionID),
+    constraint QuizBankIDFK foreign key (QuizBankID) references QuizBank(QuizBankID)
+    on delete cascade on update cascade
 );
 
 create table AnswerSet(
@@ -37,31 +47,9 @@ create table AnswerSet(
     on delete cascade on update cascade
 );
 
-create table StudentAnswer(
-    StudentAnswerID int unique auto_increment,
-    StudentUTDID int,
-    CorrectTotal int,
-    QuestionID int unique,
-    constraint StudentAnswerPK primary key (StudentAnswerID),
-    constraint StudentAnswerIDFK foreign key (QuestionID) references QuizQuestion(QuestionID),
-    constraint StudentIDFK foreign key (StudentUTDID) references Student(StudentUTDID)
-    on delete cascade on update cascade
-);
-
-create table QuizBank(
-    QuestionBankID int,
-    QuestionAnswerSet int not null,
-    CourseID int,
-    QuizQuestionID int,
-    constraint QuizBankPK primary key (QuestionBankID, QuizQuestionID),
-    constraint QuizQuestionIDFK foreign key (QuizQuestionID) references QuizQuestion(QuestionID)
-    on delete cascade on update cascade
-);
-
 create table Quiz(
     QuizID int unique,
-    QuizBankID int unique,
-    StudentUTDID int unique,
+    QuizBankID int,
     NumberOfQuestions int,
     Duration time,
     StartTime time,
@@ -69,9 +57,19 @@ create table Quiz(
     DisplayQuiz boolean not null,
     Password_ varchar(255),
     constraint QuizPK primary key (QuizID),
-    constraint QuizBankIDFK foreign key (QuizBankID) references QuizBank(QuestionBankID)
+    constraint QuizBankQuizIDFK foreign key (QuizBankID) references QuizBank(QuizBankID)
+	on delete cascade on update cascade
+);
+
+create table StudentAnswer(
+    StudentAnswerID int unique auto_increment,
+    StudentUTDID int,
+    CorrectTotal int,
+    QuizID int,
+    constraint StudentAnswerPK primary key (StudentAnswerID),
+    constraint StudentAnswerIDFK foreign key (QuizID) references Quiz(QuizID)
     on delete cascade on update cascade,
-    constraint StudentIDFKQuiz foreign key (StudentUTDID) references Student(StudentUTDID)
+    constraint StudentIDFK foreign key (StudentUTDID) references Student(StudentUTDID)
     on delete cascade on update cascade
 );
 
@@ -82,16 +80,16 @@ create table Course(
     StartDate date,
     EndDate date,
     ClassName varchar(255) not null,
-    StudentUTDID int unique,
+    StudentUTDID int,
     ProfessorUTDID int unique,
-    QuestionBankID int unique,
-    QuizID int unique,
+    QuizBankID int,
+    QuizID int,
     constraint CoursePK primary key (CourseID),
     constraint StudentIDFKCourse foreign key (StudentUTDID) references Student(StudentUTDID)
     on delete cascade on update cascade,
     constraint ProfessorIDFK foreign key (ProfessorUTDID) references Professor(ProfessorUTDID)
     on delete cascade on update cascade,
-    constraint QuestionBankIDFK foreign key (QuestionBankID) references QuizBank(QuestionBankID)
+    constraint QuestionBankIDFK foreign key (QuizBankID) references QuizBank(QuizBankID)
     on delete cascade on update cascade,
     constraint QuizIDFK foreign key (QuizID) references Quiz(QuizID)
     on delete set null on update cascade

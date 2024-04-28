@@ -5,6 +5,7 @@ import com.attendance.utilities.ConverterObjToStr;
 import com.attendance.utilities.Parser;
 import com.attendance.database.QuerySystem;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -27,6 +28,15 @@ public class ClassPane {
         GridPane classesTable = new GridPane();
         classesTable.setId("classesTable");
         classesTable.setGridLinesVisible(true);
+
+        //add class
+        Button addClassButton = new Button("Add Class");
+        addClassButton.setOnAction(e -> EditButtons.addClass());
+        addClassButton.setId("addClassButton");
+        VBox classesBox = new VBox();
+        classesBox.setId("classesBox");
+        classesBox.getChildren().add(addClassButton);
+
         List<List<String>> classesRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("CourseID, ClassName, StartTime, EndTime, StartDate, EndDate", "Course", "", "", "", ""))));
         List<String> classesColumnNames = new ArrayList<>(Arrays.asList("Section", "Course", "Start Time", "End Time","Start Date", "End Date"));
         int classesColumnCount = classesColumnNames.size();
@@ -65,8 +75,21 @@ public class ClassPane {
             editButton.setOnAction(e -> EditButtons.editClasses(classesRows,finalI));
             Button deleteButton = new Button("delete");
             deleteButton.setOnAction(e -> {
+                int pos;
                 try {
                     QuerySystem.deleteData("Course", "CourseID=".concat(classesRows.get(finalI).get(0)));
+                    //7 + 9 * (columnNum - 1) --> formula
+                    pos = (7 + (9 * (GridPane.getRowIndex(deleteButton)-1)));
+                    System.out.println(pos);
+                    Label cellContentsEmpty = new Label("");
+                    StackPane cellEmpty = new StackPane();
+                    cellEmpty.getChildren().add(cellContentsEmpty);
+                    classesTable.getChildren().remove(pos, pos + 9);
+                    // set the index of each cell to the new value starting form 0 to the end
+                    for (int j = pos; j < classesTable.getChildren().size(); j++) {
+                        Node node = classesTable.getChildren().get(j);
+                        GridPane.setRowIndex(node, GridPane.getRowIndex(node) - 1);
+                    }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -76,8 +99,9 @@ public class ClassPane {
             classesTable.add(editButton, classesColumnCount + 1, i + 1);
             classesTable.add(deleteButton, classesColumnCount + 2, i + 1);
         }
-
-        classesPane.getChildren().add(classesTable);
+        
+        classesBox.getChildren().add(classesTable);
+        classesPane.getChildren().add(classesBox);
         return classesPane;
     }
 
@@ -88,23 +112,24 @@ public class ClassPane {
 
         // *** BUILD STUDENTS PANE HERE ***
         List<String> classesColumnNames = Arrays.asList("FirstName", "MiddleName", "LastName", "StudentUTDID", "StudentNetID");
-
+        //maybe be wrong check bcs it fucked up the index of the buttons
         Button uploadStudentsButton = new Button("Upload Students");
         uploadStudentsButton.setId("uploadStudentsButton");
         uploadStudentsButton.setOnAction(e -> Parser.studentsUploader(classesColumnNames));
 
         VBox studentsBox = new VBox();
         studentsBox.setId("studentsBox");
+        //check here too
         studentsBox.getChildren().add(uploadStudentsButton);
         GridPane studentsTable = new GridPane();
         studentsTable.setId("studentsTable");
         studentsTable.setGridLinesVisible(true);
+
         List<List<String>> studentsRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID", "Attendance JOIN Student ON Student.StudentUTDID=Attendance.StudentUTDID", "CourseID=".concat(courseID), "", "", ""))));
         List<String> studentsColumnNames = new ArrayList<>(Arrays.asList("First Name", "Middle Name", "Last Name", "NET-ID","UTD-ID", "Attendance"));
         StackPane cell;
         Label cellContents;
         int questionsColumnCount = studentsColumnNames.size();
-        int attendanceColumnIndex = studentsColumnNames.indexOf("Attendance");
 
         for (int i = 0; i < questionsColumnCount; i++) {
             cellContents = new Label(studentsColumnNames.get(i));
@@ -124,7 +149,6 @@ public class ClassPane {
             int finalI = i;
 
             Button viewButton = new Button("view Attendance");
-            studentsTable.add(viewButton, attendanceColumnIndex, i + 1);
             viewButton.setOnAction(e -> {
                 try {
                     switchDashboard(dashboardPane, buildAttendancePane(studentsRows.get(finalI).get(4)), titlePane, "Attendance");
@@ -138,19 +162,31 @@ public class ClassPane {
             editButton.setOnAction(e -> EditButtons.editStudent(studentsRows,finalI));
             Button deleteButton = new Button("delete");
             deleteButton.setOnAction(e -> {
-                try {
-                    //actual delete the quiz
-                    QuerySystem.deleteData("Attendance", "StudentUTDID=".concat(studentsRows.get(finalI).get(4)));
-                    QuerySystem.deleteData("Student", "StudentUTDID=".concat(studentsRows.get(finalI).get(4)));
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+                int pos;
+                // not working figure why
+//                try {
+//                    //actual delete the quiz
+//                    QuerySystem.deleteData("Attendance", "StudentUTDID=".concat(studentsRows.get(finalI).get(4)));
+//                    QuerySystem.deleteData("Student", "StudentUTDID=".concat(studentsRows.get(finalI).get(4)));
+//                    pos = (7 * GridPane.getRowIndex(deleteButton));
+//                    System.out.println(pos);
+//                    Label cellContentsEmpty = new Label("");
+//                    StackPane cellEmpty = new StackPane();
+//                    cellEmpty.getChildren().add(cellContentsEmpty);
+//                    studentsTable.getChildren().remove(pos,pos+8);
+//                    studentsBox.getChildren().remove(pos,pos+8);
+//                    for (int j = pos; j < studentsTable.getChildren().size(); j++) {
+//                        Node node = studentsTable.getChildren().get(j);
+//                        GridPane.setRowIndex(node, GridPane.getRowIndex(node) - 1);
+//                    }
+//                    throw new RuntimeException(ex);
+//                }
             });
-            //studentsTable.add(viewButton, questionsColumnCount, i + 1);
+            studentsTable.add(viewButton, questionsColumnCount, i + 1);
             studentsTable.add(editButton, questionsColumnCount + 1, i + 1);
             studentsTable.add(deleteButton, questionsColumnCount + 2, i + 1);
-        }
 
+        }
         studentsBox.getChildren().add(studentsTable);
         studentsPane.getChildren().add(studentsBox);
         return studentsPane;

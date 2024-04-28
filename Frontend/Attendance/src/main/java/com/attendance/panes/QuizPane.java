@@ -5,11 +5,14 @@ import com.attendance.EditButtons;
 import com.attendance.database.QuerySystem;
 import com.attendance.utilities.SwitchDashboard;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +27,15 @@ public class QuizPane {
         GridPane quizzesTable = new GridPane();
         quizzesTable.setId("quizzesTable");
         quizzesTable.setGridLinesVisible(true);
+
+        //add quiz
+        Button addQuizButton = new Button("Add Quiz");
+        addQuizButton.setOnAction(e -> EditButtons.addQuiz());
+        addQuizButton.setId("addClassButton");
+        VBox quizBox = new VBox();
+        quizBox.setId("quizBox");
+        quizBox.getChildren().add(addQuizButton);
+
         List<List<String>> quizRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("QuizID, Password_, StartTime, Duration", "Quiz", "", "", "", ""))));
         List<String> quizColumnNames = new ArrayList<>(Arrays.asList("QuizID", "Password", "Start Time", "Duration"));
         StackPane cell = null;
@@ -50,7 +62,7 @@ public class QuizPane {
             int finalI = i;
             viewButton.setOnAction(e -> {
                 try {
-                    SwitchDashboard.switchDashboard(dashboardPane, buildQuestionsPane(), titlePane, "Questions");
+                    SwitchDashboard.switchDashboard(dashboardPane, buildQuestionsPane(quizRows.get(finalI).get(0)), titlePane, "Questions");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -63,9 +75,20 @@ public class QuizPane {
             Button deleteButton = new Button("delete");
             //copy label
             deleteButton.setOnAction(e -> {
+                int pos;
                 try {
                     QuerySystem.deleteData("Quiz", "QuizID=".concat(quizRows.get(finalI).get(0)));
                     //clear the table
+                    pos = (7 * (GridPane.getRowIndex(deleteButton)-1) + 5);
+                    Label cellContentsEmpty = new Label("");
+                    StackPane cellEmpty = new StackPane();
+                    cellEmpty.getChildren().add(cellContentsEmpty);
+                    quizzesTable.getChildren().remove(pos,pos+7);
+                    //reset the indexes
+                    for (int j = pos; j < quizzesTable.getChildren().size(); j++) {
+                        Node node = quizzesTable.getChildren().get(j);
+                        GridPane.setRowIndex(node, GridPane.getRowIndex(node) - 1);
+                    }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -75,11 +98,12 @@ public class QuizPane {
             quizzesTable.add(deleteButton, quizzesColumnCount + 2, i + 1);
 
         }
-        quizzesPane.getChildren().add(quizzesTable);
+        quizBox.getChildren().add(quizzesTable);
+        quizzesPane.getChildren().add(quizBox);
         return quizzesPane;
     }
 
-    public static Pane buildQuestionsPane() throws SQLException {
+    public static Pane buildQuestionsPane(String quizID) throws SQLException {
         // questionsPane:- Page containing a table of all questions for a particular quiz and buttons to upload/create questions.
         // -accessible from the quizzes page table
         Pane questionsPane = new Pane();
@@ -88,8 +112,8 @@ public class QuizPane {
         GridPane questionsTable = new GridPane();
         questionsTable.setId("quizzesTable");
         questionsTable.setGridLinesVisible(true);
-        List<List<String>> questionsRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("QuizQuestion.QuestionID, Question, CorrectAnswer, NumberOfOptions", "QuizQuestion JOIN QuizBank ON QuizQuestion.QuestionID = QuizBank.QuizQuestionID", "", "", "", ""))));
-        List<String> questionsColumnNames = new ArrayList<>(Arrays.asList("Question Number", "Question", "Correct Answer", "Number of Options"));
+        List<List<String>> questionsRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("QuestionID, Question, QuizQuestion.QuizBankID, CorrectAnswer", "Quiz JOIN QuizBank ON QuizBank.QuizBankID = Quiz.QuizBankID JOIN QuizQuestion ON QuizQuestion.QuizBankID = QuizBank.QuizBankID", "Quiz.QuizID=".concat(quizID), "", "", ""))));
+        List<String> questionsColumnNames = new ArrayList<>(Arrays.asList("QuestionID", "Question", "QuizBankID", "CorrectAnswer"));
         StackPane cell;
         Label cellContents;
         int questionsColumnCount = questionsColumnNames.size();
@@ -120,8 +144,8 @@ public class QuizPane {
             Button deleteButton = new Button("delete");
             deleteButton.setOnAction(e -> {
                 try {
-                    //actual delete the quiz
-                    QuerySystem.deleteData("QuizQuestion", "QuestionID=".concat(questionsRows.get(finalI).get(0)));
+                    //actual delete the quiz question
+                    QuerySystem.deleteData("QuizQuestion", "QuestionID=".concat(questionsRows.get(finalI).get(1)));
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }

@@ -26,7 +26,7 @@ public class PasswordPane {
         List<List<String>> passwordsRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("Password_, QuizID", "Quiz", "", "", "", ""))));
         List<String> passwordsColumnNames = new ArrayList<>(Arrays.asList("Password","QuizID"));
         int passwordsColumnCount = passwordsColumnNames.size();
-        StackPane cell = null;
+        StackPane cell;
         Label cellContents;
         //create the grid for password and the titles
         for (int i = 0; i < passwordsColumnCount; i++) {
@@ -50,12 +50,16 @@ public class PasswordPane {
             int finalI = i;
             //edit button
             Button editButton = new Button("edit");
-            editButton.setOnAction(e -> EditButtons.editPassword(passwordsRows, finalI));
+            editButton.setOnAction(e ->{
+                // edit database and change UI
+                int pos = (GridPane.getRowIndex(editButton) * 2) + (GridPane.getRowIndex(editButton)-1) * 2 + 1;
+                EditButtons.editPassword(passwordsRows, finalI, passwordsTable, pos);
+            });
 
             //delete button
             Button deleteButton = new Button("delete");
             deleteButton.setOnAction(e -> {
-                int pos = 0;
+                int pos;
                 try {
                     //not actually delete the password but set it to null so there is no psw for that quizID
                     QuerySystem.updateData("Quiz", List.of("Password_"), List.of("") ,"QuizID=".concat(passwordsRows.get(finalI).get(1)));
