@@ -26,7 +26,7 @@ public class PasswordPane {
         List<List<String>> passwordsRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("Password_, QuizID", "Quiz", "", "", "", ""))));
         List<String> passwordsColumnNames = new ArrayList<>(Arrays.asList("Password","QuizID"));
         int passwordsColumnCount = passwordsColumnNames.size();
-        StackPane cell;
+        StackPane cell = null;
         Label cellContents;
         //create the grid for password and the titles
         for (int i = 0; i < passwordsColumnCount; i++) {
@@ -37,6 +37,9 @@ public class PasswordPane {
             passwordsTable.add(cell, i, 0);
         }
 
+        //create array of cells
+        List<StackPane> cellsList = new ArrayList<>();
+
         //insert the values inside the grid
         for (int i = 0; i < passwordsRows.size(); i++) {
             for (int j = 0; j < passwordsRows.get(i).size(); j++) {
@@ -45,6 +48,8 @@ public class PasswordPane {
                 cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
                 passwordsTable.add(cell, j, i + 1);
+                //add cell in an array of cells
+                cellsList.add(cell);
             }
 
             int finalI = i;
@@ -52,8 +57,7 @@ public class PasswordPane {
             Button editButton = new Button("edit");
             editButton.setOnAction(e ->{
                 // edit database and change UI
-                int pos = (GridPane.getRowIndex(editButton) * 2) + (GridPane.getRowIndex(editButton)-1) * 2 + 1;
-                EditButtons.editPassword(passwordsRows, finalI, passwordsTable, pos);
+                EditButtons.editPassword(passwordsRows, finalI, cellsList);
             });
 
             //delete button

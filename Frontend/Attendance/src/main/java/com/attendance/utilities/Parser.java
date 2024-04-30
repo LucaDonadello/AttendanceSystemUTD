@@ -55,16 +55,25 @@ public class Parser {
                     continue; // Skip the header line
                 }
                 // Split the line by tab
-                //replace " with null char
-                line = line.replace("\"", "");
+
                 //replace the hex 0 with the null char
                 line = line.replace("\0", "");
                 //replace conversion char with null char -- check if needed or get rid of
                 line = line.replaceAll("\ufffd", "");
-                data.add(line.split("\t",0));
+                //replace " with null char
+                if(line.contains("\"")) {
+                    line = line.replace("\"", "");
+                    line = line.replace("Name", "");
+                    data.add(line.split(" ", 0));
+
+                }
+                else
+                    data.add(line.split("\t",0));
             }
 
             String[] entry = data.get(0);
+
+            System.out.println(Arrays.toString(entry));
             //get the index of each info to display -- consider change to array
             int firstNamePos = 0;
             int middleNamePos = 0;
@@ -74,7 +83,7 @@ public class Parser {
             int classIDPos = 0;
 
             for (int i = 0 ; i < entry.length; i++) {
-                if (entry[i].equals("EMPLID") || entry[i].equals("Student ID"))
+                if (entry[i].equals("EMPLID") || entry[i].contains("Student"))
                     studentIdPos = i;
                 if (entry[i].equals("First Name"))
                     firstNamePos = i;
@@ -82,7 +91,7 @@ public class Parser {
                     middleNamePos = i;
                 if (entry[i].equals("Last Name"))
                     lastNamePos = i;
-                if (entry[i].equals("NetId"))
+                if (entry[i].equals("NetId") || entry[i].contains("Username"))
                     netIDPos = i;
                 if (entry[i].equals("Class"))
                     classIDPos = i;
@@ -96,13 +105,14 @@ public class Parser {
                 else{
                     //send the data to the database -- check correctness
                     //First insert data of student in Student Table
-                    QuerySystem.insertData("Student", columnNames, Arrays.asList(datum[firstNamePos], datum[middleNamePos], datum[lastNamePos], datum[studentIdPos], datum[netIDPos]));
-                    //Second insert data inside attendance
-                    QuerySystem.insertData("Attendance", AttendanceColumnNames, Arrays.asList(datum[studentIdPos],datum[classIDPos])); //placeholders
+                    System.out.println(Arrays.asList(datum[firstNamePos], datum[middleNamePos], datum[lastNamePos], datum[studentIdPos], datum[netIDPos]));
+//                    QuerySystem.insertData("Student", columnNames, Arrays.asList(datum[firstNamePos], datum[middleNamePos], datum[lastNamePos], datum[studentIdPos], datum[netIDPos]));
+//                    //Second insert data inside attendance
+//                    QuerySystem.insertData("Attendance", AttendanceColumnNames, Arrays.asList(datum[studentIdPos],datum[classIDPos])); //placeholders
                 }
             }
             //Insert data in the database
-        } catch (IOException | SQLException e) {
+        } catch (IOException e) {
             // Log the exception using the Java logger
             logger.severe("An error occurred:");
             logger.severe(e.toString());

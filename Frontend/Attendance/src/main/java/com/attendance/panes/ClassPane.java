@@ -50,7 +50,7 @@ public class ClassPane {
             cell.getChildren().add(cellContents);
             classesTable.add(cell, i, 0);
         }
-
+        List<StackPane> cellList = new ArrayList<>();
         for (int i = 0; i < classesRows.size(); i++) {
             for (int j = 0; j < classesRows.get(i).size(); j++) {
                 cellContents = new Label(classesRows.get(i).get(j));
@@ -58,6 +58,7 @@ public class ClassPane {
                 cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
                 classesTable.add(cell, j, i + 1);
+                cellList.add(cell);
             }
 
             Button viewButton = new Button("view");
@@ -72,7 +73,7 @@ public class ClassPane {
 
             // edit classes section
             Button editButton = new Button("edit");
-            editButton.setOnAction(e -> EditButtons.editClasses(classesRows,finalI));
+            editButton.setOnAction(e -> EditButtons.editClasses(classesRows,finalI,cellList));
             Button deleteButton = new Button("delete");
             deleteButton.setOnAction(e -> {
                 int pos;
@@ -138,6 +139,7 @@ public class ClassPane {
             cell.getChildren().add(cellContents);
             studentsTable.add(cell, i, 0);
         }
+        List<StackPane> cellList = new ArrayList<>();
         for (int i = 0; i < studentsRows.size(); i++) {
             for (int j = 0; j < studentsRows.get(i).size(); j++) {
                 cellContents = new Label(studentsRows.get(i).get(j));
@@ -145,6 +147,7 @@ public class ClassPane {
                 cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
                 studentsTable.add(cell, j, i + 1);
+                cellList.add(cell);
             }
             int finalI = i;
 
@@ -159,7 +162,7 @@ public class ClassPane {
             Button editButton = new Button("edit");
 
             // open a new window to insert values
-            editButton.setOnAction(e -> EditButtons.editStudent(studentsRows,finalI));
+            editButton.setOnAction(e -> EditButtons.editStudent(studentsRows,finalI,cellList));
             Button deleteButton = new Button("delete");
             deleteButton.setOnAction(e -> {
                 int pos;
@@ -214,7 +217,7 @@ public class ClassPane {
             cell.getChildren().add(cellContents);
             attendTable.add(cell, i, 0);
         }
-
+        List<StackPane> cellList = new ArrayList<>();
         for(i = 0; i < attendRows.size(); ++i) {
             for (int j = 0; j < (attendRows.get(i)).size(); ++j) {
                 cellContents = new Label(attendRows.get(i).get(j));
@@ -222,11 +225,12 @@ public class ClassPane {
                 cell.setPadding(new Insets(5.0));
                 cell.getChildren().add(cellContents);
                 attendTable.add(cell, j, i + 1);
+                cellList.add(cell);
             }
 
             int finalI = i;
             Button editButton = new Button("edit");
-            editButton.setOnAction(e -> EditButtons.editAttendance(attendRows, finalI));
+            editButton.setOnAction(e -> EditButtons.editAttendance(attendRows, finalI, cellList));
             attendTable.add(editButton, attendedColumnCount, i+1);
         }
 

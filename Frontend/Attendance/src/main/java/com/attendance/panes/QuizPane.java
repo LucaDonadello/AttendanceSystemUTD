@@ -48,7 +48,7 @@ public class QuizPane {
             cell.getChildren().add(cellContents);
             quizzesTable.add(cell, i, 0);
         }
-
+        List<StackPane> cellList = new ArrayList<>();
         for (int i = 0; i < quizRows.size(); i++) {
             for (int j = 0; j < quizRows.get(i).size(); j++) {
                 cellContents = new Label(quizRows.get(i).get(j));
@@ -56,6 +56,7 @@ public class QuizPane {
                 cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
                 quizzesTable.add(cell, j, i + 1);
+                cellList.add(cell);
             }
 
             Button viewButton = new Button("view");
@@ -70,7 +71,7 @@ public class QuizPane {
 
             Button editButton = new Button("edit");
             // open a new window to edit quiz
-            editButton.setOnAction(e -> EditButtons.editQuiz(quizRows, finalI));
+            editButton.setOnAction(e -> EditButtons.editQuiz(quizRows, finalI, cellList));
 
             Button deleteButton = new Button("delete");
             //copy label
@@ -127,6 +128,8 @@ public class QuizPane {
             questionsTable.add(cell, i, 0);
         }
 
+        List<StackPane> cellList = new ArrayList<>();
+
         for (int i = 0; i < questionsRows.size(); i++) {
             for (int j = 0; j < questionsRows.get(i).size(); j++) {
                 cellContents = new Label(questionsRows.get(i).get(j));
@@ -134,18 +137,19 @@ public class QuizPane {
                 cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
                 questionsTable.add(cell, j, i + 1);
+                cellList.add(cell);
             }
 
             int finalI = i;
             Button editButton = new Button("edit");
             // open a new window to insert values
-            editButton.setOnAction(e -> EditButtons.editQuestions(questionsRows,finalI));
+            editButton.setOnAction(e -> EditButtons.editQuestions(questionsRows,finalI, cellList));
 
             Button deleteButton = new Button("delete");
             deleteButton.setOnAction(e -> {
                 try {
                     //actual delete the quiz question
-                    QuerySystem.deleteData("QuizQuestion", "QuestionID=".concat(questionsRows.get(finalI).get(1)));
+                    QuerySystem.deleteData("QuizQuestion", "QuestionID=".concat(questionsRows.get(finalI).get(0)));
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }

@@ -88,6 +88,7 @@ public class QuerySystem {
         }
         //query complete ready to execute
         String query = queryBuilder.toString();
+        System.out.println(query);
         Statement stmt = con.createStatement();
         stmt.executeUpdate(query);
         con.close();

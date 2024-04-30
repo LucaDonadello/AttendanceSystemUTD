@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -18,7 +17,7 @@ import java.util.Objects;
 
 public class EditButtons {
     // edit for quizzes
-    public static void editQuiz(List<List<String>> quizRows, int finalI) {
+    public static void editQuiz(List<List<String>> quizRows, int finalI, List<StackPane> cellList) {
         Stage editStage = new Stage();
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
@@ -28,34 +27,31 @@ public class EditButtons {
         Label quizIDLabel = new Label("QuizID:");
         TextField quizIDField = new TextField();
         quizIDField.setText(quizRows.get(finalI).get(0));
-        quizIDField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
-            if (!event.getCharacter().matches("[0-9]")) {
-                event.consume();
-            }
-        });
         Label passwordLabel = new Label("Password:");
         TextField passwordField = new TextField();
         passwordField.setText(quizRows.get(finalI).get(1));
         Label startTimeLabel = new Label("StartTime:");
         TextField startTimeField = new TextField();
         startTimeField.setText(quizRows.get(finalI).get(2));
-        startTimeField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
-            if (!event.getCharacter().matches("[0-9:]")) {
-                event.consume();
-            }
-        });
         Label durationLabel = new Label("Duration:");
         TextField durationField = new TextField();
         durationField.setText(quizRows.get(finalI).get(3));
-        durationField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
-            if (!event.getCharacter().matches("[0-9:]")) {
-                event.consume();
-            }
-        });
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
                 QuerySystem.updateData("Quiz", List.of("Password_", "StartTime", "Duration"), List.of(passwordField.getText(), startTimeField.getText(), durationField.getText()), "QuizID=".concat(quizIDField.getText()));
+                // edit the UI
+                // save new values in  -- change in the other
+                int finalPos = finalI*(quizRows.size()+1); // 4 is the number of rows which is rows + 1
+                List<String> quizRowsNew;
+                quizRowsNew = List.of(quizIDField.getText(), passwordField.getText(), startTimeField.getText(), durationField.getText());
+                System.out.println(finalPos);
+                for(int i = 0 ; i < quizRowsNew.size() ; i++, finalPos++) {
+                    Label cellContents = new Label(quizRowsNew.get(i));
+                    StackPane cellNew = new StackPane();
+                    cellNew.getChildren().add(cellContents);
+                    cellList.get(finalPos).getChildren().set(0, cellNew);
+                }
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -78,7 +74,7 @@ public class EditButtons {
 
     // edit for password
     // create a new window to insert values
-    public static void editPassword(List<List<String>> passwordsRows, int finalI, GridPane passwordsTable, int pos) {
+    public static void editPassword(List<List<String>> passwordsRows, int finalI, List<StackPane> cellList) {
         Stage editStage = new Stage();
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
@@ -91,28 +87,21 @@ public class EditButtons {
         Label quizIDLabel = new Label("QuizID:");
         TextField quizIDField = new TextField();
         quizIDField.setText(passwordsRows.get(finalI).get(1));
-        quizIDField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
-            if (!event.getCharacter().matches("[0-9]")) {
-                event.consume();
-            }
-        });
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
                 QuerySystem.updateData("Quiz", List.of("Password_"), List.of(passwordField.getText()), "QuizID=".concat(quizIDField.getText()));
                 // edit the UI
                 // save new values in passwordRowsNew
+                int finalPos = finalI*2;
                 List<List<String>> passwordsRowsNew = new ArrayList<>();
                 passwordsRowsNew.add(List.of(passwordField.getText(), quizIDField.getText()));
-                int finalPos = pos;
-                System.out.println(finalPos);
-                    for(int i= 0; i <= passwordsRowsNew.size(); i++) {
-                        Label cellContentsNew = new Label(passwordsRowsNew.get(0).get(i));
-                        StackPane cellNew = new StackPane();
-                        cellNew.getChildren().add(cellContentsNew);
-                        passwordsTable.getChildren().set(finalPos, cellNew);
-                        finalPos += 1;
-                    }
+                for(int i = 0 ; i <= passwordsRowsNew.size() ; i++, finalPos++) {
+                    Label cellContents = new Label(passwordsRowsNew.get(0).get(i));
+                    StackPane cellNew = new StackPane();
+                    cellNew.getChildren().add(cellContents);
+                    cellList.get(finalPos).getChildren().set(0, cellNew);
+                }
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -129,7 +118,7 @@ public class EditButtons {
         editStage.show();
     }
 
-    public static void editClasses(List<List<String>> classesRows, int finalI) {
+    public static void editClasses(List<List<String>> classesRows, int finalI, List<StackPane> cellList) {
         Stage editStage = new Stage();
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
@@ -142,46 +131,34 @@ public class EditButtons {
         Label classNameLabel = new Label("ClassName:");
         TextField classNameField = new TextField();
         classNameField.setText(classesRows.get(finalI).get(1));
-
         Label startTimeLabel = new Label("StartTime:");
         TextField startTimeField = new TextField();
-        startTimeField.setText(classesRows.get(finalI).get(2));
-        startTimeField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
-            if (!event.getCharacter().matches("[0-9:]")) {
-                event.consume();
-            }
-        });
         startTimeField.setText(classesRows.get(finalI).get(2));
         Label endTimeLabel = new Label("EndTime:");
         TextField endTimeField = new TextField();
         endTimeField.setText(classesRows.get(finalI).get(3));
-        endTimeField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
-            if (!event.getCharacter().matches("[0-9:]")) {
-                event.consume();
-            }
-        });
-        endTimeField.setText(classesRows.get(finalI).get(3));
         Label startDateLabel = new Label("StartDate:");
         TextField startDateField = new TextField();
-        startDateField.setText(classesRows.get(finalI).get(4));
-        startDateField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
-            if (!event.getCharacter().matches("[0-9-]")) {
-                event.consume();
-            }
-        });
         startDateField.setText(classesRows.get(finalI).get(4));
         Label endDateLabel = new Label("EndDate:");
         TextField endDateField = new TextField();
         endDateField.setText(classesRows.get(finalI).get(5));
-        endDateField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
-            if (!event.getCharacter().matches("[0-9-]")) {
-                event.consume();
-            }
-        });
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
                 QuerySystem.updateData("Course", List.of("ClassName", "StartTime", "EndTime", "StartDate", "EndDate"), List.of(classNameField.getText(), startTimeField.getText(), endTimeField.getText(), startDateField.getText(), endDateField.getText()), "CourseID=".concat(courseIDField.getText()));
+                // edit the UI
+                // save new values
+                int finalPos = finalI*(classesRows.size()+3); // 4 is the number of rows which is rows + 3 ( num of buttons )
+                List<String> classesRowNew;
+                classesRowNew = List.of(courseIDField.getText(), classNameField.getText(), startTimeField.getText(), endTimeField.getText(), startDateField.getText(), endDateField.getText());
+                System.out.println(finalPos);
+                for(int i = 0 ; i < classesRowNew.size() ; i++, finalPos++) {
+                    Label cellContents = new Label(classesRowNew.get(i));
+                    StackPane cellNew = new StackPane();
+                    cellNew.getChildren().add(cellContents);
+                    cellList.get(finalPos).getChildren().set(0, cellNew);
+                }
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -207,7 +184,7 @@ public class EditButtons {
         editStage.show();
     }
 
-    public static void editQuestions(List<List<String>> questionsRows, int finalI){
+    public static void editQuestions(List<List<String>> questionsRows, int finalI, List<StackPane> cellList){
             Stage editStage = new Stage();
             GridPane editPane = new GridPane();
             editPane.setId("editPane");
@@ -229,7 +206,20 @@ public class EditButtons {
             Button saveButton = new Button("Save");
             saveButton.setOnAction(event -> {
                 try {
+                    // send query
                     QuerySystem.updateData("QuizQuestion", List.of("QuestionID", "Question", "QuizBankID", "CorrectAnswer"), List.of(questionIDField.getText(), questionField.getText(), QuizBankIDField.getText(), correctAnswerField.getText()), "QuestionID=".concat(questionIDField.getText()));
+                    // change UI -- new version change password
+                    int finalPos = finalI*2;
+                    List<String> questionRowsNew;
+                    questionRowsNew = List.of(questionIDField.getText(), questionField.getText(), QuizBankIDField.getText(), correctAnswerField.getText());
+                    System.out.println(questionRowsNew);
+                    for(int i = 0 ; i < questionRowsNew.size() ; i++, finalPos++) {
+                        System.out.println(questionRowsNew.size());
+                        Label cellContents = new Label(questionRowsNew.get(i));
+                        StackPane cellNew = new StackPane();
+                        cellNew.getChildren().add(cellContents);
+                        cellList.get(finalPos).getChildren().set(0, cellNew);
+                    }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -250,7 +240,7 @@ public class EditButtons {
             editStage.show();
     }
 
-    public static void editStudent(List<List<String>> studentsRows, int finalI){
+    public static void editStudent(List<List<String>> studentsRows, int finalI, List<StackPane> cellList){
         Stage editStage = new Stage();
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
@@ -276,6 +266,18 @@ public class EditButtons {
         saveButton.setOnAction(event -> {
             try {
                 QuerySystem.updateData("Student", List.of("FirstName", "MiddleName", "LastName", "StudentNetID", "StudentUTDID"), List.of(firstNameField.getText(), middleNameField.getText(), lastNameField.getText(), studentNetIDField.getText(), studentUTDIDField.getText()), "StudentUTDID=".concat(studentUTDIDField.getText()));
+                // edit the UI
+                // save new values
+                int finalPos = finalI*(studentsRows.size()+2); // 4 is the number of rows which is rows + 2
+                List<String> studentRowsNew;
+                studentRowsNew = List.of(firstNameField.getText(), middleNameField.getText(), lastNameField.getText(), studentNetIDField.getText(), studentUTDIDField.getText());
+                System.out.println(finalPos);
+                for(int i = 0 ; i < studentRowsNew.size() ; i++, finalPos++) {
+                    Label cellContents = new Label(studentRowsNew.get(i));
+                    StackPane cellNew = new StackPane();
+                    cellNew.getChildren().add(cellContents);
+                    cellList.get(finalPos).getChildren().set(0, cellNew);
+                }
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -298,7 +300,7 @@ public class EditButtons {
         editStage.show();
     }
 
-    public static void editAttendance(List<List<String>> attendanceRows, int finalI){
+    public static void editAttendance(List<List<String>> attendanceRows, int finalI, List<StackPane> cellList){
         Stage editStage = new Stage();
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
@@ -339,6 +341,19 @@ public class EditButtons {
                     QuerySystem.updateData("AttendanceInfo", List.of("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"), List.of(attendedTrue , dateAndTimeField.getText(), ipField.getText(), macField.getText(), StudentIDField.getText(), CourseIDField.getText()), "StudentUTDID=".concat(StudentIDField.getText()));
                 else
                     QuerySystem.updateData("AttendanceInfo", List.of("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"), List.of(attendedFalse , dateAndTimeField.getText(), ipField.getText(), macField.getText(), StudentIDField.getText(), CourseIDField.getText()), "StudentUTDID=".concat(StudentIDField.getText()));
+
+            // edit the UI
+            // save new values
+            int finalPos = finalI*(attendanceRows.size()+4); // 4 is the number of rows which is rows + 2
+            List<String> attendanceRowsNew;
+            attendanceRowsNew = List.of(attendedField.getText(), dateAndTimeField.getText(), ipField.getText(), macField.getText(), StudentIDField.getText());
+            System.out.println(finalPos);
+            for(int i = 0 ; i <= attendanceRowsNew.size() ; i++, finalPos++) {
+                Label cellContents = new Label(attendanceRowsNew.get(i));
+                StackPane cellNew = new StackPane();
+                cellNew.getChildren().add(cellContents);
+                cellList.get(finalPos).getChildren().set(0, cellNew);
+            }
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
