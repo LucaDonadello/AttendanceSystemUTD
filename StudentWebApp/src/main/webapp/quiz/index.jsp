@@ -28,13 +28,13 @@
 <%--Upon quiz submission, it sends the information to the database to record the student's attendance--%>
 <form onsubmit="event.preventDefault(); submitQuiz()">
     <div class="box" id="quiz-container"></div>
-    <input class="submitButton" type="submit" value="Submit"/>
+    <input class="submitButton" type="submit" value="Submit" id="submit-button"/>
 </form>
 
 <div id="response_message"></div>
 
 <%--IP and Mac Addresses displaying--%>
-<div>
+<br><div>
     IP Address: <span id="ip-address"></span>
 </div>
 <div>

@@ -22,6 +22,7 @@ function attemptLogin(event) {
         .then(response => {
             if(!response.ok) {
                 console.log("Something bad happened here :(")
+                alert("Failed Login: Your login is invalid or the attendance period is closed.")
             } else {
                 return response.json()
             }
@@ -31,7 +32,10 @@ function attemptLogin(event) {
                 loginInfo["className"] + "&quizID=" + loginInfo["quizID"] + "&utdID=" + utdID + "&courseID=" +
                 loginInfo["courseID"]
             window.location.href = url
-        })
+        }).catch(e => {
+            console.log("There was an error: ", e)
+            alert("Failed Login: Your login is invalid or the attendance period is closed.")
+    })
 }
 
 // Retrieve the IP Address

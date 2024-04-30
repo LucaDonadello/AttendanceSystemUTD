@@ -23,6 +23,7 @@ public class QuizQuestionServlet extends HttpServlet {
         // Sends the information for the query in DBManager for gathering the questions
         Quiz quiz = DBManager.getInstance().getQuizQuestions(Integer.parseInt(quizID));
 
+        // If there is a quiz, proceed
         if (quiz != null) {
             PrintWriter writer = response.getWriter();
             response.setContentType("application/json");

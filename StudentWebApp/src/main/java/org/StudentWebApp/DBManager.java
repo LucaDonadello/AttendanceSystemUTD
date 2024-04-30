@@ -70,14 +70,16 @@ public class DBManager {
         try {
             Statement stmnt = connect.createStatement(); // Create a statement
             ResultSet rs = stmnt.executeQuery( // Execute the login query and verify the student's credentials
-                    "SELECT FirstName, LastName, Quiz.QuizID, Course.ClassName, Course.CourseID FROM Student\n" +
+                    "SELECT FirstName, LastName, Quiz.QuizID, Course.ClassName, Course.CourseID, Quiz.Duration, Quiz.StartTime FROM Student\n" +
                             "INNER JOIN Attendance ON Student.StudentUTDID = Attendance.StudentUTDID\n" +
                             "INNER JOIN Course ON Attendance.CourseID = Course.CourseID\n" +
                             "INNER JOIN Quiz ON Course.QuizID = Quiz.QuizID\n" +
                             "WHERE Student.StudentUTDID = '"+ username +"' AND Quiz.Password_ = '"+ password +"'");
             if (rs.next()) { // Test if the login was successful and print message
                 // Get the login information needed from the query
-                LoginInfo info = new LoginInfo(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5));
+                LoginInfo info = new LoginInfo(rs.getString(1), rs.getString(2),
+                        rs.getInt(3), rs.getString(4), rs.getInt(5),
+                        rs.getTime(6), rs.getTime(7));
                 System.out.println("Login successful");
                 return info;
             } else {
@@ -90,6 +92,7 @@ public class DBManager {
         return null;
     }
 
+    // Gets the questions used for the quiz
     public Quiz getQuizQuestions(int quizID) {
         Connection connect = connect(); // Creates connection to the database
         if (connect == null) { // If there is no connection, send a message and return false
@@ -99,7 +102,7 @@ public class DBManager {
         try {
             Statement stmnt = connect.createStatement(); // Create a statement
             ResultSet rs = stmnt.executeQuery( // Execute the login query and verify the student's credentials
-                    "SELECT Question, Answer FROM Quiz\n" +
+                    "SELECT Question, Answer, NumberOfQuestions FROM Quiz\n" +
                             "JOIN QuizBank ON QuizBank.QuizBankID = Quiz.QuizBankID\n" +
                             "JOIN QuizQuestion ON QuizQuestion.QuizBankID = QuizBank.QuizBankID\n" +
                             "JOIN AnswerSet ON AnswerSet.QuestionID = QuizQuestion.QuestionID\n" +
@@ -107,7 +110,7 @@ public class DBManager {
 
             Quiz quiz = new Quiz(); // Creating the quiz
             while (rs.next()) {
-                quiz.addAnswer(rs.getString(1), rs.getString(2)); // Adding the answers to the quiz questions
+                quiz.addAnswer(rs.getString(1), rs.getString(2), rs.getInt(3)); // Adding the answers to the quiz questions
             }
             return quiz;
         } catch (Exception e) { // Handle Exception

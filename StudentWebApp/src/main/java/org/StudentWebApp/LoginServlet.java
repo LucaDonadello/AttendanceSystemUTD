@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalTime;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login_submit"})
 
@@ -37,16 +38,30 @@ public class LoginServlet extends HttpServlet {
 
         // Sends the information to the query in the DBManager and returns whether the login credentials were valid
         LoginInfo success = DBManager.getInstance().login(studentUTDID, password);
-        if (success != null) { // If valid login, redirect to the quiz page
+        if (success == null) {
+            DBManager.getInstance().close();
+            return;
+        }
+
+        // Performs a time check to make sure the quiz is active for the student to take
+
+        // Get duration of quiz
+        int hours = success.duration.toLocalTime().getHour();
+        int minutes = success.duration.toLocalTime().getMinute();
+        int seconds = success.duration.toLocalTime().getSecond();
+        int totalSeconds = seconds + (minutes * 60) + (hours * 60 * 60);
+
+        // Calculates teh end time
+        LocalTime endTime = success.startTime.toLocalTime().plusSeconds(totalSeconds);
+
+        // If the current time is after the start time and before the calculated end time, proceed with the login
+        if (success != null && success.startTime.toLocalTime().isBefore(LocalTime.now()) && endTime.isAfter(LocalTime.now())) {
             PrintWriter writer = response.getWriter();
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
             String infoString = new Gson().toJson(success);
             writer.print(infoString);
             writer.flush();
-        } else { // If invalid login, fail the login
-            //response.getWriter().write("Login failed");
-            //response.sendRedirect("/login"); // Redirect back to login page
         }
         DBManager.getInstance().close(); // Close the database connection
     }

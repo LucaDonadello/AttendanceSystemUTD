@@ -35,13 +35,18 @@ function loadQuizQuestions() {
             }
         })
         .then(quiz => { // Change the HTML for the questions
-            document.getElementById("quiz-container").innerHTML = createQuiz(quiz["questions"])
+            if (quiz["numberOfQuestions"] == 0) {
+                document.getElementById("quiz-container").innerHTML = "Your attendance has been recorded."
+                recordAttendance()
+            } else {
+                document.getElementById("quiz-container").innerHTML = createQuiz(quiz["questions"])
+            }
         })
 }
 
 // Creates the question in HTML
 function createQuestion(question) {
-    return "<div>" + question + "</div>"
+    return "<br><div>" + question + "</div>"
 }
 
 // Creates the answer choice in HTML
@@ -72,6 +77,12 @@ function createQAPair(question, answers) {
 function submitQuiz() {
     // Informs the student the quiz is submitted
     document.getElementById("quiz-container").innerHTML = "Thank you for your submission, your attendance has been recorded."
+    recordAttendance()
+}
+
+// Records the attendance either after the quiz is submitted or, if there is no quiz then, after the login
+function recordAttendance() {
+    document.getElementById("submit-button").style.visibility = "hidden"
 
     let data = {
         "utdID": utdID
