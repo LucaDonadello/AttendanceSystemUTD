@@ -3,43 +3,54 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f2f2f2;
+    background-image: url('./bg.jpeg');
+    background-size: cover;
+    background-position: center;
+}
+
+.header {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.header img {
+    width: 20%;
+    max-width: 150px;
+    height: auto;
 }
 
 .info {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
+    flex: 1;
     text-align: center;
 }
 
 .university-name {
-    font-size: 34px;
+    color: #f57e07;
+    font-size: 24px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .class-attendance {
-    font-size: 18px;
+    color: darkgreen;
+    font-size: 14px;
     font-style: italic;
-    margin-bottom: 20px;
-}
-
-.course {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.professor {
-    font-size: 16px;
+    margin-bottom: 10px;
+    text-align: left;
+    margin-left: 630px;
 }
 
 .login {
     margin: 50px auto;
-    width: 300px;
-    background-color: #fff;
+    background-color: gainsboro;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 5px ;
+    box-shadow: 0 0 5px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
 }
 
 label {
@@ -50,7 +61,7 @@ label {
 
 input[type="text"],
 input[type="password"] {
-    width: calc(100% - 20px);
+    width: 95%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -58,15 +69,15 @@ input[type="password"] {
 }
 
 button {
-    display: block;
     width: 30%;
+    align-items: center;
+    justify-content: center;
     padding: 10px;
     background-color: #333;
     color: #fff;
     border: none;
     border-radius: 3px;
     cursor: pointer;
-    margin-left: auto
 }
 
 button:hover {
