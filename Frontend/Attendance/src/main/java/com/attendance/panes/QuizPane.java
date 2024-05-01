@@ -26,6 +26,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ public class QuizPane {
         // add the column names to the quiz table
         for (int i = 0; i < quizzesColumnCount; i++) {
             cellContents = new Label(quizColumnNames.get(i));
+            cellContents.setFont(Font.font("Arial", 16));
             cell = new StackPane();
             cell.setPadding(new Insets(5));
             cell.getChildren().add(cellContents);
@@ -78,6 +80,7 @@ public class QuizPane {
         for (int i = 0; i < quizRows.size(); i++) {
             for (int j = 0; j < quizRows.get(i).size(); j++) {
                 cellContents = new Label(quizRows.get(i).get(j));
+                cellContents.setFont(Font.font("Arial", 14));
                 cell = new StackPane();
                 cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
@@ -86,6 +89,9 @@ public class QuizPane {
             }
             // create a button to view the quiz
             Button viewButton = new Button("view");
+            viewButton.setMinHeight(35);
+            viewButton.setMinWidth(50);
+            viewButton.setFont(Font.font(14));
             // get the final value of i
             int finalI = i;
             // set the action for the view quiz button
@@ -99,10 +105,16 @@ public class QuizPane {
             });
             // create a button to edit the quiz
             Button editButton = new Button("edit");
+            editButton.setMaxHeight(35);
+            editButton.setMinWidth(50);
+            editButton.setFont(Font.font(14));
             // open a new window to edit quiz
             editButton.setOnAction(e -> EditButtons.editQuiz(quizRows, finalI, cellList));
             // create a button to delete the quiz
             Button deleteButton = new Button("delete");
+            deleteButton.setMaxHeight(35);
+            deleteButton.setMinWidth(60);
+            deleteButton.setFont(Font.font(14));
             // copy label
             deleteButton.setOnAction(e -> {
                 int pos;
@@ -169,6 +181,7 @@ public class QuizPane {
         // add the column names to the questions table
         for (int i = 0; i < questionsColumnCount; i++) {
             cellContents = new Label(questionsColumnNames.get(i));
+            cellContents.setFont(Font.font("Arial", 16));
             cellContents.setMinWidth(50);
             cellContents.setMinHeight(50);
             cell = new StackPane();
@@ -182,6 +195,7 @@ public class QuizPane {
         for (int i = 0; i < questionsRows.size(); i++) {
             for (int j = 0; j < questionsRows.get(i).size(); j++) {
                 cellContents = new Label(questionsRows.get(i).get(j));
+                cellContents.setFont(Font.font("Arial", 14));
                 cell = new StackPane();
                 cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
@@ -192,10 +206,16 @@ public class QuizPane {
             int finalI = i;
             // create a button to edit the questions
             Button editButton = new Button("edit");
+            editButton.setMaxHeight(35);
+            editButton.setMinWidth(50);
+            editButton.setFont(Font.font(14));
             // open a new window to insert values
             editButton.setOnAction(e -> EditButtons.editQuestions(questionsRows, finalI, cellList));
             // create a button to delete the questions
             Button deleteButton = new Button("delete");
+            deleteButton.setMaxHeight(35);
+            deleteButton.setMinWidth(60);
+            deleteButton.setFont(Font.font(14));
             deleteButton.setOnAction(e -> {
                 try {
                     // Implement delete functionality

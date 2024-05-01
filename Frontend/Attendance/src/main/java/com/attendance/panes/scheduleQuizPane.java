@@ -24,6 +24,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +55,7 @@ public class scheduleQuizPane {
         // add the column names to the quiz schedule table
         for (int i = 0; i < quizzesColumnCount; i++) {
             cellContents = new Label(quizColumnNames.get(i));
+            cellContents.setFont(Font.font("Arial", 16));
             cell = new StackPane();
             cell.setPadding(new Insets(5));
             cell.getChildren().add(cellContents);
@@ -62,6 +65,7 @@ public class scheduleQuizPane {
         for (int i = 0; i < quizClassRows.size(); i++) {
             for (int j = 0; j < quizClassRows.get(i).size(); j++) {
                 cellContents = new Label(quizClassRows.get(i).get(j));
+                cellContents.setFont(Font.font("Arial", 14));
                 cell = new StackPane();
                 cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
@@ -69,6 +73,9 @@ public class scheduleQuizPane {
             }
             // create a button to upload the quiz
             Button uploadQuizButton = new Button("Schedule Quiz");
+            uploadQuizButton.setMaxHeight(35);
+            uploadQuizButton.setMinWidth(120);
+            uploadQuizButton.setFont(Font.font(14));
             uploadQuizButton.setId("uploadQuizButton");
             // get the final value of i
             int finalI = i;
@@ -90,6 +97,9 @@ public class scheduleQuizPane {
             });
             // create a button to edit the quiz schedule
             Button editButton = new Button("Edit");
+            editButton.setMaxHeight(35);
+            editButton.setMinWidth(50);
+            editButton.setFont(Font.font(14));
             editButton.setId("editButton");
             editButton.setOnAction(
                     e -> EditButtons.editQuizSchedule(quizClassRows, finalI, quizClassRows.get(finalI).get(2)));

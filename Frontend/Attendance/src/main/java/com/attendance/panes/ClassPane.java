@@ -24,6 +24,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +47,9 @@ public class ClassPane {
 
         // add class
         Button addClassButton = new Button("Add Class");
+        addClassButton.setMaxHeight(35);
+        addClassButton.setMinWidth(50);
+        addClassButton.setFont(Font.font(14));
         addClassButton.setOnAction(e -> EditButtons.addClass());
         addClassButton.setId("addClassButton");
         VBox classesBox = new VBox();
@@ -64,6 +69,7 @@ public class ClassPane {
         // add column names to the table
         for (int i = 0; i < classesColumnCount; i++) {
             cellContents = new Label(classesColumnNames.get(i));
+            cellContents.setFont(Font.font("Arial", 16));
             cell = new StackPane();
             cell.setPadding(new Insets(5));
             cell.getChildren().add(cellContents);
@@ -76,6 +82,7 @@ public class ClassPane {
             // create a cell for each class
             for (int j = 0; j < classesRows.get(i).size(); j++) {
                 cellContents = new Label(classesRows.get(i).get(j));
+                cellContents.setFont(Font.font("Arial", 14));
                 cell = new StackPane();
                 cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
@@ -84,6 +91,9 @@ public class ClassPane {
             }
             // view classes section
             Button viewButton = new Button("view");
+            viewButton.setMaxHeight(35);
+            viewButton.setMinWidth(50);
+            viewButton.setFont(Font.font(14));
             int finalI = i;
             viewButton.setOnAction(e -> {
                 try {
@@ -98,9 +108,15 @@ public class ClassPane {
 
             // edit classes section
             Button editButton = new Button("edit");
+            editButton.setMaxHeight(35);
+            editButton.setMinWidth(50);
+            editButton.setFont(Font.font(14));
             editButton.setOnAction(e -> EditButtons.editClasses(classesRows, finalI, cellList));
             // delete classes section
             Button deleteButton = new Button("delete");
+            deleteButton.setMaxHeight(35);
+            deleteButton.setMinWidth(60);
+            deleteButton.setFont(Font.font(14));
             deleteButton.setOnAction(e -> {
                 int pos;
                 try {
@@ -169,6 +185,7 @@ public class ClassPane {
         // add column names to the table
         for (int i = 0; i < questionsColumnCount; i++) {
             cellContents = new Label(studentsColumnNames.get(i));
+            cellContents.setFont(Font.font("Arial", 16));
             cell = new StackPane();
             cell.setPadding(new Insets(5));
             cell.getChildren().add(cellContents);
@@ -180,6 +197,7 @@ public class ClassPane {
         for (int i = 0; i < studentsRows.size(); i++) {
             for (int j = 0; j < studentsRows.get(i).size(); j++) {
                 cellContents = new Label(studentsRows.get(i).get(j));
+                cellContents.setFont(Font.font("Arial", 14));
                 cell = new StackPane();
                 cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
@@ -190,6 +208,8 @@ public class ClassPane {
             int finalI = i;
             // view the attendance of the student
             Button viewButton = new Button("view Attendance");
+            viewButton.setMaxHeight(35);
+            viewButton.setMinWidth(50);
             viewButton.setOnAction(e -> {
                 // switch to the attendance pane
                 try {
@@ -200,10 +220,14 @@ public class ClassPane {
                 }
             });
             Button editButton = new Button("edit");
+            editButton.setMinWidth(50);
+            editButton.setMaxHeight(35);
 
             // open a new window to insert values
             editButton.setOnAction(e -> EditButtons.editStudent(studentsRows, finalI, cellList));
             Button deleteButton = new Button("delete");
+            deleteButton.setMinWidth(60);
+            deleteButton.setMaxHeight(35);
             deleteButton.setOnAction(e -> {
                 int pos;
                 // not working figure why
@@ -261,6 +285,7 @@ public class ClassPane {
         // add column names to the table
         for (i = 0; i < attendedColumnCount; ++i) {
             cellContents = new Label(attendColumnNames.get(i));
+            cellContents.setFont(Font.font("Arial", 16));
             cell = new StackPane();
             cell.setPadding(new Insets(5.0));
             cell.getChildren().add(cellContents);
@@ -273,6 +298,7 @@ public class ClassPane {
             // create a cell for each attendance
             for (int j = 0; j < (attendRows.get(i)).size(); ++j) {
                 cellContents = new Label(attendRows.get(i).get(j));
+                cellContents.setFont(Font.font("Arial", 14));
                 cell = new StackPane();
                 cell.setPadding(new Insets(5.0));
                 cell.getChildren().add(cellContents);
@@ -282,6 +308,8 @@ public class ClassPane {
             // edit the attendance
             int finalI = i;
             Button editButton = new Button("edit");
+            editButton.setMinWidth(50);
+            editButton.setMaxHeight(35);
             editButton.setOnAction(e -> EditButtons.editAttendance(attendRows, finalI, cellList));
             attendTable.add(editButton, attendedColumnCount, i + 1);
         }

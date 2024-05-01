@@ -37,10 +37,10 @@ public class MenuPane {
         Button classesButton = new Button("Classes");
         classesButton.setId("classesButton");
         classesButton.setOnAction(e -> switchDashboard(dashboardPane, classesPane, titlePane, "Classes"));
-        Button databaseInfoButton = new Button("Database Info");
+        Button databaseInfoButton = new Button("Database");
         databaseInfoButton.setId("databaseInfoButton");
         databaseInfoButton
-                .setOnAction(e -> switchDashboard(dashboardPane, databaseInfoPane, titlePane, "Database Info"));
+                .setOnAction(e -> switchDashboard(dashboardPane, databaseInfoPane, titlePane, "Database"));
 
         // settingsSpacingPane:- Pane used to space settings button on bottom of
         // menuPane.

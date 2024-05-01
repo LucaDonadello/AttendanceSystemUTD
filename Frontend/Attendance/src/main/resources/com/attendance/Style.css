@@ -20,7 +20,7 @@
     -fx-pref-width: 250px;
     -fx-pref-height: 50px;
     -fx-border-color: black;
-    -fx-font-size: 24;
+    -fx-font-size: 30;
     -fx-margin: 500px;
 }
 
@@ -44,6 +44,7 @@
     -fx-border-color: black; /* Border color */
     -fx-padding: 8 15 15 15;
     -fx-margin: 10px;
+    -fx-font-size: 20;
 }
 
 #quizzesButton:hover, #passwordsButton:hover, #classesButton:hover , #databaseInfoButton:hover{
@@ -64,11 +65,13 @@
     -fx-pref-height: 50px;
     -fx-padding: 10px 20px;
     -fx-margin: 10px;
+    -fx-font-size: 20;
 }
 
 #titlePane {
     -fx-border-color: black;
     -fx-min-height: 80;
+    -fx-font-size: 20;
 }
 
 #windowTitle {

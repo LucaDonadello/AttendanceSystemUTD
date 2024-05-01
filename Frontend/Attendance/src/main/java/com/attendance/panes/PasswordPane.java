@@ -18,6 +18,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +49,7 @@ public class PasswordPane {
         // create the grid for password and the titles
         for (int i = 0; i < passwordsColumnCount; i++) {
             cellContents = new Label(passwordsColumnNames.get(i));
+            cellContents.setFont(Font.font("Arial", 16));
             cell = new StackPane();
             cell.setPadding(new Insets(5));
             cell.getChildren().add(cellContents);
@@ -60,6 +63,7 @@ public class PasswordPane {
         for (int i = 0; i < passwordsRows.size(); i++) {
             for (int j = 0; j < passwordsRows.get(i).size(); j++) {
                 cellContents = new Label(passwordsRows.get(i).get(j));
+                cellContents.setFont(Font.font("Arial", 14));
                 cell = new StackPane();
                 cell.setPadding(new Insets(5));
                 cell.getChildren().add(cellContents);
@@ -71,6 +75,9 @@ public class PasswordPane {
             int finalI = i;
             // edit button
             Button editButton = new Button("edit");
+            editButton.setMaxHeight(35);
+            editButton.setMinWidth(50);
+            editButton.setFont(Font.font(14));
             editButton.setOnAction(e -> {
                 // edit database and change UI
                 EditButtons.editPassword(passwordsRows, finalI, cellsList);
@@ -78,6 +85,9 @@ public class PasswordPane {
 
             // delete button
             Button deleteButton = new Button("delete");
+            deleteButton.setMaxHeight(35);
+            deleteButton.setMinWidth(60);
+            deleteButton.setFont(Font.font(14));
             deleteButton.setOnAction(e -> {
                 int pos;
                 try {

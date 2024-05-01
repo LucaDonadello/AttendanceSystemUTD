@@ -12,6 +12,7 @@ import com.attendance.database.ConnectionDB;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 
 import java.sql.SQLException;
 
@@ -26,6 +27,7 @@ public class DatabaseInfoPane {
                         "\nName:               " + ConnectionDB.getDBConnection().getCatalog() +
                         "\nUsername:        " + ConnectionDB.getDBUsername() +
                         "\nPassword:         " + ConnectionDB.getDBPassword());
+        databaseInfo.setFont(Font.font("Arial", 16));
         databaseInfo.setId("databaseInfo");
         databaseInfo.setPadding(new Insets(25));
         databaseInfoPane.getChildren().add(databaseInfo);
