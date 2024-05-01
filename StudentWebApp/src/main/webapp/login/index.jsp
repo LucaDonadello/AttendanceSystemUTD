@@ -15,8 +15,6 @@
 <div class="info">
     <div class="university-name">University of Texas at Dallas</div>
     <div class="class-attendance">Class Attendance</div>
-    <div class="course" id="course-name">Student Login</div>
-    <div class="professor" id="professor-name">Retrieve Password from Instructor</div>
 </div>
 
 <%--Login Box--%>

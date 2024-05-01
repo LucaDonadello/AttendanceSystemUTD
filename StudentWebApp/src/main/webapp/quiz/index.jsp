@@ -16,13 +16,8 @@
     <div class="university-name">University of Texas at Dallas</div>
     <div class="class-attendance">Attendance Quiz</div>
     <div class="course" id="course-name">Course Name</div>
-    <div class="professor" id="professor-name">Student Name</div>
+    <div class="professor" id="professor-name">Student Name</div> <%-- Actually student's name --%>
 </div>
-
-<%--<div class="name-date">--%>
-<%--    <span class="name" id="student-name">Name: </span>--%>
-<%--    <span class="date" id="current-date">Date: </span>--%>
-<%--</div>--%>
 
 <%--Quiz form--%>
 <%--Upon quiz submission, it sends the information to the database to record the student's attendance--%>
