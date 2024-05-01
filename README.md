@@ -3,6 +3,7 @@
 - Samuel Benicewicz
 - Mohammed Basar
 - Khyati Desai
+- Dylan Farmer
 
 ## Introduction
 The Attendance Application is a JavaFX-based desktop application designed to facilitate attendance management for educational institutions. It provides a user-friendly interface for both administrators and students to manage and track attendance records. So far we also have a student fronend webpage working
