@@ -1,3 +1,14 @@
+/******************************************************************************
+ * EditButtons.java
+ * This class is used to create the edit buttons for the different tables in the database.
+ * The edit buttons allow the user to edit the data in the tables.
+ * The class contains methods to create the edit buttons for quizzes, passwords, classes,
+ * questions, students, and attendance.
+ * The class also contains methods to add classes and quizzes to the database.
+ * Written by Luca Donadello for CS4485.0W1 , Project Attendance System,
+ * starting >>>><<<<, 2024 NetID: lxd210013
+ * ******************************************************************************/
+
 package com.attendance;
 
 import com.attendance.database.ConnectionDB;
@@ -16,14 +27,19 @@ import java.util.List;
 import java.util.Objects;
 
 public class EditButtons {
-    // edit for quizzes
+
+    // edit for quiz
+    // create a new window to insert values
     public static void editQuiz(List<List<String>> quizRows, int finalI, List<StackPane> cellList) {
+        // create a new window to insert values
         Stage editStage = new Stage();
+        // create a new grid pane
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+        // create labels and text fields for each column
         Label quizIDLabel = new Label("QuizID:");
         TextField quizIDField = new TextField();
         quizIDField.setText(quizRows.get(finalI).get(0));
@@ -39,14 +55,20 @@ public class EditButtons {
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                QuerySystem.updateData("Quiz", List.of("Password_", "StartTime", "Duration"), List.of(passwordField.getText(), startTimeField.getText(), durationField.getText()), "QuizID=".concat(quizIDField.getText()));
+                // send query
+                QuerySystem.updateData("Quiz", List.of("Password_", "StartTime", "Duration"),
+                        List.of(passwordField.getText(), startTimeField.getText(), durationField.getText()),
+                        "QuizID=".concat(quizIDField.getText()));
                 // edit the UI
-                // save new values in  -- change in the other
-                int finalPos = finalI*(quizRows.size()+1); // 4 is the number of rows which is rows + 1
+                // save new values
+                int finalPos = finalI * (quizRows.size() + 1);
+                // save new values in quizRowsNew
                 List<String> quizRowsNew;
-                quizRowsNew = List.of(quizIDField.getText(), passwordField.getText(), startTimeField.getText(), durationField.getText());
-                System.out.println(finalPos);
-                for(int i = 0 ; i < quizRowsNew.size() ; i++, finalPos++) {
+                // save new values in quizRowsNew
+                quizRowsNew = List.of(quizIDField.getText(), passwordField.getText(), startTimeField.getText(),
+                        durationField.getText());
+                // update the UI with the new values in quizRowsNew
+                for (int i = 0; i < quizRowsNew.size(); i++, finalPos++) {
                     Label cellContents = new Label(quizRowsNew.get(i));
                     StackPane cellNew = new StackPane();
                     cellNew.getChildren().add(cellContents);
@@ -57,6 +79,7 @@ public class EditButtons {
             }
             editStage.close();
         });
+        // add the labels and text fields to the grid pane
         editPane.add(quizIDLabel, 0, 0);
         editPane.add(quizIDField, 1, 0);
         editPane.add(passwordLabel, 0, 1);
@@ -67,7 +90,8 @@ public class EditButtons {
         editPane.add(durationField, 1, 3);
         editPane.add(saveButton, 1, 4);
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets()
+                .add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }
@@ -75,12 +99,15 @@ public class EditButtons {
     // edit for password
     // create a new window to insert values
     public static void editPassword(List<List<String>> passwordsRows, int finalI, List<StackPane> cellList) {
+        // create a new window to insert values
         Stage editStage = new Stage();
+        // create a new grid pane
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+        // create labels and text fields for each column
         Label passwordLabel = new Label("Password:");
         TextField passwordField = new TextField();
         passwordField.setText(passwordsRows.get(finalI).get(0));
@@ -90,13 +117,17 @@ public class EditButtons {
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                QuerySystem.updateData("Quiz", List.of("Password_"), List.of(passwordField.getText()), "QuizID=".concat(quizIDField.getText()));
+                QuerySystem.updateData("Quiz", List.of("Password_"), List.of(passwordField.getText()),
+                        "QuizID=".concat(quizIDField.getText()));
                 // edit the UI
                 // save new values in passwordRowsNew
-                int finalPos = finalI*2;
+                int finalPos = finalI * 2;
+                // save new values in passwordRowsNew
                 List<List<String>> passwordsRowsNew = new ArrayList<>();
+                // save new values in passwordRowsNew
                 passwordsRowsNew.add(List.of(passwordField.getText(), quizIDField.getText()));
-                for(int i = 0 ; i <= passwordsRowsNew.size() ; i++, finalPos++) {
+                // update the UI with the new values in passwordRowsNew
+                for (int i = 0; i <= passwordsRowsNew.size(); i++, finalPos++) {
                     Label cellContents = new Label(passwordsRowsNew.get(0).get(i));
                     StackPane cellNew = new StackPane();
                     cellNew.getChildren().add(cellContents);
@@ -107,24 +138,31 @@ public class EditButtons {
             }
             editStage.close();
         });
+        // add the labels and text fields to the grid pane
         editPane.add(passwordLabel, 0, 0);
         editPane.add(passwordField, 1, 0);
         editPane.add(quizIDLabel, 0, 1);
         editPane.add(quizIDField, 1, 1);
         editPane.add(saveButton, 1, 2);
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets()
+                .add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }
 
+    // edit for classes
+    // create a new window to insert values
     public static void editClasses(List<List<String>> classesRows, int finalI, List<StackPane> cellList) {
+        // create a new window to insert values
         Stage editStage = new Stage();
+        // create a new grid pane
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+        // create labels and text fields for each column
         Label courseIDLabel = new Label("CourseID:");
         TextField courseIDField = new TextField();
         courseIDField.setText(classesRows.get(finalI).get(0));
@@ -146,14 +184,20 @@ public class EditButtons {
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                QuerySystem.updateData("Course", List.of("ClassName", "StartTime", "EndTime", "StartDate", "EndDate"), List.of(classNameField.getText(), startTimeField.getText(), endTimeField.getText(), startDateField.getText(), endDateField.getText()), "CourseID=".concat(courseIDField.getText()));
+                QuerySystem.updateData("Course", List.of("ClassName", "StartTime", "EndTime", "StartDate", "EndDate"),
+                        List.of(classNameField.getText(), startTimeField.getText(), endTimeField.getText(),
+                                startDateField.getText(), endDateField.getText()),
+                        "CourseID=".concat(courseIDField.getText()));
                 // edit the UI
                 // save new values
-                int finalPos = finalI*(classesRows.size()+3); // 4 is the number of rows which is rows + 3 ( num of buttons )
+                int finalPos = finalI * (classesRows.size() + 3);
+                // save new values in classesRowsNew
                 List<String> classesRowNew;
-                classesRowNew = List.of(courseIDField.getText(), classNameField.getText(), startTimeField.getText(), endTimeField.getText(), startDateField.getText(), endDateField.getText());
-                System.out.println(finalPos);
-                for(int i = 0 ; i < classesRowNew.size() ; i++, finalPos++) {
+                // save new values in classesRowsNew
+                classesRowNew = List.of(courseIDField.getText(), classNameField.getText(), startTimeField.getText(),
+                        endTimeField.getText(), startDateField.getText(), endDateField.getText());
+                // update the UI with the new values in classesRowsNew
+                for (int i = 0; i < classesRowNew.size(); i++, finalPos++) {
                     Label cellContents = new Label(classesRowNew.get(i));
                     StackPane cellNew = new StackPane();
                     cellNew.getChildren().add(cellContents);
@@ -164,6 +208,7 @@ public class EditButtons {
             }
             editStage.close();
         });
+        // add the labels and text fields to the grid pane
         editPane.add(courseIDLabel, 0, 0);
         editPane.add(courseIDField, 1, 0);
         editPane.add(classNameLabel, 0, 1);
@@ -179,74 +224,93 @@ public class EditButtons {
         editPane.add(saveButton, 1, 6);
 
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets()
+                .add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }
 
-    public static void editQuestions(List<List<String>> questionsRows, int finalI, List<StackPane> cellList){
-            Stage editStage = new Stage();
-            GridPane editPane = new GridPane();
-            editPane.setId("editPane");
-            editPane.setPadding(new Insets(10));
-            editPane.setHgap(10);
-            editPane.setVgap(10);
-            Label questionIDLabel = new Label("QuestionID:");
-            TextField questionIDField = new TextField();
-            questionIDField.setText(questionsRows.get(finalI).get(0));
-            Label questionLabel = new Label("Question:");
-            TextField questionField = new TextField();
-            questionField.setText(questionsRows.get(finalI).get(1));
-            Label quizBankLabel = new Label("QuizBankID:");
-            TextField QuizBankIDField = new TextField();
-            QuizBankIDField.setText(questionsRows.get(finalI).get(2));
-            Label correctAnswerLabel = new Label("CorrectAnswer:");
-            TextField correctAnswerField = new TextField();
-            correctAnswerField.setText(questionsRows.get(finalI).get(3));
-            Button saveButton = new Button("Save");
-            saveButton.setOnAction(event -> {
-                try {
-                    // send query
-                    QuerySystem.updateData("QuizQuestion", List.of("QuestionID", "Question", "QuizBankID", "CorrectAnswer"), List.of(questionIDField.getText(), questionField.getText(), QuizBankIDField.getText(), correctAnswerField.getText()), "QuestionID=".concat(questionIDField.getText()));
-                    // change UI -- new version change password
-                    int finalPos = finalI*2;
-                    List<String> questionRowsNew;
-                    questionRowsNew = List.of(questionIDField.getText(), questionField.getText(), QuizBankIDField.getText(), correctAnswerField.getText());
-                    System.out.println(questionRowsNew);
-                    for(int i = 0 ; i < questionRowsNew.size() ; i++, finalPos++) {
-                        System.out.println(questionRowsNew.size());
-                        Label cellContents = new Label(questionRowsNew.get(i));
-                        StackPane cellNew = new StackPane();
-                        cellNew.getChildren().add(cellContents);
-                        cellList.get(finalPos).getChildren().set(0, cellNew);
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                editStage.close();
-            });
-            editPane.add(questionIDLabel, 0, 0);
-            editPane.add(questionIDField, 1, 0);
-            editPane.add(questionLabel, 0, 1);
-            editPane.add(questionField, 1, 1);
-            editPane.add(quizBankLabel, 0, 2);
-            editPane.add(QuizBankIDField, 1, 2);
-            editPane.add(correctAnswerLabel, 0, 3);
-            editPane.add(correctAnswerField, 1, 3);
-            editPane.add(saveButton, 1, 4);
-            Scene editScene = new Scene(editPane);
-            editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
-            editStage.setScene(editScene);
-            editStage.show();
-    }
-
-    public static void editStudent(List<List<String>> studentsRows, int finalI, List<StackPane> cellList){
+    // edit for questions
+    // create a new window to insert values
+    public static void editQuestions(List<List<String>> questionsRows, int finalI, List<StackPane> cellList) {
+        // create a new window to insert values
         Stage editStage = new Stage();
+        // create a new grid pane
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+        // create labels and text fields for each column
+        Label questionIDLabel = new Label("QuestionID:");
+        TextField questionIDField = new TextField();
+        questionIDField.setText(questionsRows.get(finalI).get(0));
+        Label questionLabel = new Label("Question:");
+        TextField questionField = new TextField();
+        questionField.setText(questionsRows.get(finalI).get(1));
+        Label quizBankLabel = new Label("QuizBankID:");
+        TextField QuizBankIDField = new TextField();
+        QuizBankIDField.setText(questionsRows.get(finalI).get(2));
+        Label correctAnswerLabel = new Label("CorrectAnswer:");
+        TextField correctAnswerField = new TextField();
+        correctAnswerField.setText(questionsRows.get(finalI).get(3));
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(event -> {
+            try {
+                // send query
+                QuerySystem.updateData("QuizQuestion", List.of("QuestionID", "Question", "QuizBankID", "CorrectAnswer"),
+                        List.of(questionIDField.getText(), questionField.getText(), QuizBankIDField.getText(),
+                                correctAnswerField.getText()),
+                        "QuestionID=".concat(questionIDField.getText()));
+                // change UI
+                int finalPos = finalI * 2;
+                // save new values in questionRowsNew
+                List<String> questionRowsNew;
+                // save new values in questionRowsNew
+                questionRowsNew = List.of(questionIDField.getText(), questionField.getText(), QuizBankIDField.getText(),
+                        correctAnswerField.getText());
+                // update the UI with the new values in questionRowsNew
+                for (int i = 0; i < questionRowsNew.size(); i++, finalPos++) {
+                    System.out.println(questionRowsNew.size());
+                    Label cellContents = new Label(questionRowsNew.get(i));
+                    StackPane cellNew = new StackPane();
+                    cellNew.getChildren().add(cellContents);
+                    cellList.get(finalPos).getChildren().set(0, cellNew);
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            editStage.close();
+        });
+        // add the labels and text fields to the grid pane
+        editPane.add(questionIDLabel, 0, 0);
+        editPane.add(questionIDField, 1, 0);
+        editPane.add(questionLabel, 0, 1);
+        editPane.add(questionField, 1, 1);
+        editPane.add(quizBankLabel, 0, 2);
+        editPane.add(QuizBankIDField, 1, 2);
+        editPane.add(correctAnswerLabel, 0, 3);
+        editPane.add(correctAnswerField, 1, 3);
+        editPane.add(saveButton, 1, 4);
+        Scene editScene = new Scene(editPane);
+        editScene.getStylesheets()
+                .add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editStage.setScene(editScene);
+        editStage.show();
+    }
+
+    // edit for students
+    // create a new window to insert values
+    public static void editStudent(List<List<String>> studentsRows, int finalI, List<StackPane> cellList) {
+        // create a new window to insert values
+        Stage editStage = new Stage();
+        // create a new grid pane
+        GridPane editPane = new GridPane();
+        editPane.setId("editPane");
+        editPane.setPadding(new Insets(10));
+        editPane.setHgap(10);
+        editPane.setVgap(10);
+        // create labels and text fields for each column
         Label firstNameLabel = new Label("First Name:");
         TextField firstNameField = new TextField();
         firstNameField.setText(studentsRows.get(finalI).get(0));
@@ -265,14 +329,21 @@ public class EditButtons {
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                QuerySystem.updateData("Student", List.of("FirstName", "MiddleName", "LastName", "StudentNetID", "StudentUTDID"), List.of(firstNameField.getText(), middleNameField.getText(), lastNameField.getText(), studentNetIDField.getText(), studentUTDIDField.getText()), "StudentUTDID=".concat(studentUTDIDField.getText()));
+                QuerySystem.updateData("Student",
+                        List.of("FirstName", "MiddleName", "LastName", "StudentNetID", "StudentUTDID"),
+                        List.of(firstNameField.getText(), middleNameField.getText(), lastNameField.getText(),
+                                studentNetIDField.getText(), studentUTDIDField.getText()),
+                        "StudentUTDID=".concat(studentUTDIDField.getText()));
                 // edit the UI
                 // save new values
-                int finalPos = finalI*(studentsRows.size()+2); // 4 is the number of rows which is rows + 2
+                int finalPos = finalI * (studentsRows.size() + 2);
+                // save new values in studentRowsNew
                 List<String> studentRowsNew;
-                studentRowsNew = List.of(firstNameField.getText(), middleNameField.getText(), lastNameField.getText(), studentNetIDField.getText(), studentUTDIDField.getText());
-                System.out.println(finalPos);
-                for(int i = 0 ; i < studentRowsNew.size() ; i++, finalPos++) {
+                // save new values in studentRowsNew
+                studentRowsNew = List.of(firstNameField.getText(), middleNameField.getText(), lastNameField.getText(),
+                        studentNetIDField.getText(), studentUTDIDField.getText());
+                // update the UI with the new values in studentRowsNew
+                for (int i = 0; i < studentRowsNew.size(); i++, finalPos++) {
                     Label cellContents = new Label(studentRowsNew.get(i));
                     StackPane cellNew = new StackPane();
                     cellNew.getChildren().add(cellContents);
@@ -283,6 +354,7 @@ public class EditButtons {
             }
             editStage.close();
         });
+        // add the labels and text fields to the grid pane
         editPane.add(firstNameLabel, 0, 0);
         editPane.add(firstNameField, 1, 0);
         editPane.add(middleNameLabel, 0, 1);
@@ -295,70 +367,85 @@ public class EditButtons {
         editPane.add(studentUTDIDField, 1, 4);
         editPane.add(saveButton, 1, 5);
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets()
+                .add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }
 
-    public static void editAttendance(List<List<String>> attendanceRows, int finalI, List<StackPane> cellList){
+    // edit for attendance
+    // create a new window to insert values
+    public static void editAttendance(List<List<String>> attendanceRows, int finalI, List<StackPane> cellList) {
+        // create a new window to insert values
         Stage editStage = new Stage();
+        // create a new grid pane
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+        // create labels and text fields for each column
         Label attendedLabel = new Label("Attended:");
         TextField attendedField = new TextField();
         attendedField.setText(attendanceRows.get(finalI).get(0));
-
         Label dateAndTimeLabel = new Label("DateAndTime:");
         TextField dateAndTimeField = new TextField();
         dateAndTimeField.setText(attendanceRows.get(finalI).get(1));
-
         Label ipLabel = new Label("IPAddress:");
         TextField ipField = new TextField();
         ipField.setText(attendanceRows.get(finalI).get(2));
-
         Label macLabel = new Label("MACID:");
         TextField macField = new TextField();
         macField.setText(attendanceRows.get(finalI).get(3));
-
         Label StudentIDLabel = new Label("StudentUTDID:");
         TextField StudentIDField = new TextField();
         StudentIDField.setText(attendanceRows.get(finalI).get(4));
-
         Label CourseIDLabel = new Label("CourseID:");
         TextField CourseIDField = new TextField();
         CourseIDField.setText(attendanceRows.get(finalI).get(5));
-        
         Button saveButton = new Button("Save");
-        //find better
+        // save the new values in the database
+        // database values are stored as 1 for true and 0 for false
         String attendedTrue = "1";
         String attendedFalse = "0";
         saveButton.setOnAction(event -> {
             try {
-                if(attendedField.getText().equals("True") || attendedField.getText().equals("true") || attendedField.getText().equals("1"))
-                    QuerySystem.updateData("AttendanceInfo", List.of("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"), List.of(attendedTrue , dateAndTimeField.getText(), ipField.getText(), macField.getText(), StudentIDField.getText(), CourseIDField.getText()), "StudentUTDID=".concat(StudentIDField.getText()));
+                // send query to update the database based on the new values
+                if (attendedField.getText().equals("True") || attendedField.getText().equals("true")
+                        || attendedField.getText().equals("1"))
+                    QuerySystem.updateData("AttendanceInfo",
+                            List.of("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"),
+                            List.of(attendedTrue, dateAndTimeField.getText(), ipField.getText(), macField.getText(),
+                                    StudentIDField.getText(), CourseIDField.getText()),
+                            "StudentUTDID=".concat(StudentIDField.getText()));
                 else
-                    QuerySystem.updateData("AttendanceInfo", List.of("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"), List.of(attendedFalse , dateAndTimeField.getText(), ipField.getText(), macField.getText(), StudentIDField.getText(), CourseIDField.getText()), "StudentUTDID=".concat(StudentIDField.getText()));
+                    QuerySystem.updateData("AttendanceInfo",
+                            List.of("Attended", "DateAndTime", "IPAddress", "MACID", "StudentUTDID", "CourseID"),
+                            List.of(attendedFalse, dateAndTimeField.getText(), ipField.getText(), macField.getText(),
+                                    StudentIDField.getText(), CourseIDField.getText()),
+                            "StudentUTDID=".concat(StudentIDField.getText()));
 
-            // edit the UI
-            // save new values
-            int finalPos = finalI*(attendanceRows.size()+4); // 4 is the number of rows which is rows + 2
-            List<String> attendanceRowsNew;
-            attendanceRowsNew = List.of(attendedField.getText(), dateAndTimeField.getText(), ipField.getText(), macField.getText(), StudentIDField.getText());
-            System.out.println(finalPos);
-            for(int i = 0 ; i <= attendanceRowsNew.size() ; i++, finalPos++) {
-                Label cellContents = new Label(attendanceRowsNew.get(i));
-                StackPane cellNew = new StackPane();
-                cellNew.getChildren().add(cellContents);
-                cellList.get(finalPos).getChildren().set(0, cellNew);
-            }
+                // edit the UI
+                // save new values
+                int finalPos = finalI * (attendanceRows.size() + 4);
+                // save new values in attendanceRowsNew
+                List<String> attendanceRowsNew;
+                // save new values in attendanceRowsNew
+                attendanceRowsNew = List.of(attendedField.getText(), dateAndTimeField.getText(), ipField.getText(),
+                        macField.getText(), StudentIDField.getText());
+                // update the UI with the new values in attendanceRowsNew
+                for (int i = 0; i <= attendanceRowsNew.size(); i++, finalPos++) {
+                    Label cellContents = new Label(attendanceRowsNew.get(i));
+                    StackPane cellNew = new StackPane();
+                    cellNew.getChildren().add(cellContents);
+                    cellList.get(finalPos).getChildren().set(0, cellNew);
+                }
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
             editStage.close();
         });
+        // add the labels and text fields to the grid pane
         editPane.add(attendedLabel, 0, 0);
         editPane.add(attendedField, 1, 0);
         editPane.add(dateAndTimeLabel, 0, 1);
@@ -373,28 +460,36 @@ public class EditButtons {
         editPane.add(CourseIDField, 1, 5);
         editPane.add(saveButton, 1, 6);
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets()
+                .add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }
+
     // edit database info
+    // create a new window to insert values
     public static void editDatabaseInfo() {
+        // create a new window to insert values
         Stage editStage = new Stage();
+        // create a new grid pane
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+        // create labels and text fields for each column
         Label urlLabel = new Label("URL:");
         TextField urlField = new TextField();
         urlField.setText(ConnectionDB.getDBURL());
         Label nameLabel = new Label("Name:");
         TextField nameField = new TextField();
         try {
+            // get the database name
             nameField.setText(ConnectionDB.getDBConnection().getCatalog());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        // get the database username password and set the text fields to the values
         Label usernameLabel = new Label("Username:");
         TextField usernameField = new TextField();
         usernameField.setText(ConnectionDB.getDBUsername());
@@ -403,11 +498,14 @@ public class EditButtons {
         passwordField.setText(ConnectionDB.getDBPassword());
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
+            // save the new values in the database
             ConnectionDB.setDBURL(urlField.getText());
             ConnectionDB.setDBUsername(usernameField.getText());
             ConnectionDB.setDBPassword(passwordField.getText());
+
             editStage.close();
         });
+        // add the labels and text fields to the grid pane
         editPane.add(urlLabel, 0, 0);
         editPane.add(urlField, 1, 0);
         editPane.add(nameLabel, 0, 1);
@@ -418,18 +516,24 @@ public class EditButtons {
         editPane.add(passwordField, 1, 3);
         editPane.add(saveButton, 1, 4);
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets()
+                .add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }
 
+    // add class
+    // create a new window to insert values
     public static void addClass() {
+        // create a new window to insert values
         Stage editStage = new Stage();
+        // create a new grid pane
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+        // create labels and text fields for each column
         Label courseIDLabel = new Label("CourseID:");
         TextField courseIDField = new TextField();
         courseIDField.setText("");
@@ -451,12 +555,17 @@ public class EditButtons {
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                QuerySystem.insertData("Course", List.of("CourseID", "ClassName", "StartTime", "EndTime", "StartDate", "EndDate"), List.of(courseIDField.getText(), classNameField.getText(), startTimeField.getText(), endTimeField.getText(), startDateField.getText(), endDateField.getText()));
+                // send query to insert the new values in the database
+                QuerySystem.insertData("Course",
+                        List.of("CourseID", "ClassName", "StartTime", "EndTime", "StartDate", "EndDate"),
+                        List.of(courseIDField.getText(), classNameField.getText(), startTimeField.getText(),
+                                endTimeField.getText(), startDateField.getText(), endDateField.getText()));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
             editStage.close();
         });
+        // add the labels and text fields to the grid pane
         editPane.add(courseIDLabel, 0, 0);
         editPane.add(courseIDField, 1, 0);
         editPane.add(classNameLabel, 0, 1);
@@ -470,20 +579,25 @@ public class EditButtons {
         editPane.add(endDateLabel, 0, 5);
         editPane.add(endDateField, 1, 5);
         editPane.add(saveButton, 1, 6);
-
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets()
+                .add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }
 
+    // add quiz
+    // create a new window to insert values
     public static void addQuiz() {
+        // create a new window to insert values
         Stage editStage = new Stage();
+        // create a new grid pane
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+        // create labels and text fields for each column
         Label quizIDLabel = new Label("QuizID:");
         TextField quizIDField = new TextField();
         quizIDField.setText("");
@@ -511,12 +625,19 @@ public class EditButtons {
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                QuerySystem.insertData("Quiz", List.of("QuizID", "QuizBankID", "NumberOfQuestions", "Duration", "StartTime", "StudentAnswers", "DisplayQuiz", "Password_"), List.of(quizIDField.getText(), quizBankIDField.getText(), numberOfQuestionsField.getText(), durationField.getText(), startTimeField.getText(), studentAnswersField.getText(), displayQuizField.getText(), passwordField.getText()));
+                // send query to insert the new values in the database
+                QuerySystem.insertData("Quiz",
+                        List.of("QuizID", "QuizBankID", "NumberOfQuestions", "Duration", "StartTime", "StudentAnswers",
+                                "DisplayQuiz", "Password_"),
+                        List.of(quizIDField.getText(), quizBankIDField.getText(), numberOfQuestionsField.getText(),
+                                durationField.getText(), startTimeField.getText(), studentAnswersField.getText(),
+                                displayQuizField.getText(), passwordField.getText()));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
             editStage.close();
         });
+        // add the labels and text fields to the grid pane
         editPane.add(quizIDLabel, 0, 0);
         editPane.add(quizIDField, 1, 0);
         editPane.add(quizBankIDLabel, 0, 1);
@@ -535,18 +656,24 @@ public class EditButtons {
         editPane.add(passwordField, 1, 7);
         editPane.add(saveButton, 1, 8);
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets()
+                .add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }
 
+    // edit quiz schedule
+    // create a new window to insert values
     public static void editQuizSchedule(List<List<String>> quizClassRows, int finalI, String CourseID) {
+        // create a new window to insert values
         Stage editStage = new Stage();
+        // create a new grid pane
         GridPane editPane = new GridPane();
         editPane.setId("editPane");
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+        // create labels and text fields for each column
         Label quizIDLabel = new Label("QuizID:");
         TextField quizIDField = new TextField();
         quizIDField.setText(quizClassRows.get(finalI).get(0));
@@ -555,17 +682,21 @@ public class EditButtons {
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-                QuerySystem.updateData("Course", List.of("QuizID"), List.of(quizIDField.getText()), "CourseID = ".concat(CourseID));
+                // send query to update the database with the new values
+                QuerySystem.updateData("Course", List.of("QuizID"), List.of(quizIDField.getText()),
+                        "CourseID = ".concat(CourseID));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
             editStage.close();
         });
+        // add the labels and text fields to the grid pane
         editPane.add(quizIDLabel, 0, 0);
         editPane.add(quizIDField, 1, 0);
         editPane.add(saveButton, 1, 2);
         Scene editScene = new Scene(editPane);
-        editScene.getStylesheets().add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
+        editScene.getStylesheets()
+                .add(Objects.requireNonNull(EditButtons.class.getResource("Style.css")).toExternalForm());
         editStage.setScene(editScene);
         editStage.show();
     }

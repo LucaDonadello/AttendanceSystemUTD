@@ -1,4 +1,13 @@
-//Luca Donadello
+/******************************************************************************
+ * Description: This file contains the QuerySystem class which is used to query the database.
+ * The QuerySystem class contains methods to execute select, insert, delete, and update queries
+ * on the database. The selectQuery method is used to query the database using a select statement
+ * and returns the result as a two-dimensional object arraylist. The insertData method is used to
+ * insert data into the database. The deleteData method is used to delete data from the database.
+ * The updateData method is used to update data in the database.
+ * Written by Luca Donadello for CS4485.0W1 , Project Attendance System,
+ * starting >>>><<<<, 2024 NetID: lxd210013
+ * ******************************************************************************/
 
 package com.attendance.database;
 
@@ -11,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class QuerySystem {
+    // Dylan famer
     // helper method to query select statement on database as two-dimensional object arraylist
     // -takes in a list of 6 Strings that may either be blank("") or have a specified conditional value:
     // SELECT    String_1

@@ -1,3 +1,12 @@
+/******************************************************************************
+ * This file is used to establish a connection to the database.
+ * The ConnectionDB class contains methods to get and set the database URL,
+ * username, and password. It also contains a method to get a connection to the
+ * database.
+ * Written by Luca Donadello for CS4485.0W1 , Project Attendance System,
+ * starting >>>><<<<, 2024 NetID: lxd210013
+ ******************************************************************************/
+
 package com.attendance.database;
 import java.sql.*;
 

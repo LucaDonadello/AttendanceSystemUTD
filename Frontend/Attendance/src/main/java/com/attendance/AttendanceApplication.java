@@ -1,3 +1,14 @@
+/******************************************************************************
+ * The attendanceApplication class is the main class of the attendance application.
+ * This class contains the start method which initializes the application window
+ * and sets up the menu and dashboard panes. The menu pane contains buttons to
+ * navigate to different pages of the application, and the dashboard pane contains
+ * the content of the current page. The application window is built using JavaFX.
+ * The main method of this class launches the application.
+ * Written by Luca Donadello and Dylan Farmer for CS4485.0W1 , Project Attendance System,
+ * starting April 6, 2024 NetID: lxd210013
+ * ******************************************************************************/
+
 package com.attendance;
 
 import com.attendance.panes.*;
@@ -12,6 +23,7 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.util.Objects;
 public class AttendanceApplication extends Application {
+    // start:- Initializes the application window and sets up the menu and dashboard panes.
     @Override
     public void start(Stage stage) throws SQLException {
         // rootPane:- Root pane of the application window.
