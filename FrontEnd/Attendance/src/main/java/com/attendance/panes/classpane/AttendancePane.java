@@ -1,3 +1,16 @@
+/******************************************************************************
+ * Description: This class creates the attendance pane for the student. The
+ * AttendancePane class contains a method to build the attendance pane for the
+ * student. The method takes in the student ID and creates a table to display
+ * the attendance for the student. The table includes columns for the date and
+ * time of the attendance, the IP address, the MAC address, the student ID, and
+ * the course ID. The table also includes an edit button for each row, which
+ * allows the user to edit the attendance data. The method returns the attendance
+ * pane as a Pane object.
+ * Written by Luca Donadello, Dylan Farmer for CS4485.0W1 , Project Attendance System,
+ * starting 25/03/2024 NetID: lxd210013
+ * ******************************************************************************/
+
 package com.attendance.panes.classpane;
 
 import com.attendance.database.QuerySystem;
@@ -72,9 +85,9 @@ public class AttendancePane {
             attendTable.add(editButton, attendedColumnCount, i + 1);
         }
 
-        //create scrollable pane in case too many entries for size of the Wrapper pane
+        // create scrollable pane in case too many entries for size of the Wrapper pane
         ScrollPane sp = new ScrollPane(attendTable);
-        sp.setPadding(new Insets(35,0,0,0));
+        sp.setPadding(new Insets(35, 0, 0, 0));
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setFitToHeight(true);

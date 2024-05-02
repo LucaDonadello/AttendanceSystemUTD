@@ -35,25 +35,32 @@ public class AddClass {
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+
         // create labels and text fields for each column
         Label courseIDLabel = new Label("CourseID:");
         TextField courseIDField = new TextField();
         courseIDField.setText("");
+
         Label classNameLabel = new Label("ClassName:");
         TextField classNameField = new TextField();
         classNameField.setText("");
+
         Label startTimeLabel = new Label("StartTime:");
         TextField startTimeField = new TextField();
         startTimeField.setText("");
+
         Label endTimeLabel = new Label("EndTime:");
         TextField endTimeField = new TextField();
         endTimeField.setText("");
+
         Label startDateLabel = new Label("StartDate:");
         TextField startDateField = new TextField();
         startDateField.setText("");
+
         Label endDateLabel = new Label("EndDate:");
         TextField endDateField = new TextField();
         endDateField.setText("");
+
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {

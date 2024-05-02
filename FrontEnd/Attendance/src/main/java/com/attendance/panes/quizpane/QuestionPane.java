@@ -1,3 +1,15 @@
+/******************************************************************************
+ * Description: This class creates the questions pane for the quizzes page. The
+ * QuestionPane class contains a method to build the questions pane for a
+ * particular quiz. The method takes in the quiz ID and creates a table to
+ * display the questions for the quiz. The table includes columns for the
+ * question ID, the question, the quiz bank ID, and the correct answer. The
+ * table also includes an edit button for each row, which allows the user to edit
+ * the question data. The method returns the questions pane as a Pane object.
+ * Written by Luca Donadello, Dylan Farmer for CS4485.0W1 , Project Attendance System,
+ * starting 25/03/2024 NetID: lxd210013
+ * ******************************************************************************/
+
 package com.attendance.panes.quizpane;
 
 import com.attendance.database.QuerySystem;

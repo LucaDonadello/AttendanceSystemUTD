@@ -4,7 +4,7 @@
  * password banks.The table contains the password and quiz ID columns. The class also contains 
  * a method that allows the user to edit the password bank.
  * Written by Luca Donadello and Dylan Farmer for CS4485.0W1 , Project Attendance System,
- * starting >>>><<<<, 2024 NetID: lxd210013
+ * starting 25/03/2024, 2024 NetID: lxd210013
  * ******************************************************************************/
 
 package com.attendance.panes;
@@ -20,7 +20,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
-import javafx.scene.input.MouseEvent;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class PasswordPane {
         // create a list of column names for the password table
         List<String> passwordsColumnNames = new ArrayList<>(Arrays.asList("Password", "QuizID"));
         int passwordsColumnCount = passwordsColumnNames.size();
-        StackPane cell = null;
+        StackPane cell;
         Label cellContents;
         // create the grid for password and the titles
         for (int i = 0; i < passwordsColumnCount; i++) {
@@ -118,7 +117,7 @@ public class PasswordPane {
             passwordsTable.add(deleteButton, passwordsColumnCount + 1, i + 1);
         }
 
-        //create scrollable pane in case too many entries for size of the Wrapper pane
+        // create scrollable pane in case too many entries for size of the Wrapper pane
         ScrollPane sp = new ScrollPane(passwordsTable);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);

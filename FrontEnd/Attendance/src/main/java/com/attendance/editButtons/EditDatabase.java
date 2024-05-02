@@ -1,3 +1,15 @@
+/******************************************************************************
+ * Description: This class is used to edit the class data in the database.
+ * The EditClass class contains a method to create a new window to edit the
+ * class data. The method takes in the class data, the index of the
+ * row to be edited, and a list of StackPane objects representing the cells in
+ * the table. The method creates a new window with text fields for each column
+ * of the class data, allowing the user to edit the data. The user can then
+ * save the changes, which updates the database and the UI.
+ * Written by Luca Donadello for CS4485.0W1 , Project Attendance System,
+ * starting 15/04/2024 NetID: lxd210013
+ * ******************************************************************************/
+
 package com.attendance.editButtons;
 
 import com.attendance.AttendanceApplication;
@@ -41,9 +53,11 @@ public class EditDatabase {
         Label usernameLabel = new Label("Username:");
         TextField usernameField = new TextField();
         usernameField.setText(ConnectionDB.getDBUsername());
+
         Label passwordLabel = new Label("Password:");
         TextField passwordField = new TextField();
         passwordField.setText(ConnectionDB.getDBPassword());
+
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             // save the new values in the database

@@ -1,12 +1,26 @@
+/******************************************************************************
+ * Description: This class is used to edit the attendance data in the database.
+ * The EditAttendance class contains a method to create a new window to edit the
+ * attendance data. The method takes in the attendance data, the index of the
+ * row to be edited, and a list of StackPane objects representing the cells in
+ * the table. The method creates a new window with text fields for each column
+ * of the attendance data, allowing the user to edit the data. The user can then
+ * save the changes, which updates the database and the UI.
+ * Written by Luca Donadello for CS4485.0W1 , Project Attendance System,
+ * starting 15/04/2024 NetID: lxd210013
+ * ******************************************************************************/
+
 package com.attendance.editButtons;
 
 import com.attendance.AttendanceApplication;
 import com.attendance.database.QuerySystem;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
@@ -28,24 +42,56 @@ public class EditAttendance {
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+
         // create labels and text fields for each column
         Label attendedLabel = new Label("Attended:");
         TextField attendedField = new TextField();
         attendedField.setText(attendanceRows.get(finalI).get(0));
+
         Label dateAndTimeLabel = new Label("DateAndTime:");
         TextField dateAndTimeField = new TextField();
         dateAndTimeField.setText(attendanceRows.get(finalI).get(1));
+        dateAndTimeField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9:-]")) {
+                event.consume();
+            }
+        });
+
         Label ipLabel = new Label("IPAddress:");
         TextField ipField = new TextField();
         ipField.setText(attendanceRows.get(finalI).get(2));
+        dateAndTimeField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9:-]")) {
+                event.consume();
+            }
+        });
+
         Label macLabel = new Label("MACID:");
         TextField macField = new TextField();
         macField.setText(attendanceRows.get(finalI).get(3));
+        dateAndTimeField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9:-]")) {
+                event.consume();
+            }
+        });
+
         Label StudentIDLabel = new Label("StudentUTDID:");
         TextField StudentIDField = new TextField();
         StudentIDField.setText(attendanceRows.get(finalI).get(4));
+        dateAndTimeField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9:-]")) {
+                event.consume();
+            }
+        });
+
         Label CourseIDLabel = new Label("CourseID:");
         TextField CourseIDField = new TextField();
+        dateAndTimeField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9:-]")) {
+                event.consume();
+            }
+        });
+
         CourseIDField.setText(attendanceRows.get(finalI).get(5));
         Button saveButton = new Button("Save");
         // save the new values in the database
@@ -86,6 +132,12 @@ public class EditAttendance {
                     cellList.get(finalPos).getChildren().set(0, cellNew);
                 }
             } catch (SQLException ex) {
+                // Display error message if SQL query fails
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("SQL Server Error");
+                alert.setHeaderText("An error occurred while updating data in the SQL server.");
+                alert.setContentText(ex.getMessage());
+                alert.showAndWait();
                 throw new RuntimeException(ex);
             }
             editStage.close();

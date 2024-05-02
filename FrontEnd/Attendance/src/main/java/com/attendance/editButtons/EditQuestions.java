@@ -1,12 +1,26 @@
+/******************************************************************************
+ * Description: This class is used to edit the class data in the database.
+ * The EditClass class contains a method to create a new window to edit the
+ * class data. The method takes in the class data, the index of the
+ * row to be edited, and a list of StackPane objects representing the cells in
+ * the table. The method creates a new window with text fields for each column
+ * of the class data, allowing the user to edit the data. The user can then
+ * save the changes, which updates the database and the UI.
+ * Written by Luca Donadello for CS4485.0W1 , Project Attendance System,
+ * starting 15/04/2024 NetID: lxd210013
+ * ******************************************************************************/
+
 package com.attendance.editButtons;
 
 import com.attendance.AttendanceApplication;
 import com.attendance.database.QuerySystem;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
@@ -28,19 +42,34 @@ public class EditQuestions {
         editPane.setPadding(new Insets(10));
         editPane.setHgap(10);
         editPane.setVgap(10);
+
         // create labels and text fields for each column
         Label questionIDLabel = new Label("QuestionID:");
         TextField questionIDField = new TextField();
         questionIDField.setText(questionsRows.get(finalI).get(0));
+        questionIDField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9]")) {
+                event.consume();
+            }
+        });
+
         Label questionLabel = new Label("Question:");
         TextField questionField = new TextField();
         questionField.setText(questionsRows.get(finalI).get(1));
+
         Label quizBankLabel = new Label("QuizBankID:");
         TextField QuizBankIDField = new TextField();
         QuizBankIDField.setText(questionsRows.get(finalI).get(2));
+        QuizBankIDField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9]")) {
+                event.consume();
+            }
+        });
+
         Label correctAnswerLabel = new Label("CorrectAnswer:");
         TextField correctAnswerField = new TextField();
         correctAnswerField.setText(questionsRows.get(finalI).get(3));
+
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
@@ -65,6 +94,12 @@ public class EditQuestions {
                     cellList.get(finalPos).getChildren().set(0, cellNew);
                 }
             } catch (SQLException ex) {
+                // Display error message if SQL query fails
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("SQL Server Error");
+                alert.setHeaderText("An error occurred while updating data in the SQL server.");
+                alert.setContentText(ex.getMessage());
+                alert.showAndWait();
                 throw new RuntimeException(ex);
             }
             editStage.close();

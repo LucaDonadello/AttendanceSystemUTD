@@ -7,7 +7,7 @@
  * student. The code in this file uses the QuerySystem class to query the
  * database and the EditButtons class to handle user interactions.
  * Written by Luca Donadello and Dylan farmer for CS4485.0W1 , Project Attendance System,
- * starting >>>><<<<, 2024 NetID: lxd210013
+ * starting 25/03/2024, 2024 NetID: lxd210013
  * ******************************************************************************/
 
 package com.attendance.panes.classpane;
@@ -91,7 +91,9 @@ public class ClassPane {
                 try {
                     // switch to the students pane
                     switchDashboard(dashboardPane,
-                            buildStudentsPane(dashboardPane, titlePane, classesRows.get(finalI).get(0), classesPane), titlePane,
+                            buildStudentsPane(dashboardPane, titlePane, classesRows.get(finalI).get(0), classesPane,
+                                    classesRows.get(finalI).get(0)),
+                            titlePane,
                             "Attendance");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -123,6 +125,7 @@ public class ClassPane {
                     StackPane cellEmpty = new StackPane();
                     cellEmpty.getChildren().add(cellContentsEmpty);
                     classesTable.getChildren().remove(pos, pos + 9);
+
                     // set the index of each cell to the new value starting form 0 to the end
                     for (int j = pos; j < classesTable.getChildren().size(); j++) {
                         Node node = classesTable.getChildren().get(j);
@@ -138,9 +141,8 @@ public class ClassPane {
             classesTable.add(deleteButton, classesColumnCount + 2, i + 1);
         }
 
-
         ScrollPane sp = new ScrollPane(classesTable);
-        sp.setPadding(new Insets(35,0,0,0));
+        sp.setPadding(new Insets(35, 0, 0, 0));
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setFitToHeight(true);

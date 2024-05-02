@@ -9,7 +9,7 @@
  * that the quiz has been scheduled. The class also contains a method that allows
  * the user to edit the quiz schedule.
  * Written by Luca Donadello and Dylan Farmer for CS4485.0W1 , Project Attendance System,
- * starting >>>><<<<, 2024 NetID: lxd210013
+ * starting 25/03/2024, 2024 NetID: lxd210013
  * ******************************************************************************/
 
 package com.attendance.panes;
@@ -88,7 +88,22 @@ public class scheduleQuizPane {
                     // update display quiz to true
                     QuerySystem.updateData("Quiz", List.of("DisplayQuiz"), List.of("1"),
                             "QuizID = ".concat(quizClassRows.get(finalI).get(0)));
-                    // show pop-up message
+
+                    // select all the utdIDs from calss
+                    List<List<String>> utdIDs = ConverterObjToStr.convertObjListToStrList(
+                            QuerySystem.selectQuery(new ArrayList<>(Arrays.asList("Attendance.StudentUTDID",
+                                    "Student INNER JOIN Attendance on Student.StudentUTDID = Attendance.StudentUTDID INNER JOIN Course ON Attendance.CourseID = Course.CourseID",
+                                    "Course.CourseID = ".concat(quizClassRows.get(finalI).get(2)), "", "", ""))));
+
+                    for (int j = 0; j < utdIDs.size(); j++) {
+                        // insert the quiz into the attendance table
+                        QuerySystem.insertData("AttendanceInfo",
+                                List.of("AttendanceInfoID", "Attended", "DateAndTime", "IPAddress", "MacID",
+                                        "StudentUTDID", "CourseID"),
+                                List.of("0", "0", "2024-01-01", "0.0.0.0", "00:00:00:00:00:00", utdIDs.get(j).get(0),
+                                        quizClassRows.get(finalI).get(2)));
+                    }
+
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Quiz Scheduled");
                     alert.setHeaderText(null);

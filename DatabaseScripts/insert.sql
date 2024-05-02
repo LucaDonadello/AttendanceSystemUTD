@@ -53,10 +53,10 @@ VALUES (1, 123456789, 1, 1),
     (3, 111111111, 3, 3);
 
 -- Inserting entries into the Course table
-INSERT INTO Course (CourseID, StartTime, EndTime, StartDate, EndDate, ClassName, StudentUTDID, ProfessorUTDID, QuizBankID, QuizID)
-VALUES (1, '09:00:00', '10:30:00', '2024-01-01', '2024-05-01', 'Introduction to SQL', 123456789, 555555555, 1, 1),
-    (2, '11:00:00', '12:30:00', '2024-01-01', '2024-05-01', 'Web Development', 987654321, 888888888, 2, 2),
-    (3, '13:00:00', '14:30:00', '2024-01-01', '2024-05-01', 'Data Structures', 111111111, 999999999, 3, 3);
+INSERT INTO Course (CourseID, StartTime, EndTime, StartDate, EndDate, ClassName, ProfessorUTDID, QuizBankID, QuizID)
+VALUES (1, '09:00:00', '10:30:00', '2024-01-01', '2024-05-01', 'Introduction to SQL',  555555555, 1, 1),
+    (2, '11:00:00', '12:30:00', '2024-01-01', '2024-05-01', 'Web Development', 888888888, 2, 2),
+    (3, '13:00:00', '14:30:00', '2024-01-01', '2024-05-01', 'Data Structures', 999999999, 3, 3);
 
 -- Inserting entries into the Attendance table
 INSERT INTO Attendance (StudentUTDID, CourseID)

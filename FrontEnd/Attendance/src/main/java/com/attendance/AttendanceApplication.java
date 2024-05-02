@@ -6,7 +6,7 @@
  * the content of the current page. The application window is built using JavaFX.
  * The main method of this class launches the application.
  * Written by Luca Donadello and Dylan Farmer for CS4485.0W1 , Project Attendance System,
- * starting April 6, 2024 NetID: lxd210013
+ * starting 22/03/2024, 2024 NetID: lxd210013
  * ******************************************************************************/
 
 package com.attendance;
@@ -24,8 +24,10 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.sql.*;
 import java.util.Objects;
+
 public class AttendanceApplication extends Application {
-    // start:- Initializes the application window and sets up the menu and dashboard panes.
+    // start:- Initializes the application window and sets up the menu and dashboard
+    // panes.
     @Override
     public void start(Stage stage) throws SQLException {
         // rootPane:- Root pane of the application window.
@@ -56,7 +58,7 @@ public class AttendanceApplication extends Application {
         ColumnConstraints windowColumnConstraint = new ColumnConstraints();
         windowColumnConstraint.setHgrow(Priority.ALWAYS);
         windowPane.getColumnConstraints().add(windowColumnConstraint);
-        rootPane.add(windowPane,1 ,0);
+        rootPane.add(windowPane, 1, 0);
 
         // titlePane:- Upper partition of windowPane.
         StackPane titlePane = new StackPane();
@@ -72,27 +74,33 @@ public class AttendanceApplication extends Application {
         dashboardPane.setId("dashboardPane");
         windowPane.add(dashboardPane, 0, 1);
 
-        //create the Panes for each section
+        // create the Panes for each section
         Pane scheduleQuiz = scheduleQuizPane.buildScheduleQuiz();
         Pane quizzesPane = QuizPane.buildQuizPane(dashboardPane, titlePane);
         Pane passwordsPane = PasswordPane.buildPasswordPane();
         Pane classesPane = ClassPane.buildClassesPane(dashboardPane, titlePane);
         Pane databaseInfoPane = DatabaseInfoPane.buildDatabaseInfoPane();
-        MenuPane.buildMenu(dashboardPane, quizzesPane, titlePane, menuPane, passwordsPane, classesPane, databaseInfoPane, scheduleQuiz);
+        MenuPane.buildMenu(dashboardPane, quizzesPane, titlePane, menuPane, passwordsPane, classesPane,
+                databaseInfoPane, scheduleQuiz);
 
         // set default dashboard to quizzes page
         SwitchDashboard.switchDashboard(dashboardPane, quizzesPane, titlePane, "Quizzes");
 
         // create the application scene and set the scene/stage:
-        // applicationScene:- Scene containing all main functionality of attendance application.
+        // applicationScene:- Scene containing all main functionality of attendance
+        // application.
         Scene applicationScene = new Scene(rootPane);
-        applicationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm()); // retrieve application stylesheet
+        applicationScene.getStylesheets()
+                .add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm()); // retrieve
+                                                                                                    // application
+                                                                                                    // stylesheet
         stage.setTitle("Attendance App");
         stage.setScene(applicationScene);
         stage.setWidth(1200);
         stage.setHeight(1000);
         stage.show();
     }
+
     public static void main(String[] args) {
         launch();
     }

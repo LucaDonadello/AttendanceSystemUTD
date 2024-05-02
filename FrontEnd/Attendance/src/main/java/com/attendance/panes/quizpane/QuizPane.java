@@ -9,7 +9,7 @@
  * and correct answer columns. The class also contains a method that allows the user to edit
  * the quiz questions.
  * Written by Luca Donadello and Dylan Farmer for CS4485.0W1 , Project Attendance System,
- * starting >>>><<<<, 2024 NetID: lxd210013
+ * starting 25/03/2024, 2024 NetID: lxd210013
  * ******************************************************************************/
 
 package com.attendance.panes.quizpane;
@@ -148,7 +148,7 @@ public class QuizPane {
         }
 
         ScrollPane sp = new ScrollPane(quizzesTable);
-        sp.setPadding(new Insets(35,0,0,0));
+        sp.setPadding(new Insets(35, 0, 0, 0));
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setFitToHeight(true);

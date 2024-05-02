@@ -3,7 +3,7 @@
  * displays the location, name, username, and password of the database.
  * The class contains a method that builds the database info pane.
  * Written by Luca Donadello And Dylan Farmer for CS4485.0W1 , Project Attendance System,
- * starting >>>><<<<, 2024 NetID: lxd210013
+ * starting 23/03/2024, 2024 NetID: lxd210013
  * ******************************************************************************/
 
 package com.attendance.panes;
@@ -13,7 +13,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-
 import java.sql.SQLException;
 
 public class DatabaseInfoPane {

@@ -1,3 +1,16 @@
+/******************************************************************************
+ * Description: This class creates the attendance pane for the student. The
+ * AttendancePane class contains a method to build the attendance pane for the
+ * student. The method takes in the student ID and creates a table to display
+ * the attendance for the student. The table includes columns for the date and
+ * time of the attendance, the IP address, the MAC address, the student ID, and
+ * the course ID. The table also includes an edit button for each row, which
+ * allows the user to edit the attendance data. The method returns the attendance
+ * pane as a Pane object.
+ * Written by Luca Donadello Dylan Farmer for CS4485.0W1 , Project Attendance System,
+ * starting 25/03/2024 NetID: lxd210013
+ * ******************************************************************************/
+
 package com.attendance.panes.classpane;
 
 import com.attendance.database.QuerySystem;
@@ -26,7 +39,8 @@ import static com.attendance.panes.classpane.AttendancePane.buildAttendancePane;
 import static com.attendance.utilities.SwitchDashboard.switchDashboard;
 
 public class StudentPane {
-    public static Pane buildStudentsPane(Pane dashboardPane, Pane titlePane, String courseID, Pane classesPane) throws SQLException {
+    public static Pane buildStudentsPane(Pane dashboardPane, Pane titlePane, String courseID, Pane classesPane,
+            String classID) throws SQLException {
         // questionsPane:- Page containing a table of all questions for a particular
         // quiz and buttons to upload/create questions.
         // -accessible from the quizzes page table
@@ -40,13 +54,29 @@ public class StudentPane {
         studentsTable.setId("studentsTable");
         studentsTable.setGridLinesVisible(true);
 
+        // SELECT Student.FirstName, Student.MiddleName, Student.LastName,
+        // Student.StudentNetID, Student.StudentUTDID,
+        // COUNT(AttendanceInfo.AttendanceInfoID) AS AttendanceCount
+        // FROM Attendance
+        // INNER JOIN Student ON Student.StudentUTDID = Attendance.StudentUTDID
+        // LEFT JOIN AttendanceInfo ON AttendanceInfo.StudentUTDID =
+        // Attendance.StudentUTDID AND AttendanceInfo.CourseID = Attendance.CourseID
+        // WHERE Attendance.CourseID = 2
+        // GROUP BY Student.FirstName, Student.MiddleName, Student.LastName,
+        // Student.StudentNetID, Student.StudentUTDID;
+
         List<List<String>> studentsRows = ConverterObjToStr
                 .convertObjListToStrList(QuerySystem.selectQuery(new ArrayList<>(
-                        Arrays.asList("FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID",
-                                "Attendance JOIN Student ON Student.StudentUTDID=Attendance.StudentUTDID",
-                                "CourseID=".concat(courseID), "", "", ""))));
+                        Arrays.asList(
+                                "FirstName, MiddleName, LastName, Student.StudentNetID, Student.StudentUTDID, COUNT(AttendanceInfo.AttendanceInfoID) AS AttendanceCount",
+                                "Attendance INNER JOIN Student ON Student.StudentUTDID = Attendance.StudentUTDID LEFT JOIN AttendanceInfo ON AttendanceInfo.StudentUTDID = Attendance.StudentUTDID AND AttendanceInfo.CourseID = Attendance.CourseID",
+                                "Attendance.CourseID=".concat(courseID),
+                                "Student.FirstName, Student.MiddleName, Student.LastName, Student.StudentNetID, Student.StudentUTDID",
+                                "", ""))));
+
         List<String> studentsColumnNames = new ArrayList<>(
                 Arrays.asList("First Name", "Middle Name", "Last Name", "NET-ID", "UTD-ID", "Attendance"));
+
         StackPane cell;
         Label cellContents;
         int questionsColumnCount = studentsColumnNames.size();
@@ -98,12 +128,15 @@ public class StudentPane {
             deleteButton.setMaxHeight(35);
             deleteButton.setOnAction(e -> {
                 int pos;
-                //actual delete the quiz
+                // actual delete the quiz
                 try {
                     QuerySystem.deleteData("Attendance",
                             "StudentUTDID=".concat(studentsRows.get(finalI).get(4)));
-                    QuerySystem.deleteData("Student",
-                            "StudentUTDID=".concat(studentsRows.get(finalI).get(4)));
+
+                    // In case you need to delete the student entirely
+                    // QuerySystem.deleteData("Student",
+                    // "StudentUTDID=".concat(studentsRows.get(finalI).get(4)));
+                    // find position of the student in the grid
                     pos = (7 * GridPane.getRowIndex(deleteButton));
                     Label cellContentsEmpty = new Label("");
                     StackPane cellEmpty = new StackPane();
@@ -115,7 +148,7 @@ public class StudentPane {
                         Node node = studentsTable.getChildren().get(j);
                         GridPane.setRowIndex(node, GridPane.getRowIndex(node) - 1);
                     }
-                }catch (SQLException ex) {
+                } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
             });
@@ -127,7 +160,7 @@ public class StudentPane {
         }
 
         ScrollPane sp = new ScrollPane(studentsTable);
-        sp.setPadding(new Insets(35,0,0,0));
+        sp.setPadding(new Insets(35, 0, 0, 0));
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setFitToHeight(true);
@@ -141,9 +174,10 @@ public class StudentPane {
         Button uploadStudentsButton = new Button("Upload Students");
         uploadStudentsButton.setId("uploadStudentsButton");
         uploadStudentsButton.setOnAction(e -> {
-            Parser.studentsUploader(classesColumnNames);
-            // change pane to course to refresh the page. Easier to change UI this way due to connectivity time with database
-            SwitchDashboard.switchDashboard(dashboardPane, classesPane , titlePane, "Classes");
+            Parser.studentsUploader(classesColumnNames, classID);
+            // change pane to course to refresh the page. Easier to change UI this way due
+            // to connectivity time with database
+            SwitchDashboard.switchDashboard(dashboardPane, classesPane, titlePane, "Classes");
         });
         uploadStudentsButton.setMinHeight(35);
         uploadStudentsButton.setMinWidth(120);

@@ -6,7 +6,7 @@
  * insert data into the database. The deleteData method is used to delete data from the database.
  * The updateData method is used to update data in the database.
  * Written by Luca Donadello for CS4485.0W1 , Project Attendance System,
- * starting >>>><<<<, 2024 NetID: lxd210013
+ * starting 26/04/2024 NetID: lxd210013
  * ******************************************************************************/
 
 package com.attendance.database;
@@ -42,6 +42,7 @@ public class QuerySystem {
         }
         String queryString = stringBuilder.toString();
         Statement stmt = con.createStatement();
+        System.out.println(queryString); //delete Test
         // execute query on database
         ResultSet rs = stmt.executeQuery(queryString);
         List<List<Object>> tableList = new ArrayList<>();
@@ -80,6 +81,7 @@ public class QuerySystem {
         queryBuilder.append(")");
         //query complete ready to execute
         String query = queryBuilder.toString();
+        System.out.println(query);
         Statement stmt = con.createStatement();
         stmt.executeUpdate(query);
         con.close();

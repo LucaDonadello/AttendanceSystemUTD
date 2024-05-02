@@ -39,24 +39,31 @@ public class AddQuiz {
         Label quizIDLabel = new Label("QuizID:");
         TextField quizIDField = new TextField();
         quizIDField.setText("");
+
         Label quizBankIDLabel = new Label("QuizBankID:");
         TextField quizBankIDField = new TextField();
         quizBankIDField.setText("");
+
         Label numberOfQuestionsLabel = new Label("NumberOfQuestions:");
         TextField numberOfQuestionsField = new TextField();
         numberOfQuestionsField.setText("");
+
         Label durationLabel = new Label("Duration:");
         TextField durationField = new TextField();
         durationField.setText("");
+
         Label startTimeLabel = new Label("StartTime:");
         TextField startTimeField = new TextField();
         startTimeField.setText("");
+
         Label displayQuizLabel = new Label("DisplayQuiz:");
         TextField displayQuizField = new TextField();
         displayQuizField.setText("");
+
         Label passwordLabel = new Label("Password:");
         TextField passwordField = new TextField();
         passwordField.setText("");
+
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {

@@ -80,13 +80,10 @@ create table Course(
     StartDate date,
     EndDate date,
     ClassName varchar(255) not null,
-    StudentUTDID int,
     ProfessorUTDID int unique,
     QuizBankID int,
     QuizID int,
     constraint CoursePK primary key (CourseID),
-    constraint StudentIDFKCourse foreign key (StudentUTDID) references Student(StudentUTDID)
-    on delete cascade on update cascade,
     constraint ProfessorIDFK foreign key (ProfessorUTDID) references Professor(ProfessorUTDID)
     on delete cascade on update cascade,
     constraint QuestionBankIDFK foreign key (QuizBankID) references QuizBank(QuizBankID)
