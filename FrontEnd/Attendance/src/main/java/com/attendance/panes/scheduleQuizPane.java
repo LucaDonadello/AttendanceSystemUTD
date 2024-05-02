@@ -21,6 +21,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -107,6 +108,15 @@ public class scheduleQuizPane {
             scheduleTable.add(uploadQuizButton, quizzesColumnCount, i + 1);
             scheduleTable.add(editButton, quizzesColumnCount + 1, i + 1);
         }
+
+        ScrollPane sp = new ScrollPane(scheduleTable);
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setFitToHeight(true);
+        sp.setFitToWidth(true);
+        sp.setContent(scheduleTable);
+
+        scheduleQuizPane.getChildren().add(sp);
         // add the quiz schedule table to the schedule quiz pane
         scheduleQuizPane.getChildren().add(scheduleTable);
         return scheduleQuizPane;

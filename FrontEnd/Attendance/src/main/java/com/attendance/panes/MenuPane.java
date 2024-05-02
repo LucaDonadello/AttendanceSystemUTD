@@ -48,10 +48,7 @@ public class MenuPane {
         settingsSpacingPane.setId("settingsSpacingPane");
         Button settingsButton = new Button("Settings");
         settingsButton.setId("settingsPane");
-        settingsButton.setOnAction(e -> {
-            EditButtons.editDatabaseInfo();
-
-        });
+        settingsButton.setOnAction(e -> EditButtons.editDatabaseInfo());
         settingsSpacingPane.getChildren().add(settingsButton);
 
         // set alignment of menu buttons:

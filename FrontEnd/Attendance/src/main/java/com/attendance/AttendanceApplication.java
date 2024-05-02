@@ -87,8 +87,8 @@ public class AttendanceApplication extends Application {
         applicationScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("Style.css")).toExternalForm()); // retrieve application stylesheet
         stage.setTitle("Attendance App");
         stage.setScene(applicationScene);
-        stage.setWidth(1000);
-        stage.setHeight(800);
+        stage.setWidth(1200);
+        stage.setHeight(1000);
         stage.show();
     }
     public static void main(String[] args) {

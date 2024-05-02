@@ -22,6 +22,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -47,23 +48,14 @@ public class QuizPane {
         quizzesTable.setId("quizzesTable");
         quizzesTable.setGridLinesVisible(true);
 
-        // add quiz
-        Button addQuizButton = new Button("Add Quiz");
-        // open a new window to insert values
-        addQuizButton.setOnAction(e -> EditButtons.addQuiz());
-        addQuizButton.setId("addClassButton");
-        // create a vertical box to hold the add quiz button
-        VBox quizBox = new VBox();
-        quizBox.setId("quizBox");
-        quizBox.getChildren().add(addQuizButton);
         // get the quiz data from the database
         List<List<String>> quizRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(
                 new ArrayList<>(Arrays.asList("QuizID, Password_, StartTime, Duration", "Quiz", "", "", "", ""))));
         // create a list of column names for the quiz table
         List<String> quizColumnNames = new ArrayList<>(Arrays.asList("QuizID", "Password", "Start Time", "Duration"));
         // create a stack pane to hold the cell contents
-        StackPane cell = null;
-        Label cellContents = null;
+        StackPane cell;
+        Label cellContents;
         int quizzesColumnCount = quizColumnNames.size();
         // add the column names to the quiz table
         for (int i = 0; i < quizzesColumnCount; i++) {
@@ -87,6 +79,7 @@ public class QuizPane {
                 quizzesTable.add(cell, j, i + 1);
                 cellList.add(cell);
             }
+
             // create a button to view the quiz
             Button viewButton = new Button("view");
             viewButton.setMinHeight(35);
@@ -121,7 +114,7 @@ public class QuizPane {
                 try {
                     // actual delete the quiz
                     QuerySystem.deleteData("Quiz", "QuizID=".concat(quizRows.get(finalI).get(0)));
-                    // remove the quiz from the table --> formula can be improved i could not find a
+                    // remove the quiz from the table --> formula can be improved I could not find a
                     // better solution at the moment
                     // find the position of the first cell of the row based on which button was
                     // clicked
@@ -149,6 +142,30 @@ public class QuizPane {
             quizzesTable.add(deleteButton, quizzesColumnCount + 2, i + 1);
 
         }
+        ScrollPane sp = new ScrollPane(quizzesTable);
+        sp.setPadding(new Insets(35,0,0,0));
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setFitToHeight(true);
+        sp.setFitToWidth(true);
+        sp.fitToHeightProperty();
+        sp.fitToWidthProperty();
+        sp.setContent(quizzesTable);
+
+        // add quiz
+        Button addQuizButton = new Button("Add Quiz");
+        addQuizButton.setMinHeight(35);
+        addQuizButton.setMinWidth(80);
+        addQuizButton.setFont(Font.font(14));
+        // open a new window to insert values
+        addQuizButton.setOnAction(e -> EditButtons.addQuiz(dashboardPane, titlePane, cellList, quizzesTable, quizRows));
+        addQuizButton.setId("addClassButton");
+        // create a vertical box to hold the add quiz button
+        VBox quizBox = new VBox();
+        quizBox.setId("quizBox");
+        quizBox.getChildren().add(addQuizButton);
+
+        quizzesPane.getChildren().add(sp);
         // add the quiz table to the quiz box
         quizBox.getChildren().add(quizzesTable);
         quizzesPane.getChildren().add(quizBox);
@@ -229,6 +246,14 @@ public class QuizPane {
             questionsTable.add(editButton, questionsColumnCount, i + 1);
             questionsTable.add(deleteButton, questionsColumnCount + 1, i + 1);
         }
+        ScrollPane sp = new ScrollPane(questionsTable);
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setFitToHeight(true);
+        sp.setFitToWidth(true);
+        sp.setContent(questionsTable);
+
+        questionsPane.getChildren().add(sp);
         // add the questions table to the questions pane
         questionsPane.getChildren().add(questionsTable);
         return questionsPane;

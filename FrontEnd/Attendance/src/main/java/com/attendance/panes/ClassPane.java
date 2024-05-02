@@ -20,6 +20,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -44,17 +45,6 @@ public class ClassPane {
         GridPane classesTable = new GridPane();
         classesTable.setId("classesTable");
         classesTable.setGridLinesVisible(true);
-
-        // add class
-        Button addClassButton = new Button("Add Class");
-        addClassButton.setMaxHeight(35);
-        addClassButton.setMinWidth(50);
-        addClassButton.setFont(Font.font(14));
-        addClassButton.setOnAction(e -> EditButtons.addClass());
-        addClassButton.setId("addClassButton");
-        VBox classesBox = new VBox();
-        classesBox.setId("classesBox");
-        classesBox.getChildren().add(addClassButton);
 
         // get all classes from the database
         List<List<String>> classesRows = ConverterObjToStr.convertObjListToStrList(QuerySystem.selectQuery(
@@ -146,8 +136,30 @@ public class ClassPane {
             classesTable.add(deleteButton, classesColumnCount + 2, i + 1);
         }
 
+        ScrollPane sp = new ScrollPane(classesTable);
+        sp.setPadding(new Insets(35,0,0,0));
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setFitToHeight(true);
+        sp.setFitToWidth(true);
+        sp.setContent(classesTable);
+
+        // add class
+        Button addClassButton = new Button("Add Class");
+        addClassButton.setMinHeight(35);
+        addClassButton.setMinWidth(80);
+        addClassButton.setFont(Font.font(14));
+        addClassButton.setOnAction(e -> EditButtons.addClass(dashboardPane, titlePane, cellList, classesTable, classesRows));
+        addClassButton.setId("addClassButton");
+        VBox classesBox = new VBox();
+        classesBox.setId("classesBox");
+        classesBox.getChildren().add(addClassButton);
+
+        classesPane.getChildren().add(sp);
         classesBox.getChildren().add(classesTable);
         classesPane.getChildren().add(classesBox);
+
+
         return classesPane;
     }
 
@@ -230,26 +242,27 @@ public class ClassPane {
             deleteButton.setMaxHeight(35);
             deleteButton.setOnAction(e -> {
                 int pos;
-                // not working figure why
-                // try {
-                // //actual delete the quiz
-                // QuerySystem.deleteData("Attendance",
-                // "StudentUTDID=".concat(studentsRows.get(finalI).get(4)));
-                // QuerySystem.deleteData("Student",
-                // "StudentUTDID=".concat(studentsRows.get(finalI).get(4)));
-                // pos = (7 * GridPane.getRowIndex(deleteButton));
-                // System.out.println(pos);
-                // Label cellContentsEmpty = new Label("");
-                // StackPane cellEmpty = new StackPane();
-                // cellEmpty.getChildren().add(cellContentsEmpty);
-                // studentsTable.getChildren().remove(pos,pos+8);
-                // studentsBox.getChildren().remove(pos,pos+8);
-                // for (int j = pos; j < studentsTable.getChildren().size(); j++) {
-                // Node node = studentsTable.getChildren().get(j);
-                // GridPane.setRowIndex(node, GridPane.getRowIndex(node) - 1);
-                // }
-                // throw new RuntimeException(ex);
-                // }
+                 //actual delete the quiz
+                try {
+                    QuerySystem.deleteData("Attendance",
+                            "StudentUTDID=".concat(studentsRows.get(finalI).get(4)));
+                    QuerySystem.deleteData("Student",
+                            "StudentUTDID=".concat(studentsRows.get(finalI).get(4)));
+                    pos = (7 * GridPane.getRowIndex(deleteButton));
+                    System.out.println(pos);
+                    Label cellContentsEmpty = new Label("");
+                    StackPane cellEmpty = new StackPane();
+                    cellEmpty.getChildren().add(cellContentsEmpty);
+                    studentsTable.getChildren().remove(pos, pos + 8);
+
+                    // update index of cell after deletion
+                    for (int j = pos; j < studentsTable.getChildren().size(); j++) {
+                        Node node = studentsTable.getChildren().get(j);
+                        GridPane.setRowIndex(node, GridPane.getRowIndex(node) - 1);
+                    }
+                }catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             });
             // add the buttons to the table
             studentsTable.add(viewButton, questionsColumnCount, i + 1);
@@ -257,7 +270,16 @@ public class ClassPane {
             studentsTable.add(deleteButton, questionsColumnCount + 2, i + 1);
 
         }
+
+        ScrollPane sp = new ScrollPane(studentsTable);
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setFitToHeight(true);
+        sp.setFitToWidth(true);
+        sp.setContent(studentsTable);
+
         // add the table to the pane
+        studentsPane.getChildren().add(sp);
         studentsBox.getChildren().add(studentsTable);
         studentsPane.getChildren().add(studentsBox);
         return studentsPane;
@@ -313,6 +335,15 @@ public class ClassPane {
             editButton.setOnAction(e -> EditButtons.editAttendance(attendRows, finalI, cellList));
             attendTable.add(editButton, attendedColumnCount, i + 1);
         }
+
+        ScrollPane sp = new ScrollPane(attendTable);
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setFitToHeight(true);
+        sp.setFitToWidth(true);
+        sp.setContent(attendTable);
+
+        attendPane.getChildren().add(sp);
         // add the table to the pane
         attendBox.getChildren().add(attendTable);
         attendPane.getChildren().add(attendBox);
