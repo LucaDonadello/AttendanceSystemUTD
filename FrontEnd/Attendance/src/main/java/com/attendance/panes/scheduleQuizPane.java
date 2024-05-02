@@ -14,9 +14,9 @@
 
 package com.attendance.panes;
 
-import com.attendance.EditButtons;
 import com.attendance.database.QuerySystem;
 import com.attendance.utilities.ConverterObjToStr;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -31,6 +31,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.attendance.editButtons.EditQuizSchedule.editQuizSchedule;
 
 public class scheduleQuizPane {
     // method to build the schedule quiz pane
@@ -103,7 +105,7 @@ public class scheduleQuizPane {
             editButton.setFont(Font.font(14));
             editButton.setId("editButton");
             editButton.setOnAction(
-                    e -> EditButtons.editQuizSchedule(quizClassRows, finalI, quizClassRows.get(finalI).get(2)));
+                    e -> editQuizSchedule(quizClassRows, finalI, quizClassRows.get(finalI).get(2)));
             // add the upload quiz button and edit button to the quiz schedule table
             scheduleTable.add(uploadQuizButton, quizzesColumnCount, i + 1);
             scheduleTable.add(editButton, quizzesColumnCount + 1, i + 1);
@@ -115,6 +117,9 @@ public class scheduleQuizPane {
         sp.setFitToHeight(true);
         sp.setFitToWidth(true);
         sp.setContent(scheduleTable);
+        // solved requestLayout() resize "Bug" avoid resize when pressed
+        sp.setOnMousePressed(Event::consume);
+        sp.getContent().setOnMousePressed(Event::consume);
 
         scheduleQuizPane.getChildren().add(sp);
         // add the quiz schedule table to the schedule quiz pane

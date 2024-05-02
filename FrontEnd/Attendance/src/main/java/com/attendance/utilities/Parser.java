@@ -5,10 +5,14 @@
  * Written by Luca Donadello for CS4485.0W1 , Project Attendance System,
  * starting >>>><<<<, 2024 NetID: lxd210013
  * ******************************************************************************/
+
 package com.attendance.utilities;
 
+import com.attendance.database.QuerySystem;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.sql.SQLException;
 import java.util.logging.Logger;
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Parser {
-    // Exception handler with logger
+    // Exception handler with logger -- test
     private static final Logger logger = Logger.getLogger(Parser.class.getName());
 
     // Method to upload the students CSV file
@@ -112,20 +116,18 @@ public class Parser {
                     // First insert data of student in Student Table
                     System.out.println(Arrays.asList(datum[firstNamePos], datum[middleNamePos], datum[lastNamePos],
                             datum[studentIdPos], datum[netIDPos]));
-                    // QuerySystem.insertData("Student", columnNames,
-                    // Arrays.asList(datum[firstNamePos], datum[middleNamePos], datum[lastNamePos],
-                    // datum[studentIdPos], datum[netIDPos]));
-                    // //Second insert data inside attendance
-                    // QuerySystem.insertData("Attendance", AttendanceColumnNames,
-                    // Arrays.asList(datum[studentIdPos],datum[classIDPos])); //placeholders
+                     QuerySystem.insertData("Student", columnNames,
+                     Arrays.asList(datum[firstNamePos], datum[middleNamePos], datum[lastNamePos],
+                     datum[studentIdPos], datum[netIDPos]));
+                     //Second insert data inside attendance
+                     QuerySystem.insertData("Attendance", AttendanceColumnNames,
+                     Arrays.asList(datum[studentIdPos],datum[classIDPos])); //placeholders
                 }
             }
-            // Insert data in the database
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             // Log the exception using the Java logger
             logger.severe("An error occurred:");
             logger.severe(e.toString());
-
         }
     }
 }

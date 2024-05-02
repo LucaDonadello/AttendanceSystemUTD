@@ -12,6 +12,8 @@
 package com.attendance;
 
 import com.attendance.panes.*;
+import com.attendance.panes.classpane.ClassPane;
+import com.attendance.panes.quizpane.QuizPane;
 import com.attendance.utilities.SwitchDashboard;
 import com.attendance.panes.scheduleQuizPane;
 import javafx.application.Application;

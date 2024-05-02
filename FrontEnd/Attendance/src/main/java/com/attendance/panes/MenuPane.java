@@ -15,9 +15,10 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
+
+import static com.attendance.editButtons.EditDatabase.editDatabaseInfo;
 import static com.attendance.utilities.SwitchDashboard.switchDashboard;
 
-import com.attendance.EditButtons;
 
 public class MenuPane {
     // method to build the menu pane
@@ -48,7 +49,7 @@ public class MenuPane {
         settingsSpacingPane.setId("settingsSpacingPane");
         Button settingsButton = new Button("Settings");
         settingsButton.setId("settingsPane");
-        settingsButton.setOnAction(e -> EditButtons.editDatabaseInfo());
+        settingsButton.setOnAction(e -> editDatabaseInfo());
         settingsSpacingPane.getChildren().add(settingsButton);
 
         // set alignment of menu buttons:

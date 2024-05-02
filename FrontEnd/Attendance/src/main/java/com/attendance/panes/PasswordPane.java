@@ -10,8 +10,8 @@
 package com.attendance.panes;
 
 import com.attendance.utilities.ConverterObjToStr;
-import com.attendance.EditButtons;
 import com.attendance.database.QuerySystem;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,11 +20,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
+import javafx.scene.input.MouseEvent;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.attendance.editButtons.EditPassword.editPassword;
 
 public class PasswordPane {
     // method to build the password pane
@@ -81,7 +84,7 @@ public class PasswordPane {
             editButton.setFont(Font.font(14));
             editButton.setOnAction(e -> {
                 // edit database and change UI
-                EditButtons.editPassword(passwordsRows, finalI, cellsList);
+                editPassword(passwordsRows, finalI, cellsList);
             });
 
             // delete button
@@ -114,12 +117,17 @@ public class PasswordPane {
             passwordsTable.add(editButton, passwordsColumnCount, i + 1);
             passwordsTable.add(deleteButton, passwordsColumnCount + 1, i + 1);
         }
+
+        //create scrollable pane in case too many entries for size of the Wrapper pane
         ScrollPane sp = new ScrollPane(passwordsTable);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         sp.setFitToHeight(true);
         sp.setFitToWidth(true);
         sp.setContent(passwordsTable);
+        // solved requestLayout() resize "Bug" avoid resize when pressed
+        sp.setOnMousePressed(Event::consume);
+        sp.getContent().setOnMousePressed(Event::consume);
 
         passwordsPane.getChildren().add(sp);
         // add the table to the pane

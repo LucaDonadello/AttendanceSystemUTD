@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class QuerySystem {
-    // Dylan famer
+    // Dylan farmer
     // helper method to query select statement on database as two-dimensional object arraylist
     // -takes in a list of 6 Strings that may either be blank("") or have a specified conditional value:
     // SELECT    String_1
@@ -98,7 +98,6 @@ public class QuerySystem {
         }
         //query complete ready to execute
         String query = queryBuilder.toString();
-        System.out.println(query);
         Statement stmt = con.createStatement();
         stmt.executeUpdate(query);
         con.close();
