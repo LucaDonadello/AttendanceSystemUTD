@@ -128,11 +128,20 @@ public class DBManager {
             return;
         }
         try {
-            Statement stmnt = connect.createStatement(); // Create a statement
-            // Execute the attendance submission query and insert into the database
-            String query = String.format("INSERT INTO AttendanceInfo (Attended, DateAndTime, IPAddress, MacID, StudentUTDID, CourseID) " +
-                    "VALUES (%s, NOW(), '%s', '%s', %s, %s)", attended, ipAddress, macID, studentUTDID, courseID);
-            stmnt.executeUpdate(query); // Execute the query to submit the attendance and quiz answers to the database
+            // Execute first query to find the entry ID of the student's attendance
+            Statement stmnt1 = connect.createStatement(); // Create a statement
+            // Execute the query to recover the attendance record ID
+            ResultSet query1 = stmnt1.executeQuery("SELECT MAX(AttendanceInfoID) FROM AttendanceApp.AttendanceInfo WHERE StudentUTDID = '" +  studentUTDID + "'");
+            if (query1.next()) {
+                String attendanceInfoID = query1.getString(1); // Store the attendance record ID for use in second query
+
+                // Execute the attendance submission query and insert into the database
+                Statement stmnt2 = connect.createStatement(); // Create a statement
+                String query2 = String.format("UPDATE AttendanceInfo\n" +
+                        "SET Attended = %s, DateAndTime = NOW(), IPAddress = '%s'\n" +
+                        "WHERE StudentUTDID = '%s' AND AttendanceInfoID = %s", attended, ipAddress, studentUTDID, attendanceInfoID);
+                stmnt2.executeUpdate(query2); // Execute the query to submit the attendance and quiz answers to the database
+            }
         } catch (Exception e) { // Handle exception
             System.out.println("Exception: " + e);
         }

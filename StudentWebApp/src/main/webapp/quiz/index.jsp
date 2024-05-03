@@ -32,9 +32,9 @@
 <br><div>
     IP Address: <span id="ip-address"></span>
 </div>
-<div>
-    MAC Address: <span id="mac-address"></span>
-</div>
+<%--<div>--%>
+<%--    MAC Address: <span id="mac-address"></span>--%>
+<%--</div>--%>
 
 <script src="quiz.js"></script>
 
