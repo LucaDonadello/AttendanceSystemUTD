@@ -51,11 +51,13 @@ public class LoginServlet extends HttpServlet {
         int seconds = success.duration.toLocalTime().getSecond();
         int totalSeconds = seconds + (minutes * 60) + (hours * 60 * 60);
 
-        // Calculates teh end time
-        LocalTime endTime = success.startTime.toLocalTime().plusSeconds(totalSeconds);
+        // Calculates the start and end times
+        // New start time needed due to database using UTC time
+        LocalTime newStartTime = success.startTime.toLocalTime().plusHours(5);
+        LocalTime endTime = newStartTime.plusSeconds(totalSeconds);
 
         // If the current time is after the start time and before the calculated end time, proceed with the login
-        if (success != null && success.startTime.toLocalTime().isBefore(LocalTime.now()) && endTime.isAfter(LocalTime.now())) {
+        if (success != null && newStartTime.isBefore(LocalTime.now()) && endTime.isAfter(LocalTime.now())) {
             PrintWriter writer = response.getWriter();
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");

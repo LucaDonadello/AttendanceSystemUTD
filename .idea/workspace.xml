@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="55f1284a-f148-4754-9ca1-af9dc13bde5a" name="Changes" comment="Parser and Uploader Added" />
+    <list default="true" id="55f1284a-f148-4754-9ca1-af9dc13bde5a" name="Changes" comment="View Attendance Button Added">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Attendance/src/main/java/com/attendance/EditButtons.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Attendance/src/main/java/com/attendance/EditButtons.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Attendance/target/classes/com/attendance/panes/ClassPane.class" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Attendance/target/classes/com/attendance/panes/ClassPane.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,32 +49,34 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="2eIDS3QCJ1d6VNxHzIklWWEIUAM" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.attendanceApplication.executor": "Run",
-    "Application.connectionDB.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "TEST",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/lucad/OneDrive/Desktop/University/UTD_Semesters/SPRING_2024/CS-4485",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "vcs.Git",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.AttendanceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.attendanceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.connectionDB.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;TEST&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/lucad/OneDrive/Desktop/University/UTD_Semesters/SPRING_2024/CS-4485&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Application.attendanceApplication">
+}</component>
+  <component name="RunManager">
     <configuration name="attendanceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.attendance.attendanceApplication" />
       <module name="Attendance" />
@@ -134,7 +140,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712273078337</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="View Attendance Button Added">
+      <option name="closed" value="true" />
+      <created>1714006094420</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1714006094420</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,6 +156,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Parser and Uploader Added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Parser and Uploader Added" />
+    <MESSAGE value="View Attendance Button Added" />
+    <option name="LAST_COMMIT_MESSAGE" value="View Attendance Button Added" />
   </component>
 </project>
